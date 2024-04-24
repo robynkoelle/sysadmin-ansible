@@ -13,5 +13,6 @@
   remote_user: root
   roles:
     - users
+    - sshd
     - tools
     - disable-services
