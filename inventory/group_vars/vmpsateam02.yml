@@ -56,7 +56,7 @@ users:
     authorized_key: |
       ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGAcXmOMt1GPLEUtBs/AHZU6UbE4Mv7Wq8+c+cF29kTo robyn
       ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC1bL8aC20ERDdJE2NqzIBvs8zXmCbFZ7fh5qXyqGNF7XfdfbsPBfQBSeJoncVfTJRFNYF4E+1Me918QMIpqa9XR4nJYOdOzff1JLYp1Z1X28Dx3//aOir8ziPCvGZShFDXoxLp6MNFIiEpI/IEW9OqxLhKj6YWVEDwK1ons7+pXnPM6Nd9lPd2UeqWWRpuuf9sa2AimQ1ZBJlnp7xHFTxvxdWMkTu6aH0j+aTT1w1+UDN2laS4nsmAJOO2KjeZq6xpbdmj9cjuxBJtM3Dsoq4ZJGdzez7XYhvCTQoQFl/5G0+4FBZeAgL/4ov12flGijZIIaXvmMBkLZRYg3E2m1Rp Praktikum Systemadministration
-      # TODO: Adrian's Key
+      ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILTWgxRYsRjQcbYrGKRdzUGCyad9aVhgCLL29b5onayX adrian@thinkpadri
 
   humanuser:
     name: humanuser
@@ -65,7 +65,7 @@ users:
     groups: [ "humanuser", "sudo" ]
     authorized_key: |
       ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGAcXmOMt1GPLEUtBs/AHZU6UbE4Mv7Wq8+c+cF29kTo robyn
-      # TODO: Adrian's Key
+      ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILTWgxRYsRjQcbYrGKRdzUGCyad9aVhgCLL29b5onayX adrian@thinkpadri
 
   damian_schneider:
     name: damian.schneider
@@ -96,7 +96,8 @@ users:
     uid: 11022
     group: team02
     groups: [ "team02", "psa", "sudo" ]
-    authorized_key: ""
+    authorized_key: | 
+      ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILTWgxRYsRjQcbYrGKRdzUGCyad9aVhgCLL29b5onayX adrian@thinkpadri
 
   dominic_fettich:
     name: dominic.fettich
