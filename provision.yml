@@ -14,3 +14,4 @@
   roles:
     - users
     - tools
+    - disable-services

@@ -1,0 +1,6 @@
+- name: disable service
+  systemd_service:
+    name: "{{ item }}"
+    state: stopped # Stop the service.
+    enabled: false # Do not enable the service on boot.
+  loop: "{{ disabled_standard_services }}"
