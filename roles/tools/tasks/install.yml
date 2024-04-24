@@ -1,0 +1,7 @@
+- name: install tool
+  apt:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - net-tools
+    - nmap
