@@ -1,0 +1,17 @@
+- name: create accounts
+  user:
+    name: "{{ item.name }}"
+    state: present
+    shell: /bin/bash
+    group: "{{ item.group }}"
+    groups: "{{ item.groups }}"
+    uid: "{{ item.uid }}"
+  with_items: "{{ users.values() | list }}"
+  when: item.name != "root"
+
+- name: add authorized keys
+  authorized_key:
+    user: "{{ item.name }}"
+    key: "{{ item.authorized_key }}"
+    exclusive: yes
+  loop: "{{ users.values() | list }}"

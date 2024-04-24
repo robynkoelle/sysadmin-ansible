@@ -1,0 +1,15 @@
+- hosts: vmpsateam02
+  remote_user: root
+  tasks:
+    - name: update apt cache
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+      check_mode: no
+      tags: always
+
+- name: setup vm
+  hosts: vmpsateam02
+  remote_user: root
+  roles:
+    - users
