@@ -1,2 +1,10 @@
 ansible_host: psa.in.tum.de
 ansible_port: 60202
+
+network_interfaces:
+  enp0s8:
+    addresses:
+      - 192.168.2.2/24
+    routes:
+      - to: 192.168.0.0/16
+        via: 192.168.2.1

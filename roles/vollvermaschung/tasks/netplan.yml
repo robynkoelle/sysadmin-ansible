@@ -1,0 +1,4 @@
+- name: copy netplan
+  template:
+    src: etc/netplan/01-vollvermaschung.yml
+    dest: /etc/netplan/01-vollvermaschung.yml

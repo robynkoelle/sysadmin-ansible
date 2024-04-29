@@ -1,0 +1,4 @@
+- import_tasks: netplan.yml
+  tags:
+    - vollvermaschung
+    - vollvermaschung-netplan
