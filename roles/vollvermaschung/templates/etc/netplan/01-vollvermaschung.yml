@@ -4,13 +4,17 @@ network:
 {% for interface_name, interface in network_interfaces.items() %}
   {{ interface_name }}:
       dhcp4: yes
+{% if interface["addresses"] is defined %}
       addresses:
 {% for address in interface["addresses"] %}
         - {{ address }}
 {% endfor %}
+{% endif %}
+{% if interface["routes"] is defined %}
       routes:
 {% for route in interface["routes"] %}
         - to: {{ route.to }}
           via: {{ route.via }}
 {% endfor %}
+{% endif %}
 {% endfor %}
