@@ -1,0 +1,4 @@
+- import_tasks: config.yml
+  tags:
+    - netplan
+    - netplan-config
