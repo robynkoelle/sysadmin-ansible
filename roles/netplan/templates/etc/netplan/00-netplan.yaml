@@ -2,19 +2,19 @@ network:
   version: 2
   ethernets:
 {% for interface_name, interface in network_interfaces.items() %}
-  {{ interface_name }}:
-      dhcp4: yes
+    {{ interface_name }}:
+        dhcp4: {{ interface["dhcp"] }}
 {% if interface["addresses"] is defined %}
-      addresses:
+        addresses:
 {% for address in interface["addresses"] %}
-        - {{ address }}
+          - {{ address }}
 {% endfor %}
 {% endif %}
 {% if interface["routes"] is defined %}
-      routes:
+        routes:
 {% for route in interface["routes"] %}
-        - to: {{ route.to }}
-          via: {{ route.via }}
+          - to: {{ route.to }}
+            via: {{ route.via }}
 {% endfor %}
 {% endif %}
 {% endfor %}

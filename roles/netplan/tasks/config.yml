@@ -1,4 +1,5 @@
 - name: copy netplan
   template:
-    src: etc/netplan/00-netplan.yml
-    dest: /etc/netplan/00-netplan.yml
+    src: etc/netplan/00-netplan.yaml
+    dest: /etc/netplan/00-netplan.yaml # NEVER end the filename with .yml, always use .yaml !!!
+    mode: '0600'
