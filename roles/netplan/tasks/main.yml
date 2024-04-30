@@ -1,4 +1,10 @@
+- import_tasks: disable-cloudinit.yml
+  tags:
+    - netplan
+    - netplan-disable-cloudinit
+
 - import_tasks: config.yml
   tags:
     - netplan
     - netplan-config
+
