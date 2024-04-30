@@ -8,3 +8,7 @@
     - netplan
     - netplan-config
 
+- import_tasks: apply.yml
+  tags:
+    - netplan
+    - netplan-apply
