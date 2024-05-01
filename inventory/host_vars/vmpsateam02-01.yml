@@ -37,3 +37,21 @@ network_interfaces:
 
   enp0s3:
     dhcp: true
+
+iptables:
+  http_proxy_host: 131.159.0.2 # proxy.cit.tum.de
+  http_proxy_port: 8080
+  outgoing_explicit_allow:
+    - 131.159.0.0/16 # FMI
+    - 141.30.62.26 # ubuntu.mirror.tudos.de / de.archive.ubuntu.com
+    - 185.125.190.39 # security.ubuntu.com
+    - 192.168.2.0/24
+    - 192.168.21.0/24
+    - 192.168.32.0/24
+    - 192.168.42.0/24
+    - 192.168.52.0/24
+    - 192.168.62.0/24
+    - 192.168.72.0/24
+    - 192.168.82.0/24
+    - 192.168.92.0/24
+    - 192.168.102.0/24

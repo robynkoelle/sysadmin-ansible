@@ -1,0 +1,9 @@
+- import_tasks: rules.yml
+  tags:
+    - iptables
+    - iptables-rules
+
+- import_tasks: persistent.yml
+  tags:
+    - iptables
+    - iptables-persistent

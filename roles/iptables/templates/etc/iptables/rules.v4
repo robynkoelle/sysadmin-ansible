@@ -1,0 +1,35 @@
+*filter
+# Drop all incoming and outgoing traffic by default
+:INPUT DROP [0:0]
+:FORWARD DROP [0:0]
+:OUTPUT DROP [0:0]
+
+# Allow loopback
+-A INPUT -i lo -j ACCEPT
+-A OUTPUT -o lo -j ACCEPT
+
+# Allow SSH
+-A INPUT -p tcp --dport 22 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+-A OUTPUT -p tcp --sport 22 -m conntrack --ctstate ESTABLISHED -j ACCEPT
+
+# Allow HTTP, HTTPS (stateless)
+-A INPUT -p tcp --dport 80 -j ACCEPT
+-A INPUT -p tcp --dport 443 -j ACCEPT
+-A OUTPUT -p tcp --dport 80 -j ACCEPT
+-A OUTPUT -p tcp --dport 443 -j ACCEPT
+
+# Allow DNS for outbound queries
+-A INPUT -p udp --sport 53 -j ACCEPT
+-A INPUT -p tcp --sport 53 -j ACCEPT
+-A OUTPUT -p udp --dport 53 -j ACCEPT
+-A OUTPUT -p tcp --dport 53 -j ACCEPT
+
+# Outgoing allowed ips
+{% for item in iptables.outgoing_explicit_allow %}
+-A OUTPUT -d {{ item }} -j ACCEPT
+{% endfor %}
+
+# Allow all ICMP traffic
+-A INPUT -p icmp -j ACCEPT
+-A OUTPUT -p icmp -j ACCEPT
+COMMIT

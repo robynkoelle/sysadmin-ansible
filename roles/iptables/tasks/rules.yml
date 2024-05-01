@@ -1,0 +1,20 @@
+- name: ensure directory exists
+  file:
+    path: /etc/iptables
+    state: directory
+
+- name: copy rules (ipv4)
+  template:
+    src: etc/iptables/rules.v4
+    dest: /etc/iptables/rules.v4
+
+- name: enable rules (ipv4)
+  shell: iptables-restore < /etc/iptables/rules.v4
+
+- name: copy rules (ipv6)
+  template:
+    src: etc/iptables/rules.v6
+    dest: /etc/iptables/rules.v6
+
+- name: enable rules (ipv4)
+  shell: ip6tables-restore < /etc/iptables/rules.v6
