@@ -38,6 +38,13 @@ COMMIT
 -A OUTPUT -d {{ item }} -j ACCEPT
 {% endfor %}
 
+# Forward explicit allow
+{% for item in iptables.forward_explicit_allow %}
+-A FORWARD -i {{ item.interface }} -o {{ item.interface }} -s {{ item.source }} -d {{ item.destination }} -j ACCEPT
+{% endfor %}
+
+-A FORWARD -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+
 # Allow all ICMP traffic
 -A INPUT -p icmp -j ACCEPT
 -A OUTPUT -p icmp -j ACCEPT

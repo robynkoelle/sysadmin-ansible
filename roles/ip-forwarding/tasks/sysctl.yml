@@ -1,0 +1,5 @@
+- name: enable ip forwarding
+  sysctl:
+    name: net.ipv4.ip_forward
+    value: '1'
+    sysctl_set: true # Verify token value with the sysctl command and set with -w if necessary.

@@ -1,0 +1,4 @@
+- import_tasks: sysctl.yml
+  tags:
+    - ip-forwarding
+    - ip-forwarding-sysctl

@@ -20,3 +20,9 @@
     - netplan
     - iptables
     - http-proxy
+
+- name: setup router
+  hosts: vmpsateam02-01
+  remote_user: root
+  roles:
+    - ip-forwarding

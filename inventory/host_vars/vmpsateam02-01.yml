@@ -55,3 +55,67 @@ iptables:
       - 192.168.102.0/24
       - de.archive.ubuntu.com
       - security.ubuntu.com
+  forward_explicit_allow:
+    # Subnet Team 1
+    - interface: enp0s8
+      source: 192.168.2.0/24
+      destination: 192.168.1.0/24
+    - interface: enp0s8
+      source: 192.168.1.0/24
+      destination: 192.168.2.0/24
+    # Subnet Team 3
+    - interface: enp0s8
+      source: 192.168.2.0/24
+      destination: 192.168.3.0/24
+    - interface: enp0s8
+      source: 192.168.3.0/24
+      destination: 192.168.2.0/24
+    # Subnet Team 4
+    - interface: enp0s8
+      source: 192.168.2.0/24
+      destination: 192.168.4.0/24
+    - interface: enp0s8
+      source: 192.168.4.0/24
+      destination: 192.168.2.0/24
+    # Subnet Team 5
+    - interface: enp0s8
+      source: 192.168.2.0/24
+      destination: 192.168.5.0/24
+    - interface: enp0s8
+      source: 192.168.5.0/24
+      destination: 192.168.2.0/24
+    # Subnet Team 6
+    - interface: enp0s8
+      source: 192.168.2.0/24
+      destination: 192.168.6.0/24
+    - interface: enp0s8
+      source: 192.168.6.0/24
+      destination: 192.168.2.0/24
+    # Subnet Team 7
+    - interface: enp0s8
+      source: 192.168.2.0/24
+      destination: 192.168.7.0/24
+    - interface: enp0s8
+      source: 192.168.7.0/24
+      destination: 192.168.2.0/24
+    # Subnet Team 8
+    - interface: enp0s8
+      source: 192.168.2.0/24
+      destination: 192.168.8.0/24
+    - interface: enp0s8
+      source: 192.168.8.0/24
+      destination: 192.168.2.0/24
+    # Subnet Team 9
+    - interface: enp0s8
+      source: 192.168.2.0/24
+      destination: 192.168.9.0/24
+    - interface: enp0s8
+      source: 192.168.9.0/24
+      destination: 192.168.2.0/24
+    # Subnet Team 10
+    - interface: enp0s8
+      source: 192.168.2.0/24
+      destination: 192.168.10.0/24
+    - interface: enp0s8
+      source: 192.168.10.0/24
+      destination: 192.168.2.0/24
