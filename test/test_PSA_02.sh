@@ -62,6 +62,13 @@ function test_subnet() {
   done
 }
 
+function get_status_code() {
+  local url=$1
+  local result
+  result=$(wget --spider -S "$url" --timeout 5 2>&1 | grep "^  HTTP/" | tail -n 1 | awk '{print $2}')
+  echo "$result"
+}
+
 subnets=(
   192.168.1.0/24
   192.168.2.0/24
@@ -86,7 +93,7 @@ echo
 
 echo -e "\e[36mCan surf internet:\e[0m"
 echo -e "curl google.com..."
-if curl -s --head --request GET https://google.com --max-time 5 | grep "200 OK" > /dev/null; then
+if [ "$(get_status_code 'https://google.com')" == "200" ]; then
     echo -e "\e[32mOK\e[0m"
 else
     echo -e "\e[31mFAILED\e[0m"
@@ -94,10 +101,11 @@ fi
 
 echo -e "\e[36mCannot surf internet without proxy:\e[0m"
 echo -e "curl google.com..."
-if https_proxy="" http_proxy="" curl -s --head --request GET https://google.com --max-time 5 | grep "200 OK" > /dev/null; then
-    echo -e "\e[31mFAILED\e[0m"
-else
+response=$(https_proxy='' http_proxy='' get_status_code 'https://google.com')
+if  [ -z "$response" ]; then
     echo -e "\e[32mOK\e[0m"
+else
+    echo -e "\e[31mFAILED\e[0m"
 fi
 
 echo -e "\e[36mCan use DNS:\e[0m"
