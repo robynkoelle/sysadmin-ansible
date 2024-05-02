@@ -1,0 +1,10 @@
+- name: set http_proxy
+  lineinfile:
+    path: /etc/environment
+    line: '{{ item.key }}="{{ item.value }}"'
+    regexp: "^{{ item.key }}="
+  loop:
+    - key: "http_proxy"
+      value: "{{ http_proxy }}"
+    - key: "https_proxy"
+      value: "{{ http_proxy }}"

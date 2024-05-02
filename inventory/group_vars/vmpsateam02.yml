@@ -226,3 +226,5 @@ disabled_standard_services:
   - snapd.seeded.service
   - snapd.service
   - ufw.service
+
+http_proxy: proxy.cit.tum.de:8080

@@ -1,0 +1,4 @@
+- import_tasks: environment.yml
+  tags:
+    - http-proxy
+    - http-proxy-environment

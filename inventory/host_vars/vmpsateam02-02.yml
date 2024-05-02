@@ -32,8 +32,6 @@ network_interfaces:
     dhcp: true
 
 iptables:
-  http_proxy_host: proxy.cit.tum.de
-  http_proxy_port: 8080
   outgoing_explicit_allow:
     - 131.159.0.0/16 # FMI
     - 192.168.2.0/24

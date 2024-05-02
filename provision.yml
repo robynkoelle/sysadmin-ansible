@@ -19,3 +19,4 @@
     - disable-services
     - netplan
     - iptables
+    - http-proxy
