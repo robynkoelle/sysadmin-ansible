@@ -1,0 +1,4 @@
+- import_tasks: hostname.yml
+  tags:
+    - hostname
+    - hostname-hostname

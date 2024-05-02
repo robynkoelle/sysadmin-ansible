@@ -1,5 +1,7 @@
 ansible_host: psa.in.tum.de
-ansible_port: 60201
+ansible_port: 60203
+
+host_name: vmpsateam02-01
 
 network_interfaces:
   enp0s8:

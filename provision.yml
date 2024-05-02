@@ -12,6 +12,7 @@
   hosts: vmpsateam02
   remote_user: root
   roles:
+    - hostname
     - users
     - sshd
     - tools
