@@ -123,6 +123,10 @@ Subsystem	sftp	/usr/lib/openssh/sftp-server
 #	PermitTTY no
 #	ForceCommand cvs server
 
-Match User root
+{% for user in users.values() %}
+{% if not user.ssh_allow_password is defined or user.ssh_allow_password == false %}
+Match User {{ user.name }}
     PasswordAuthentication no
     AuthenticationMethods publickey
+{% endif %}
+{% endfor %}
