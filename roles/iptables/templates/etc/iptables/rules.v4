@@ -33,15 +33,19 @@ COMMIT
 -A OUTPUT -p udp --dport 53 -j ACCEPT
 -A OUTPUT -p tcp --dport 53 -j ACCEPT
 
+{% if iptables.outgoing_explicit_allow is defined %}
 # Outgoing explicit allow
 {% for item in iptables.outgoing_explicit_allow %}
 -A OUTPUT -d {{ item }} -j ACCEPT
 {% endfor %}
+{% endif %}
 
+{% if iptables.forward_explicit_allow is defined %}
 # Forward explicit allow
 {% for item in iptables.forward_explicit_allow %}
 -A FORWARD -i {{ item.interface }} -o {{ item.interface }} -s {{ item.source }} -d {{ item.destination }} -j ACCEPT
 {% endfor %}
+{% endif %}
 
 -A FORWARD -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
 
