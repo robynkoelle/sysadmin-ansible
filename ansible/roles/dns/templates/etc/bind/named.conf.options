@@ -1,0 +1,27 @@
+acl psa {
+    192.168.0.0/16;
+    127.0.0.0/8;
+};
+
+
+options {
+        directory "/var/cache/bind";
+
+        forwarders {
+            131.159.254.1;
+            131.159.254.2;
+        };
+
+        listen-on { 192.168.2.1; };
+
+        allow-query { psa; };
+
+        recursion yes;
+
+        //========================================================================
+        // If BIND logs error messages about the root key being expired,
+        // you will need to update your keys.  See https://www.isc.org/bind-keys
+        //========================================================================
+        dnssec-validation auto;
+
+};

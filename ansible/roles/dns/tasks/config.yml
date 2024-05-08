@@ -1,0 +1,19 @@
+- name: copy bind config options
+  template:
+    src: etc/bind/named.conf.options
+    dest: /etc/bind/named.conf.options
+
+- name: copy bind config local
+  template:
+    src: etc/bind/named.conf.local
+    dest: /etc/bind/named.conf.local
+
+- name: copy bind config zones
+  template:
+    src: etc/bind/db.psa-team02.informatik.tu-muenchen.de
+    dest: /etc/bind/db.psa-team02.informatik.tu-muenchen.de
+
+- name: copy bind config reverse
+  template:
+    src: etc/bind/db.2.168.192
+    dest: /etc/bind/db.2.168.192

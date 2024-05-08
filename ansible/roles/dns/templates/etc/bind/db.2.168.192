@@ -1,0 +1,11 @@
+$TTL    86400
+@       IN      SOA     ns1.psa-team02.informatik.tu-muenchen.de. (
+                              2024050801         ; Serial
+                              604800             ; Refresh
+                              86400              ; Retry
+                              2419200            ; Expire
+                              86400 )            ; Negative Cache TTL
+
+@       IN      NS      ns1.
+1       IN      PTR     early-bird.psa-team02.informatik.tu-muenchen.de.
+2       IN      PTR     late-worm.psa-team02.informatik.tu-muenchen.de.

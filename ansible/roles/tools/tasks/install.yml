@@ -2,7 +2,4 @@
   apt:
     name: "{{ item }}"
     state: present
-  loop:
-    - net-tools
-    - nmap
-    - traceroute
+  loop: "{{ packages }}"

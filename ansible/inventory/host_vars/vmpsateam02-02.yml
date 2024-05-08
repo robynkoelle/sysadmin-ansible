@@ -47,3 +47,8 @@ iptables:
     - 192.168.8.0/24
     - 192.168.9.0/24
     - 192.168.10.0/24
+
+packages: 
+  - net-tools
+  - nmap
+  - traceroute
