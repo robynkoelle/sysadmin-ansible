@@ -1,0 +1,5 @@
+- import_tasks: config.yml
+  tags:
+    - dhcp
+    - dhcp-config
+    - kea

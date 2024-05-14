@@ -131,3 +131,4 @@ packages:
   - net-tools
   - nmap
   - traceroute
+  - kea-dhcp4-server

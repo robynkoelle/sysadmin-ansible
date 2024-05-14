@@ -1,0 +1,4 @@
+- name: copy kea config
+  template:
+    src: etc/kea/kea-dhcp4.conf
+    dest: /etc/kea/kea-dhcp4.conf
