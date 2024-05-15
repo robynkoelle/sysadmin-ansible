@@ -13,6 +13,7 @@ options {
         };
 
         listen-on { 192.168.2.1; };
+        listen-on-v6 { none; };
 
         allow-query { psa; };
 

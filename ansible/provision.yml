@@ -27,3 +27,4 @@
   roles:
     - ip-forwarding
     - dns
+    - dhcp

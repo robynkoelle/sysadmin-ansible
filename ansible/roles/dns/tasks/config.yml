@@ -10,8 +10,8 @@
 
 - name: copy bind config zones
   template:
-    src: etc/bind/db.psa-team02.informatik.tu-muenchen.de
-    dest: /etc/bind/db.psa-team02.informatik.tu-muenchen.de
+    src: etc/bind/db.psa-team02.cit.tum.de
+    dest: /etc/bind/db.psa-team02.cit.tum.de
 
 - name: copy bind config reverse
   template:

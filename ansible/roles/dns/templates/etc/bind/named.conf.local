@@ -1,6 +1,6 @@
-zone "psa-team02.informatik.tu-muenchen.de" {
+zone "psa-team02.cit.tum.de" {
     type master;
-    file "/etc/bind/db.psa-team02.informatik.tu-muenchen.de";
+    file "/etc/bind/db.psa-team02.cit.tum.de";
 };
 
 zone "2.168.192.in-addr.arpa" {
