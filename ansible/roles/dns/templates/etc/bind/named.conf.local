@@ -7,3 +7,75 @@ zone "2.168.192.in-addr.arpa" {
     type master;
     file "/etc/bind/db.2.168.192";
 };
+
+zone "psa-team01.cit.tum.de" {
+    type forward;
+    forward only;
+    forwarders {
+        192.168.1.1;
+    };
+};
+
+zone "psa-team03.cit.tum.de" {
+    type forward;
+    forward only;
+    forwarders {
+        192.168.3.1;
+    };
+};
+
+zone "psa-team04.cit.tum.de" {
+    type forward;
+    forward only;
+    forwarders {
+        192.168.4.1;
+    };
+};
+
+zone "psa-team05.cit.tum.de" {
+    type forward;
+    forward only;
+    forwarders {
+        192.168.5.1;
+    };
+};
+
+zone "psa-team06.cit.tum.de" {
+    type forward;
+    forward only;
+    forwarders {
+        192.168.6.1;
+    };
+};
+
+zone "psa-team07.cit.tum.de" {
+    type forward;
+    forward only;
+    forwarders {
+        192.168.7.1;
+    };
+};
+
+zone "psa-team08.cit.tum.de" {
+    type forward;
+    forward only;
+    forwarders {
+        192.168.8.1;
+    };
+};
+
+zone "psa-team09.cit.tum.de" {
+    type forward;
+    forward only;
+    forwarders {
+        192.168.9.1;
+    };
+};
+
+zone "psa-team10.cit.tum.de" {
+    type forward;
+    forward only;
+    forwarders {
+        192.168.10.1;
+    };
+};
