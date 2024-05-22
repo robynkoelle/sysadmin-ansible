@@ -1,0 +1,4 @@
+- name: copy config
+  template:
+    src: etc/nginx/nginx.conf
+    dest: /etc/nginx/nginx.conf

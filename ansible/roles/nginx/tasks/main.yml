@@ -3,6 +3,12 @@
     - nginx
     - nginx-install
 
+- import_tasks: config.yml
+  tags:
+    - nginx
+    - nginx-config
+  notify: reload nginx
+
 - import_tasks: remove-default.yml
   tags:
     - nginx
