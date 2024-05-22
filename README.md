@@ -62,6 +62,6 @@ Variablen, die sich offensichtlich auf den Host selbst, und auf keine spezifisch
 Für Daten, die wir nicht in Klartext in das Repository commiten wollen (z.B. Secrets), verwenden wir `ansible-vault`.
 Beim Provisionieren / Deployment muss das Passwort für den Ansible Vault angegeben werden.
 Wir verwenden das gleiche Vault Passwort für alle verschlüsselten Secrets im Repository.
-Für angenehmere Deployments kann man eine `.vault-key` Datei mit dem Encryption Key als Inhalt anlegen,
+Für angenehmere Deployments kann man eine `ansible/.vault-key` Datei mit dem Encryption Key als Inhalt anlegen,
 und mit der `ansible-playbook` Option `--vault-password-file` angeben.
 Diese Datei ist in der `.gitignore` vermerkt.
