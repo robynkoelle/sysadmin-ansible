@@ -1,0 +1,4 @@
+deploy:
+  nginx:
+    domain: www.psa-team02.cit.tum.de
+    root: /var/www/team02

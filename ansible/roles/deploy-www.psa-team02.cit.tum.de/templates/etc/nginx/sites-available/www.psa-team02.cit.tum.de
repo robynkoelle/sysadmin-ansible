@@ -1,0 +1,17 @@
+server {
+    listen 80;
+    server_name {{ deploy.nginx.domain }};
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    server_name {{ deploy.nginx.domain }};
+
+    ssl_certificate /etc/nginx/ssl/{{ deploy.nginx.domain }}.crt;
+    ssl_certificate_key /etc/nginx/ssl/{{ deploy.nginx.domain }}.key;
+
+    location / {
+        root {{ deploy.nginx.root }};
+    }
+}
