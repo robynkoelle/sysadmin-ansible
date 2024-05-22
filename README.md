@@ -56,3 +56,12 @@ sollten aber nicht häufig vorkommen.
 Variablen, die sich offensichtlich auf den Host selbst, und auf keine spezifische Rolle beziehen
 (auch, wenn sie in einer oder mehreren Rollen benutzt wird), dürfen auch eine Ausnahme bilden.
 - Rollen-Variablen für Deployment-Rollen haben als Parent-Key immer `deploy`
+
+### Vault
+
+Für Daten, die wir nicht in Klartext in das Repository commiten wollen (z.B. Secrets), verwenden wir `ansible-vault`.
+Beim Provisionieren / Deployment muss das Passwort für den Ansible Vault angegeben werden.
+Wir verwenden das gleiche Vault Passwort für alle verschlüsselten Secrets im Repository.
+Für angenehmere Deployments kann man eine `.vault-key` Datei mit dem Encryption Key als Inhalt anlegen,
+und mit der `ansible-playbook` Option `--vault-password-file` angeben.
+Diese Datei ist in der `.gitignore` vermerkt.
