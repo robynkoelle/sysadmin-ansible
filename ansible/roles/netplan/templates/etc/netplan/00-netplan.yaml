@@ -4,6 +4,13 @@ network:
 {% for interface_name, interface in network_interfaces.items() %}
     {{ interface_name }}:
         dhcp4: {{ interface["dhcp"] }}
+        dhcp4-overrides:
+          use-dns: false
+        nameservers:
+          addresses:
+{% for address in interface["name_servers"] %}
+            - {{ address }}
+{% endfor %}
 {% if interface["addresses"] is defined %}
         addresses:
 {% for address in interface["addresses"] %}
