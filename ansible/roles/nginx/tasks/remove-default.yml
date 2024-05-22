@@ -1,0 +1,9 @@
+- name: remove default configuration
+  file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - /etc/nginx/sites-available/default
+    - /etc/nginx/sites-enabled/default
+  notify:
+    - restart nginx

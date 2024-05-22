@@ -1,0 +1,9 @@
+- import_tasks: nginx-install.yml
+  tags:
+    - nginx
+    - nginx-install
+
+- import_tasks: remove-default.yml
+  tags:
+    - nginx
+    - nginx-remove-default
