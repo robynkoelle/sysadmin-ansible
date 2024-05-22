@@ -1,0 +1,13 @@
+[Unit]
+Description=FCGI Wrapper for user {{ item.name }}
+
+[Service]
+# Forking because spawn-fcgi spawns a child process.
+# We do not want to call ExecStop immediately after successfully creating the child process.
+Type=forking
+# Note: /usr/sbin/fcgiwrap path must be absolute.
+ExecStart=spawn-fcgi -s /var/run/fcgiwrap-{{ item.name }}.socket -U www-data -G www-data -u {{ item.uid }} -C 1 /usr/sbin/fcgiwrap
+ExecStop=rm -f /var/run/fcgiwrap-{{ item.name }}.socket
+
+[Install]
+WantedBy=multi-user.target

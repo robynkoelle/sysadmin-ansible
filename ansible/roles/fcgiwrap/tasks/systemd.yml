@@ -1,0 +1,13 @@
+- name: copy systemd service
+  template:
+    src: etc/systemd/system/fcgiwrap.service
+    dest: "/etc/systemd/system/fcgiwrap-{{ item.name }}.service"
+  loop: "{{ users.values() | selectattr('name', '!=', 'root') | selectattr('name', '!=', 'humanuser') | list }}"
+
+- name: start and enable systemd service
+  systemd_service:
+    name: "fcgiwrap-{{ item.name }}"
+    state: started
+    enabled: true
+    daemon_reload: true
+  loop: "{{ users.values() | selectattr('name', '!=', 'root') | selectattr('name', '!=', 'humanuser') | list }}"

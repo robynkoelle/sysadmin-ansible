@@ -1,0 +1,7 @@
+- name: install tools
+  apt:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - fcgiwrap
+    - spawn-fcgi

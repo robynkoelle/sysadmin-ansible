@@ -1,0 +1,9 @@
+- import_tasks: install.yml
+  tags:
+    - fcgiwrap
+    - fcgiwrap-install
+
+- import_tasks: systemd.yml
+  tags:
+    - fcgiwrap
+    - fcgiwrap-systemd
