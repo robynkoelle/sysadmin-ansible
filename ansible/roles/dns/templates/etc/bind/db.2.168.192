@@ -9,3 +9,5 @@ $TTL    86400
 @       IN      NS      ns1.psa-team02.cit.tum.de.
 1       IN      PTR     early-bird.psa-team02.cit.tum.de.
 2       IN      PTR     late-worm.psa-team02.cit.tum.de.
+3       IN      PTR     www.psa-team02.cit.tum.de.
+4       IN      PTR     bearly-ird.psa-team02.cit.tum.de

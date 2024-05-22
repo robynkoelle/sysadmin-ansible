@@ -6,7 +6,9 @@ $TTL 86400
                               2419200    ; Expire
                               86400 )    ; Negative Cache TTL
 
-@       IN      NS      ns1.psa-team02.cit.tum.de.
-ns1     IN      A       192.168.2.1
-early-bird IN   A       192.168.2.1
-late-worm IN   A       192.168.2.2
+@               IN      NS      ns1.psa-team02.cit.tum.de.
+ns1             IN      A       192.168.2.1
+early-bird      IN      A       192.168.2.1
+www             IN      CNAME   early-bird
+late-worm       IN      A       192.168.2.2
+bearly-ird      IN      A       192.168.2.3
