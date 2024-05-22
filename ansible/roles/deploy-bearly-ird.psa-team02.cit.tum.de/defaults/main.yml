@@ -1,0 +1,4 @@
+deploy:
+  nginx:
+    domain: bearly-ird.psa-team02.cit.tum.de
+    root: /var/www/bearly-ird
