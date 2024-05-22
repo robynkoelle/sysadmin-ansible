@@ -8,7 +8,7 @@
       check_mode: no
       tags: always
 
-- name: setup vm
+- name: initial vm setup
   hosts: vmpsateam02
   remote_user: root
   roles:
@@ -21,10 +21,17 @@
     - iptables
     - http-proxy
 
-- name: setup router
+- name: router setup
   hosts: vmpsateam02-01
   remote_user: root
   roles:
     - ip-forwarding
     - dns
     - dhcp
+
+- name: additional setup
+  hosts: vmpsateam02
+  remote_user: root
+  roles:
+    - nginx
+    - fcgiwrap
