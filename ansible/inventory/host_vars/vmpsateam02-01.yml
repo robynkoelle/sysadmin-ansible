@@ -133,13 +133,3 @@ iptables:
     - interface: enp0s8
       source: 192.168.10.0/24
       destination: 192.168.2.0/24
-
-
-packages: 
-  - bind9
-  - bind9utils 
-  - bind9-doc
-  - net-tools
-  - nmap
-  - traceroute
-  - kea-dhcp4-server

@@ -1,14 +1,10 @@
+- import_tasks: dependencies.yml
+  tags:
+    - dns
+    - dns-dependencies
+
 - import_tasks: config.yml
   tags:
     - dns
-    - dns-template
-    - bind9
-
-- name: restart bind9
-  service:
-    name: bind9
-    state: restarted
-  tags:
-    - dns
-    - bind9
-    - bind9-restart
+    - dns-config
+  notify: restart bind9
