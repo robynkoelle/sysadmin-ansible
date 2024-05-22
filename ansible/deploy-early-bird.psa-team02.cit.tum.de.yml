@@ -12,4 +12,4 @@
   hosts: vmpsateam02-01
   remote_user: root
   roles:
-    - deploy-early-bird.psa.team02.cit.tum.de
+    - deploy-early-bird.psa-team02.cit.tum.de
