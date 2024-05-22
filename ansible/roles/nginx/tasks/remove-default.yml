@@ -5,5 +5,3 @@
   loop:
     - /etc/nginx/sites-available/default
     - /etc/nginx/sites-enabled/default
-  notify:
-    - restart nginx
