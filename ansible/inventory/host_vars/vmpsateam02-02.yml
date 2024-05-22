@@ -34,8 +34,20 @@ network_interfaces:
 iptables:
   outgoing_explicit_allow:
     - 131.159.0.0/16 # FMI
-    - de.archive.ubuntu.com
-    - security.ubuntu.com
+
+    # de.archive.ubuntu.com
+    - 141.30.62.23
+    - 141.30.62.22
+    - 141.30.62.25
+    - 141.30.62.26
+    - 141.30.62.24
+
+    # security.ubuntu.com
+    - 185.125.190.39
+    - 91.189.91.83
+    - 185.125.190.36
+    - 91.189.91.81
+    - 91.189.91.82
 
     - 192.168.1.0/24
     - 192.168.2.0/24
