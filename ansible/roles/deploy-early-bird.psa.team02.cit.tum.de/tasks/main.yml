@@ -1,0 +1,10 @@
+- import_tasks: deploy.yml
+  tags:
+    - deploy
+    - deploy-deploy
+
+- import_tasks: nginx.yml
+  tags:
+    - deploy
+    - deploy-nginx
+  notify: reload nginx

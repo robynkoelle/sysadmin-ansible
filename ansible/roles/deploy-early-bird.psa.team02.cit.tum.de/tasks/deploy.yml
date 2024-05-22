@@ -1,0 +1,13 @@
+- name: ensure directory exists
+  file:
+    path: "{{ deploy.nginx.root }}"
+    state: directory
+    owner: www-data
+    group: www-data
+
+- name: copy html
+  template:
+    src: var/www/early-bird/index.html
+    dest: "{{ deploy.nginx.root }}/index.html"
+    owner: www-data
+    group: www-data

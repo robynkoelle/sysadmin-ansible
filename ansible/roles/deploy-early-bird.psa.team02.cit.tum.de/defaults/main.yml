@@ -1,0 +1,4 @@
+deploy:
+  nginx:
+    domain: early-bird.psa.team02.cit.tum.de
+    root: /var/www/early-bird

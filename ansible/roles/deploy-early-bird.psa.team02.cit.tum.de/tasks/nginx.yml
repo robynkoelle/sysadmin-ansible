@@ -1,0 +1,27 @@
+- name: copy ssl certificate and key
+  template:
+    src: etc/nginx/ssl/{{ deploy.nginx.domain }}.{{ item }}
+    dest: /etc/nginx/ssl/
+    owner: www-data
+    group: www-data
+    mode: 0400
+  loop:
+    - crt
+    - key
+
+- name: copy nginx config
+  template:
+    src: etc/nginx/sites-available/{{ deploy.nginx.domain }}
+    dest: /etc/nginx/sites-available/
+    owner: www-data
+    group: www-data
+    mode: 0400
+
+- name: add the nginx config to sites-enabled
+  file:
+    src: /etc/nginx/sites-available/{{ deploy.nginx.domain }}
+    dest: /etc/nginx/sites-enabled/{{ deploy.nginx.domain }}
+    state: link
+    owner: www-data
+    group: www-data
+  when: not ansible_check_mode

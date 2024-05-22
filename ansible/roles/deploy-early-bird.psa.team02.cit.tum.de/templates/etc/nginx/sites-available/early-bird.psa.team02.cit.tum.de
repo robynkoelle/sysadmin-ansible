@@ -1,0 +1,31 @@
+server {
+    listen 80;
+    server_name {{ deploy.nginx.domain }};
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    server_name {{ deploy.nginx.domain }};
+
+    ssl_certificate /etc/nginx/ssl/{{ deploy.nginx.domain }}.crt;
+    ssl_certificate_key /etc/nginx/ssl/{{ deploy.nginx.domain }}.key;
+
+    location / {
+        root {{ deploy.nginx.root }};
+    }
+
+    location ~ ^/~([^/]+)/cgi-bin/(.*)$ {
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME /home/$1/.cgi-bin/$2;
+        fastcgi_pass unix:/var/run/fcgiwrap-$1.socket;
+    }
+
+    location ~ ^/~([^/]+)(.*)$ {
+        set $path $2;
+        if ($path = "") {
+            set $path "/index.html";
+        }
+        alias /home/$1/.html-data$path;
+    }
+}
