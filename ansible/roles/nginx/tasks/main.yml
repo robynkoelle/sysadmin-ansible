@@ -14,3 +14,8 @@
     - nginx
     - nginx-remove-default
   notify: reload nginx
+
+- import_tasks: logrotate.yml
+  tags:
+    - nginx
+    - nginx-logrotate

@@ -1,0 +1,9 @@
+- name: ensure old directory exists
+  file:
+    path: "{{ nginx.old_logs_location }}"
+    state: directory
+
+- name: copy logrotate config
+  template:
+    src: etc/logrotate.d/nginx
+    dest: /etc/logrotate.d/nginx

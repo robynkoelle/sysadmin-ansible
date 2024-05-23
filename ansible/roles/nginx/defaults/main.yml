@@ -1,0 +1,2 @@
+nginx:
+  old_logs_location: /var/log/nginx/old

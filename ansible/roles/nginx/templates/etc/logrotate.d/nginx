@@ -1,0 +1,23 @@
+/var/log/nginx/access.log {
+    olddir {{ nginx.old_logs_location }}
+    daily
+    rotate 5
+    missingok
+    notifempty
+    compress
+    delaycompress
+    copytruncate
+    create 0640 www-data adm
+}
+
+/var/log/nginx/error.log {
+    olddir {{ nginx.old_logs_location }}
+    daily
+    rotate 1
+    missingok
+    notifempty
+    compress
+    delaycompress
+    copytruncate
+    create 0640 www-data adm
+}
