@@ -33,5 +33,6 @@
   hosts: vmpsateam02
   remote_user: root
   roles:
+    - logrotate
     - nginx
     - fcgiwrap
