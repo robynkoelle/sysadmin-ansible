@@ -138,3 +138,10 @@ iptables:
     - interface: enp0s8
       source: 192.168.10.0/24
       destination: 192.168.2.0/24
+
+bind9:
+  listen_address: 192.168.2.1
+  forward_zone:
+    domain: psa-team02.cit.tum.de
+  reverse_zone:
+    reversed_address: 2.168.192

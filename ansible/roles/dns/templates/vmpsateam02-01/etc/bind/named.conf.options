@@ -12,7 +12,10 @@ options {
             131.159.254.2;
         };
 
-        listen-on { 192.168.2.1; };
+        listen-on {
+         {{ bind9.listen_address }};
+        };
+
         listen-on-v6 { none; };
 
         allow-query { psa; };

@@ -1,19 +1,19 @@
 - name: copy bind config options
   template:
-    src: etc/bind/named.conf.options
+    src: "{{ inventory_hostname }}/etc/bind/named.conf.options"
     dest: /etc/bind/named.conf.options
 
 - name: copy bind config local
   template:
-    src: etc/bind/named.conf.local
+    src: "{{ inventory_hostname }}/etc/bind/named.conf.local"
     dest: /etc/bind/named.conf.local
 
 - name: copy bind config zones
   template:
-    src: etc/bind/db.psa-team02.cit.tum.de
-    dest: /etc/bind/db.psa-team02.cit.tum.de
+    src: "{{ inventory_hostname }}/etc/bind/db.{{ bind9.forward_zone.domain }}"
+    dest: "/etc/bind/db.{{ bind9.forward_zone.domain }}"
 
 - name: copy bind config reverse
   template:
-    src: etc/bind/db.2.168.192
-    dest: /etc/bind/db.2.168.192
+    src: "{{ inventory_hostname }}/etc/bind/db.{{ bind9.reverse_zone.reversed_address }}"
+    dest: "/etc/bind/db.{{ bind9.reverse_zone.reversed_address }}"
