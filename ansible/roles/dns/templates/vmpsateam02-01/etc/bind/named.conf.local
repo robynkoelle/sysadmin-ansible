@@ -31,7 +31,7 @@ zone "psa-team01.cit.tum.de" {
     type forward;
     forward only;
     forwarders {
-        192.168.1.1;
+        192.168.1.2;
     };
 };
 
@@ -55,7 +55,7 @@ zone "psa-team05.cit.tum.de" {
     type forward;
     forward only;
     forwarders {
-        192.168.5.1;
+        192.168.5.2;
     };
 };
 
@@ -71,7 +71,7 @@ zone "psa-team07.cit.tum.de" {
     type forward;
     forward only;
     forwarders {
-        192.168.7.1;
+        192.168.7.2;
     };
 };
 
@@ -87,6 +87,6 @@ zone "psa-team10.cit.tum.de" {
     type forward;
     forward only;
     forwarders {
-        192.168.10.1;
+        192.168.10.2;
     };
 };
