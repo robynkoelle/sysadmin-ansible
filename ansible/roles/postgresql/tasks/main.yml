@@ -1,0 +1,9 @@
+- import_tasks: install.yml
+  tags:
+    - postgresql
+    - postgresql-install
+
+- import_tasks: roles.yml
+  tags:
+    - postgresql
+    - postgresql-roles

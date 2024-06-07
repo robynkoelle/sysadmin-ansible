@@ -28,6 +28,7 @@
     - ip-forwarding
     - dns
     - dhcp
+    - postgresql
 
 - name: additional setup
   hosts: vmpsateam02

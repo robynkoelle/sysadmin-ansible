@@ -1,0 +1,10 @@
+- name: install postgresql
+  apt:
+    name: postgresql
+    state: present
+
+- name: Ensure PostgreSQL service is running
+  service:
+    name: postgresql
+    state: started
+    enabled: yes

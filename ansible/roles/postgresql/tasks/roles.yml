@@ -1,0 +1,52 @@
+- name: Configure PostgreSQL    
+  vars:
+    postgresql_packages:
+      - postgresql
+      - postgresql-contrib
+    db_user1: local
+    db_user2: remote
+    db_user3: backup
+    db_name1: dblocal
+    db_name2: dbremote
+  block:
+  - name: Create databases
+    community.postgresql.postgresql_db:
+      name: "{{ item }}"
+      state: present
+    loop:
+      - "{{ db_name1 }}"
+      - "{{ db_name2 }}"
+
+  - name: Create database users with exclusive access
+    community.postgresql.postgresql_user:
+      db: "{{ item.db }}"
+      name: "{{ item.user }}"
+      password: "{{ item.pass }}"
+      priv: "{{ item.db }}:ALL"
+      state: present
+    loop:
+      - { user: '{{ db_user1 }}', pass: 'password1', db: '{{ db_name1 }}' }
+      - { user: '{{ db_user2 }}', pass: 'password2', db: '{{ db_name2 }}' }
+    no_log: true
+
+  - name: Create a read-only user accessible from localhost
+    community.postgresql.postgresql_user:
+      name: "{{ db_user3 }}"
+      password: 'readonly_pass'
+      state: present
+      role_attr_flags: LOGIN,NOSUPERUSER,INHERIT
+      priv: "*:SELECT"
+    no_log: true
+
+  - name: Restrict user access
+    community.postgresql.postgresql_privs:
+      db: "{{ item.db }}"
+      roles: "{{ item.user }}"
+      objs: ALL_IN_SCHEMA
+      type: table
+      privs: SELECT
+      grant_option: no
+    loop:
+      - { user: '{{ db_user3 }}', db: 'all' }
+    when: item.user == db_user3
+
