@@ -46,15 +46,6 @@
       role_attr_flags: LOGIN,NOSUPERUSER,INHERIT
 
   - name: User access for backup user
-    community.postgresql.postgresql_privs:
-      db: "{{ item.db }}"
-      roles: "{{ item.user }}"
-      type: schema
-      obj: "{{ item.db }}"
-      privs: SELECT
-      grant_option: no
-    loop:
-      - { user: '{{ db_user3 }}', db: '{{ db_name1 }}' }
-      - { user: '{{ db_user3 }}', db: '{{ db_name2 }}' }
-      - { user: '{{ db_user3 }}', db: 'postgres' }
+    ansible.builtin.shell:
+      cmd: psql -c "GRANT SELECT ON ALL TABLES IN SCHEMA public TO {{ db_user3 }};"
 
