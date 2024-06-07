@@ -3,6 +3,11 @@
     name: postgresql
     state: present
 
+- name: install python pip
+  apt:
+    name: python3-psycopg2
+    state: present
+
 - name: Ensure PostgreSQL service is running
   service:
     name: postgresql

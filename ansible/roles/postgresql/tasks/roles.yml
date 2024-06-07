@@ -1,8 +1,7 @@
 - name: Configure PostgreSQL    
+  become: yes
+  become_user: postgres
   vars:
-    postgresql_packages:
-      - postgresql
-      - postgresql-contrib
     db_user1: local
     db_user2: remote
     db_user3: backup
@@ -22,12 +21,22 @@
       db: "{{ item.db }}"
       name: "{{ item.user }}"
       password: "{{ item.pass }}"
-      priv: "{{ item.db }}:ALL"
       state: present
     loop:
       - { user: '{{ db_user1 }}', pass: 'password1', db: '{{ db_name1 }}' }
       - { user: '{{ db_user2 }}', pass: 'password2', db: '{{ db_name2 }}' }
-    no_log: true
+
+  - name: User access for local and remote users
+    community.postgresql.postgresql_privs:
+      db: "{{ item.db }}"
+      roles: "{{ item.user }}"
+      type: database
+      obj: "{{ item.db }}"
+      privs: ALL
+      grant_option: no
+    loop:
+      - { user: '{{ db_user1 }}', db: '{{ db_name1 }}' }
+      - { user: '{{ db_user2 }}', db: '{{ db_name2 }}' }
 
   - name: Create a read-only user accessible from localhost
     community.postgresql.postgresql_user:
@@ -35,18 +44,17 @@
       password: 'readonly_pass'
       state: present
       role_attr_flags: LOGIN,NOSUPERUSER,INHERIT
-      priv: "*:SELECT"
-    no_log: true
 
-  - name: Restrict user access
+  - name: User access for backup user
     community.postgresql.postgresql_privs:
       db: "{{ item.db }}"
       roles: "{{ item.user }}"
-      objs: ALL_IN_SCHEMA
-      type: table
+      type: schema
+      obj: "{{ item.db }}"
       privs: SELECT
       grant_option: no
     loop:
-      - { user: '{{ db_user3 }}', db: 'all' }
-    when: item.user == db_user3
+      - { user: '{{ db_user3 }}', db: '{{ db_name1 }}' }
+      - { user: '{{ db_user3 }}', db: '{{ db_name2 }}' }
+      - { user: '{{ db_user3 }}', db: 'postgres' }
 
