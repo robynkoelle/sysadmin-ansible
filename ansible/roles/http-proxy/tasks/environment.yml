@@ -5,6 +5,6 @@
     regexp: "^{{ item.key }}="
   loop:
     - key: "http_proxy"
-      value: "http://{{ http_proxy }}"
+      value: "{{ http_proxy }}"
     - key: "https_proxy"
-      value: "https://{{ http_proxy }}"
+      value: "{{ http_proxy }}"

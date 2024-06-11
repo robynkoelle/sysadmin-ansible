@@ -2,3 +2,8 @@
   tags:
     - http-proxy
     - http-proxy-environment
+
+- import_tasks: apt.yml
+  tags:
+    - http-proxy
+    - http-proxy-apt

@@ -1,0 +1,4 @@
+- name: add proxy to apt
+  template:
+    src: etc/apt/apt.conf.d/proxy.conf
+    dest: /etc/apt/apt.conf.d/proxy.conf
