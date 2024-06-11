@@ -37,3 +37,4 @@
     - logrotate
     - nginx
     - fcgiwrap
+    - docker

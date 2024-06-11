@@ -1,0 +1,19 @@
+- import_tasks: dependencies.yml
+  tags:
+    - docker
+    - docker-dependencies
+
+- import_tasks: repository.yml
+  tags:
+    - docker
+    - docker-repository
+
+- import_tasks: install.yml
+  tags:
+    - docker
+    - docker-install
+
+- import_tasks: proxy.yml
+  tags:
+    - docker
+    - docker-proxy

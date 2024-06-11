@@ -1,0 +1,14 @@
+# https://docs.docker.com/config/daemon/systemd/#httphttps-proxy
+# "If you're behind an HTTP or HTTPS proxy server, for example in corporate settings, the daemon proxy configurations
+# must be specified in the systemd service file, not in the daemon.json file or using environment variables."
+
+- name: ensure directory exists
+  file:
+    path: /etc/systemd/system/docker.service.d
+    state: directory
+
+- name: copy systemd file
+  template:
+    src: etc/systemd/system/docker.service.d/http-proxy.conf
+    dest: /etc/systemd/system/docker.service.d/http-proxy.conf
+  notify: restart docker

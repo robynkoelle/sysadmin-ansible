@@ -1,0 +1,6 @@
+- name: Install dependencies
+  apt:
+    name:
+      - ca-certificates
+      - curl
+    state: present
