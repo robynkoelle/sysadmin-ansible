@@ -1,0 +1,12 @@
+- name: download official postgres gpg key
+  get_url:
+    url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
+    dest: /etc/apt/keyrings/postgres.asc
+    mode: "0644"
+
+- name: add postgres repository to apt sources
+  shell: echo "deb [signed-by=/etc/apt/keyrings/postgres.asc] https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list
+
+- name: update apt cache
+  apt:
+    update_cache: yes

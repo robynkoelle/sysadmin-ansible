@@ -35,6 +35,13 @@ COMMIT
 -A INPUT -p udp --dport 53 -j ACCEPT
 -A INPUT -p tcp --dport 53 -j ACCEPT
 
+{% if iptables.incoming_explicit_allow is defined %}
+# Incoming explicit allow
+{% for item in iptables.incoming_explicit_allow %}
+-A INPUT -p tcp {% if item.destination_port is defined %}--dport {{ item.destination_port }}{% endif %} -s {{ item.source }} -j ACCEPT
+{% endfor %}
+{% endif %}
+
 {% if iptables.outgoing_explicit_allow is defined %}
 # Outgoing explicit allow
 {% for item in iptables.outgoing_explicit_allow %}
@@ -45,7 +52,7 @@ COMMIT
 {% if iptables.forward_explicit_allow is defined %}
 # Forward explicit allow
 {% for item in iptables.forward_explicit_allow %}
--A FORWARD -i {{ item.interface }} -o {{ item.interface }} -s {{ item.source }} -d {{ item.destination }} -j ACCEPT
+-A FORWARD {% if item.interface is defined %}-i {{ item.interface }}-o {{ item.interface }}{% endif %} -s {{ item.source }} -d {{ item.destination }} -j ACCEPT
 {% endfor %}
 {% endif %}
 
