@@ -1,0 +1,5 @@
+- name: enable postgresql systemd service
+  systemd_service:
+    name: postgresql
+    state: started
+    enabled: yes

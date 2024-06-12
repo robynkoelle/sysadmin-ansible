@@ -1,0 +1,15 @@
+- hosts: vmpsateam02-01
+  remote_user: root
+  tasks:
+    - name: update apt cache
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+      check_mode: no
+      tags: always
+
+- name: deploy wikijs
+  hosts: vmpsateam02-01
+  remote_user: root
+  roles:
+    - deploy-wikijs.psa-team02.cit.tum.de

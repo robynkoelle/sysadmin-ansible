@@ -1,0 +1,7 @@
+- name: create databases
+  community.general.postgresql_db:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ postgresql.databases }}"
+  become: yes
+  become_user: postgres

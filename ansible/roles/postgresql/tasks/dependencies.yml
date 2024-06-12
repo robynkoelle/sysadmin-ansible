@@ -1,0 +1,11 @@
+- name: Install dependencies
+  apt:
+    name:
+      - ca-certificates
+      - curl
+    state: present
+
+- name: ensure psycopg2 dependency
+  apt:
+    name: python3-psycopg2
+    state: present

@@ -1,0 +1,15 @@
+- name: add container
+  community.docker.docker_container:
+    name: wikijs
+    image: ghcr.io/requarks/wiki:2
+    ports:
+      - 8081:3000
+    env:
+      DB_TYPE: postgres
+      DB_HOST: 192.168.2.1
+      DB_PORT: "5432"
+      DB_USER: wikijs
+      DB_PASS: "1234" # TODO
+      DB_NAME: wikijs
+    restart: true
+    restart_policy: unless-stopped

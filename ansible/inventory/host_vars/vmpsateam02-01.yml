@@ -46,6 +46,10 @@ network_interfaces:
     dhcp: true
 
 iptables:
+  incoming_explicit_allow:
+    - destination_port: 5432 # Postgres
+      source: 0.0.0.0/0
+
   outgoing_explicit_allow:
       - 131.159.0.0/16 # FMI
       - 192.168.2.0/24
@@ -145,3 +149,30 @@ bind9:
     domain: psa-team02.cit.tum.de
   reverse_zone:
     reversed_address: 2.168.192
+
+postgresql:
+  listen_addresses: "127.0.0.1,192.168.2.1" # comma-separated
+  databases:
+    - early_bird
+    - team02
+    - wikijs # TODO: remove
+
+  users:
+    - name: early_bird_user
+      password: 1234 # TODO
+      databases:
+        - name: early_bird
+          source_address: 127.0.0.1/32
+          privileges: ALL
+    - name: team02_user
+      password: 1234 # TODO
+      databases:
+        - name: team02
+          source_address: 192.168.2.2/32
+          privileges: ALL
+    - name: wikijs # TODO: remove
+      password: 1234
+      databases:
+        - name: wikijs
+          source_address: 0.0.0.0/0
+          privileges: ALL

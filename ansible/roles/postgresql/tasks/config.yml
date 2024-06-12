@@ -1,0 +1,6 @@
+- name: copy config file
+  template:
+    src: etc/postgresql/{{ postgresql.version }}/main/postgresql.conf
+    dest: /etc/postgresql/{{ postgresql.version }}/main/postgresql.conf
+    owner: postgres
+    group: postgres

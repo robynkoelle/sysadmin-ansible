@@ -1,9 +1,35 @@
+- import_tasks: dependencies.yml
+  tags:
+    - postgresql
+    - postgresql-dependencies
+
+- import_tasks: repository.yml
+  tags:
+    - postgresql
+    - postgresql-repository
+
 - import_tasks: install.yml
   tags:
     - postgresql
     - postgresql-install
 
-- import_tasks: roles.yml
+- import_tasks: systemd.yml
   tags:
     - postgresql
-    - postgresql-roles
+    - postgresql-systemd
+
+- import_tasks: config.yml
+  tags:
+    - postgresql
+    - postgresql-config
+  notify: restart postgresql
+
+- import_tasks: databases.yml
+  tags:
+    - postgresql
+    - postgresql-databases
+
+- import_tasks: users.yml
+  tags:
+    - postgresql
+    - postgresql-users

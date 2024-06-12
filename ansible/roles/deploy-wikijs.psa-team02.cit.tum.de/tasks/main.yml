@@ -1,0 +1,4 @@
+- import_tasks: container.yml
+  tags:
+    - deploy
+    - deploy-container
