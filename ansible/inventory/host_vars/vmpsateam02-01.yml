@@ -49,6 +49,7 @@ iptables:
   incoming_explicit_allow:
     - destination_port: 5432 # Postgres
       source: 0.0.0.0/0
+    - source: 172.17.0.0/16 # Docker
 
   outgoing_explicit_allow:
       - 131.159.0.0/16 # FMI
@@ -142,6 +143,8 @@ iptables:
     - interface: enp0s8
       source: 192.168.10.0/24
       destination: 192.168.2.0/24
+    - source: 172.17.0.0/16 # Docker
+      destination: 0.0.0.0/0
 
 bind9:
   listen_address: "0.0.0.0/0"
