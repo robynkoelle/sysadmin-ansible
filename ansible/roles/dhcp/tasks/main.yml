@@ -1,5 +1,11 @@
+- import_tasks: dependencies.yml
+  tags:
+    - dhcp
+    - dhcp-dependencies
+
 - import_tasks: config.yml
   tags:
     - dhcp
     - dhcp-config
+  notify: restart kea
 

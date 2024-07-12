@@ -1,0 +1,5 @@
+- name: install kea dhcp4
+  apt:
+    name: kea-dhcp4-server
+    state: present
+

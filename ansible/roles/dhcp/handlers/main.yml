@@ -1,0 +1,5 @@
+- name: restart kea
+  systemd_service:
+    name: kea-dhcp4-server 
+    state: restarted
+
