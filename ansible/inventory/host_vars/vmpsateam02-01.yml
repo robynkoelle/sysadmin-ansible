@@ -79,6 +79,9 @@ iptables:
       - 91.189.91.81
       - 91.189.91.82
 
+      - 172.17.0.0/16 # Docker
+      - 172.17.0.4/16
+
   forward_explicit_allow:
     # Subnet Team 1
     - interface: enp0s8

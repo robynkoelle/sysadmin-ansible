@@ -52,7 +52,7 @@ COMMIT
 {% if iptables.forward_explicit_allow is defined %}
 # Forward explicit allow
 {% for item in iptables.forward_explicit_allow %}
--A FORWARD {% if item.interface is defined %}-i {{ item.interface }}-o {{ item.interface }}{% endif %} -s {{ item.source }} -d {{ item.destination }} -j ACCEPT
+-A FORWARD {% if item.interface is defined %}-i {{ item.interface }} -o {{ item.interface }}{% endif %} -s {{ item.source }} -d {{ item.destination }} -j ACCEPT
 {% endfor %}
 {% endif %}
 

@@ -1,7 +1,14 @@
+- name: check if docker service exists 
+  stat:
+    path: /etc/systemd/system/docker.service
+  register: docker_service_exists
+  changed_when: false
+
 - import_tasks: rules.yml
   tags:
     - iptables
     - iptables-rules
+  notify: restart docker 
 
 - import_tasks: persistent.yml
   tags:

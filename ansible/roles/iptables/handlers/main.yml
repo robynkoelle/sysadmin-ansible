@@ -1,0 +1,13 @@
+- name: check if docker exists
+  stat:
+    path: /etc/systemd/system/docker.service
+  register: docker_exists 
+  listen: restart docker
+
+- name: restart docker
+  systemd:
+    name: docker
+    state: restarted
+  when: docker_exists
+  listen: restart docker
+
