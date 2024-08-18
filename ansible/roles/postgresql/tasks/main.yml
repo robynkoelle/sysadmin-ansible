@@ -24,12 +24,18 @@
     - postgresql-config
   notify: restart postgresql
 
+- import_tasks: users.yml
+  tags:
+    - postgresql
+    - postgresql-users
+
 - import_tasks: databases.yml
   tags:
     - postgresql
     - postgresql-databases
 
-- import_tasks: users.yml
+- import_tasks: roles.yml
   tags:
     - postgresql
-    - postgresql-users
+    - postgresql-roles
+

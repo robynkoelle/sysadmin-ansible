@@ -1,7 +1,12 @@
 - name: create databases
   community.general.postgresql_db:
-    name: "{{ item }}"
+    name: "{{ item.name}}"
+    template: "{{ item.template | default(omit) }}"
+    encoding: "{{ item.encoding | default(omit) }}"
+    lc_ctype: "{{ item.lc_ctype | default(omit) }}"
+    lc_collate: "{{ item.lc_collate | default(omit) }}"
+    owner: "{{ item.owner | default(omit) }}"
     state: present
-  loop: "{{ postgresql.databases }}"
+  loop: "{{ postgresql.databases | list }}"
   become: yes
   become_user: postgres

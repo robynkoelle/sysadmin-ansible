@@ -6,23 +6,3 @@
   become: yes
   become_user: postgres
 
-- name: grant <privs> on schema public to <user>
-  community.general.postgresql_privs:
-    db: "{{ item.1.name }}" # db to connect to.
-    privs: "{{ item.1.privileges }}"
-    type: schema
-    obj: public
-    role: "{{ item.0.name }}" # user name.
-  with_subelements:
-    - "{{ postgresql.users }}"
-    - databases
-  become: yes
-  become_user: postgres
-
-- name: copy pg_hba file
-  template:
-    src: "etc/postgresql/{{ postgresql.version }}/main/pg_hba.conf"
-    dest: "/etc/postgresql/{{ postgresql.version }}/main/pg_hba.conf"
-    owner: postgres
-    group: postgres
-  notify: restart postgresql

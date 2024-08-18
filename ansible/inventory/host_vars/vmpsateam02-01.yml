@@ -159,9 +159,15 @@ bind9:
 postgresql:
   listen_addresses: "127.0.0.1,192.168.2.1" # comma-separated
   databases:
-    - early_bird
-    - team02
-    - wikijs # TODO: remove
+    - name: early_bird
+    - name: team02
+    - name: wikijs # TODO: remove
+    - name: synapse
+      template: template0
+      encoding: UTF-8
+      lc_ctype: C
+      lc_collate: C
+      owner: synapse_user
 
   users:
     - name: early_bird_user
@@ -182,3 +188,16 @@ postgresql:
         - name: wikijs
           source_address: 0.0.0.0/0
           privileges: ALL
+    - name: synapse_user
+      password: !vault |
+        $ANSIBLE_VAULT;1.1;AES256
+        32303239383638313333336139393637373564656165353437343633643065353965303164366133
+        3437653064653366306234633033343530393831366138320a336135386664313033623030306465
+        33656336653466353131323162653864373262343163633133656331313461393664363765383466
+        6332313033303335380a336233316665386633353037623533363663306362366339383636616165
+        3737
+      databases:
+        - name: synapse
+          source_address: 192.168.1.0/24
+          privileges: ALL
+
