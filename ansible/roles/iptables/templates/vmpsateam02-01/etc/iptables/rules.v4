@@ -1,0 +1,79 @@
+*raw
+:PREROUTING ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+
+# Disable connection tracking for HTTP(S)
+-A PREROUTING -p tcp --dport 80 -j NOTRACK
+-A OUTPUT -p tcp --sport 80 -j NOTRACK
+-A PREROUTING -p tcp --dport 443 -j NOTRACK
+-A OUTPUT -p tcp --sport 443 -j NOTRACK
+COMMIT
+
+*filter
+
+# Drop all incoming and outgoing traffic by default
+:INPUT DROP [0:0]
+:FORWARD DROP [0:0]
+:OUTPUT DROP [0:0]
+
+# Allow established connections
+-A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+
+# Allow incoming HTTP, HTTPS, and responses to the requests
+-A INPUT -p tcp --dport 80 -j ACCEPT
+-A OUTPUT -p tcp --sport 80 -j ACCEPT
+-A INPUT -p tcp --dport 443 -j ACCEPT
+-A OUTPUT -p tcp --sport 443 -j ACCEPT
+
+# Allow SSH
+-A INPUT -p tcp --dport 22 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+-A OUTPUT -p tcp --sport 22 -m conntrack --ctstate ESTABLISHED -j ACCEPT
+
+# Allow DNS for outbound queries
+-A OUTPUT -p udp --dport 53 -j ACCEPT
+-A OUTPUT -p tcp --dport 53 -j ACCEPT
+-A INPUT -p udp --dport 53 -j ACCEPT
+-A INPUT -p tcp --dport 53 -j ACCEPT
+
+# Incoming explicit allow
+-A INPUT -p tcp --dport 5432 -s 0.0.0.0/0 -j ACCEPT
+-A INPUT -p tcp  -s 172.17.0.0/16 -j ACCEPT
+
+# Outgoing explicit allow
+-A OUTPUT -d 131.159.0.0/16 -j ACCEPT
+{% for network in networks.teams %}
+-A OUTPUT -d {{ network }} -j ACCEPT
+{% endfor %}
+-A OUTPUT -d 141.30.62.23 -j ACCEPT
+-A OUTPUT -d 141.30.62.22 -j ACCEPT
+-A OUTPUT -d 141.30.62.25 -j ACCEPT
+-A OUTPUT -d 141.30.62.26 -j ACCEPT
+-A OUTPUT -d 141.30.62.24 -j ACCEPT
+-A OUTPUT -d 185.125.190.39 -j ACCEPT
+-A OUTPUT -d 91.189.91.83 -j ACCEPT
+-A OUTPUT -d 185.125.190.36 -j ACCEPT
+-A OUTPUT -d 91.189.91.81 -j ACCEPT
+-A OUTPUT -d 91.189.91.82 -j ACCEPT
+-A OUTPUT -d 172.17.0.0/16 -j ACCEPT
+-A OUTPUT -d 172.17.0.4/16 -j ACCEPT
+
+# Forward explicit allow
+{% for network in networks.teams %}
+{% if network != "192.168.2.0/24" %}
+-A FORWARD -i enp0s8 -o enp0s8 -s 192.168.2.0/24 -d {{ network }} -j ACCEPT
+-A FORWARD -i enp0s8 -o enp0s8 -s {{ network }} -d 192.168.2.0/24 -j ACCEPT
+{% endif %}
+{% endfor %}
+-A FORWARD -s 172.17.0.0/16 -d 0.0.0.0/0 -j ACCEPT
+-A FORWARD -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+
+# Allow all ICMP traffic
+-A INPUT -p icmp -j ACCEPT
+-A OUTPUT -p icmp -j ACCEPT
+
+# Allow loopback
+-A INPUT -i lo -j ACCEPT
+-A OUTPUT -o lo -j ACCEPT
+
+COMMIT
+

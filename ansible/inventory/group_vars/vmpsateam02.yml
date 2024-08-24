@@ -241,6 +241,8 @@ users:
     authorized_key: |
       ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDmNyW2vo/XelGizRSF3xKOC1da6fiseIhDAkETq9polRDzoS2vnDa1rwJ3UHDM+Gp9/RT8hlc6eM+GqnsjbsUJ/Txi6mZ67xS/+ABOjdX/m10fTfKw8X4dAd1G2Z52nP43omhKDYtJx6Lx5j5lMPcBHlXq6rfTttKCo9km5nhWSWkbl5ssuhfyuiYNi4pmx2FVoDgd4nYx5dGTb2rpipDZfNNrWjVxS7QAdDJ73jkjifabGCqA/b0VZ6oUbeiy1anurzHremk1i7RHEhCtPnv5ydFRbAR0n9nbsOUKTRcvwn+lDUmHaMAIzrU//gCYJ2Yt2bAHUOb67kq7Km466Ae8Rw0lS9knufAXVXszKKRk/fpoSw0Ex7ED1vaDJdzkWqmxcF4b07eQg92TU9CMMP6uVKAPiL4EO4xjjACJToW1FQv2F+tbk8pnjE2EEFkaKN0UxrorGns/W1zPmfdkZyVa+Md76lvtV0n93OHbnDnNewtJU0vCetwpvwGTDkGIYLk= generated-by-azure
 
+  # TODO: add new user
+
 disabled_standard_services:
   - snapd.apparmor.service
   - snapd.seeded.service
@@ -248,3 +250,27 @@ disabled_standard_services:
   - ufw.service
 
 http_proxy: proxy.cit.tum.de:8080
+
+networks:
+  teams:
+    - 192.168.1.0/24
+    - 192.168.2.0/24
+    - 192.168.3.0/24
+    - 192.168.4.0/24
+    - 192.168.5.0/24
+    - 192.168.6.0/24
+    - 192.168.7.0/24
+    - 192.168.8.0/24
+    - 192.168.9.0/24
+    - 192.168.10.0/24
+  connecting:
+    - 192.168.21.2/24
+    - 192.168.32.1/24
+    - 192.168.42.1/24
+    - 192.168.52.1/24
+    - 192.168.62.1/24
+    - 192.168.72.1/24
+    - 192.168.82.1/24
+    - 192.168.92.1/24
+    - 192.168.102.1/24
+

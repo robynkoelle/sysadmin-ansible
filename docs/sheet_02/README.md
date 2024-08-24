@@ -153,6 +153,7 @@ Wir installieren `iptables-persistent` via `apt`, um die Regeln zu persistieren.
 Hierfür verwenden wir wieder Templating:
 [rules.v4](..%2F..%2Fansible%2Froles%2Fiptables%2Ftemplates%2Fetc%2Fiptables%2Frules.v4).
 In der Datei dokumentieren wir genau mit Kommentaren, wozu welche Regel dient.
+TODO: neu dokumentieren
 
 Die jeweiligen Werte für die Regeln werden aus den Host-Variablen gelesen, die hier wieder als Dokumentation dienen sollen:
 [vmpsateam02-01.yml](..%2F..%2Fansible%2Finventory%2Fhost_vars%2Fvmpsateam02-01.yml)

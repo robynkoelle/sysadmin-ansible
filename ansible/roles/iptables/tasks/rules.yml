@@ -5,7 +5,7 @@
 
 - name: copy rules (ipv4)
   template:
-    src: etc/iptables/rules.v4
+    src: "{{ host_name }}/etc/iptables/rules.v4"
     dest: /etc/iptables/rules.v4
 
 - name: enable rules (ipv4)

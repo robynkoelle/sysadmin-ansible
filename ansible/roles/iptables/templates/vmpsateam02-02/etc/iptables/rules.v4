@@ -35,26 +35,23 @@ COMMIT
 -A INPUT -p udp --dport 53 -j ACCEPT
 -A INPUT -p tcp --dport 53 -j ACCEPT
 
-{% if iptables.incoming_explicit_allow is defined %}
-# Incoming explicit allow
-{% for item in iptables.incoming_explicit_allow %}
--A INPUT -p tcp {% if item.destination_port is defined %}--dport {{ item.destination_port }}{% endif %} -s {{ item.source }} -j ACCEPT
-{% endfor %}
-{% endif %}
 
-{% if iptables.outgoing_explicit_allow is defined %}
 # Outgoing explicit allow
-{% for item in iptables.outgoing_explicit_allow %}
--A OUTPUT -d {{ item }} -j ACCEPT
-{% endfor %}
-{% endif %}
+-A OUTPUT -d 131.159.0.0/16 -j ACCEPT
+-A OUTPUT -d 141.30.62.23 -j ACCEPT
+-A OUTPUT -d 141.30.62.22 -j ACCEPT
+-A OUTPUT -d 141.30.62.25 -j ACCEPT
+-A OUTPUT -d 141.30.62.26 -j ACCEPT
+-A OUTPUT -d 141.30.62.24 -j ACCEPT
+-A OUTPUT -d 185.125.190.39 -j ACCEPT
+-A OUTPUT -d 91.189.91.83 -j ACCEPT
+-A OUTPUT -d 185.125.190.36 -j ACCEPT
+-A OUTPUT -d 91.189.91.81 -j ACCEPT
+-A OUTPUT -d 91.189.91.82 -j ACCEPT
 
-{% if iptables.forward_explicit_allow is defined %}
-# Forward explicit allow
-{% for item in iptables.forward_explicit_allow %}
--A FORWARD {% if item.interface is defined %}-i {{ item.interface }} -o {{ item.interface }}{% endif %} -s {{ item.source }} -d {{ item.destination }} -j ACCEPT
+{% for network in networks.teams %}
+-A OUTPUT -d {{ network }} -j ACCEPT
 {% endfor %}
-{% endif %}
 
 -A FORWARD -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
 
@@ -67,3 +64,4 @@ COMMIT
 -A OUTPUT -o lo -j ACCEPT
 
 COMMIT
+
