@@ -1,0 +1,13 @@
+- name: create filesystem
+  community.general.filesystem:
+    fstype: ext4
+    dev: "{{ raid.device }}"
+
+- name: mount filesystem
+  ansible.posix.mount:
+    path: "{{ raid.mountpoint }}"
+    src: "{{ raid.device }}"
+    boot: true # Mount on boot.
+    state: mounted 
+    fstype: ext4
+

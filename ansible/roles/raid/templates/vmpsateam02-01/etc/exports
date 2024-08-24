@@ -1,0 +1,12 @@
+{% for address in raid.allowed_addresses %}
+/mnt/raid/home/adrian.averwald {{ address }}(rw,sync,no_subtree_check{%if address == "192.168.2.0/24" %},no_root_squash{% endif %})
+/mnt/raid/home/robyn.koelle {{ address }}(rw,sync,no_subtree_check{%if address == "192.168.2.0/24" %},no_root_squash{% endif %})
+
+{% endfor %}
+
+/mnt/raid/vmpsateam02-01/var/lib 192.168.2.0/24(rw,sync,no_subtree_check,no_root_squash)
+/mnt/raid/vmpsateam02-02/var/lib 192.168.2.0/24(rw,sync,no_subtree_check,no_root_squash)
+
+/mnt/raid/vmpsateam02-01/var/www 192.168.2.0/24(rw,sync,no_subtree_check,no_root_squash)
+/mnt/raid/vmpsateam02-02/var/www 192.168.2.0/24(rw,sync,no_subtree_check,no_root_squash)
+

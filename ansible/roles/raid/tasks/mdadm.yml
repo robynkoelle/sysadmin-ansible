@@ -1,0 +1,9 @@
+- name: check if raid device exists
+  stat:
+    path: "{{ raid.device }}"
+  register: raid_device
+
+- name: create raid device
+  command: "mdadm --create --level={{ raid.level }} '{{ raid.device }}' --raid-devices={{ raid.devices_count }} {{ raid.devices }}"
+  when: not raid_device.stat.exists
+

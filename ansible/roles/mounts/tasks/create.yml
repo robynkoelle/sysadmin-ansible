@@ -1,0 +1,11 @@
+- name: mount directories
+  ansible.posix.mount:
+    src: "{{ item.from }}"
+    path: "{{ item.to }}"
+    fstype: none 
+    opts: bind
+    boot: true
+    state: mounted
+  loop: "{{ mounts }}"
+  when: mounts is defined
+

@@ -1,0 +1,11 @@
+- name: install nfs
+  apt:
+    name: nfs-kernel-server
+    state: present
+
+- name: copy /etc/exports
+  template:
+    src: "{{ host_name }}/etc/exports"
+    dest: "/etc/exports"
+  notify: restart nfs
+

@@ -201,3 +201,29 @@ postgresql:
           source_address: 192.168.1.0/24
           privileges: ALL
 
+raid:
+  devices: "/dev/sd[b-h]"
+  devices_count: "7"
+  level: "5"
+  device: "/dev/md0"
+  mountpoint: "/mnt/raid"
+  allowed_addresses:
+    - 192.168.1.0/24
+    - 192.168.2.0/24
+    - 192.168.3.0/24
+    - 192.168.4.0/24
+    - 192.168.5.0/24
+    - 192.168.6.0/24
+    - 192.168.7.0/24
+    - 192.168.8.0/24
+    - 192.168.9.0/24
+    - 192.168.10.0/24
+
+mounts:
+  - to: /var/lib
+    from: /mnt/raid/vmpsateam02-01/var/lib
+  - to: /var/www
+    from: /mnt/raid/vmpsateam02-01/var/www
+  - to: /home.bak
+    from: /mnt/raid/vmpsateam02-01/home.bak
+

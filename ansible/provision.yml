@@ -29,6 +29,7 @@
     - dns
     - dhcp
     - postgresql
+    - raid
 
 - name: additional setup
   hosts: vmpsateam02
@@ -38,3 +39,4 @@
     - nginx
     - fcgiwrap
     - docker
+    - mounts
