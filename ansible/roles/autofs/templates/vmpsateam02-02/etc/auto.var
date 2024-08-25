@@ -1,0 +1,3 @@
+lib -fstype=nfs,rw 192.168.2.1:/mnt/raid/vmpsateam02-02/var/lib
+www -fstype=nfs,rw 192.168.2.1:/mnt/raid/vmpsateam02-02/var/www
+

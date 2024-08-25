@@ -11,3 +11,11 @@
     state: mounted 
     fstype: ext4
 
+- name: create directories
+  ansible.builtin.file:
+    path: "{{ raid.mountpoint }}/{{ item }}"
+    state: directory
+  loop:
+    - "vmpsateam02-01"
+    - "vmpsateam02-02"
+

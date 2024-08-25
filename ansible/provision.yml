@@ -40,3 +40,5 @@
     - fcgiwrap
     - docker
     - mounts
+    - autofs
+

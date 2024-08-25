@@ -7,3 +7,11 @@
   command: "mdadm --create --level={{ raid.level }} '{{ raid.device }}' --raid-devices={{ raid.devices_count }} {{ raid.devices }}"
   when: not raid_device.stat.exists
 
+- name: persist raid config
+  command: "mdadm --detail --scan | tee -a /etc/mdadm/mdadm.conf"
+  when: not raid_device.stat.exists
+
+- name: update initramfs
+  command: "update-initramfs -u"
+  when: not raid_device.stat.exists
+

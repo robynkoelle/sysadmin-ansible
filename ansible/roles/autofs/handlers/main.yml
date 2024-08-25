@@ -1,0 +1,5 @@
+- name: restart autofs
+  systemd_service:
+    name: autofs
+    state: restarted
+

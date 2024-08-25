@@ -40,23 +40,23 @@ Mit `df -h` verifizieren wir, dass der Mountpoint existiert, und die gewünschte
 ## Daten migrieren
 
 Wir migrieren die Home-Verzeichnisse der Nutzer, indem wir zunächst die bestehenden Daten (auf allen unseren VMs)
-unter `/mnt/raid/<vm>/home.bak/` auf `vmpsateam02-01` sichern:
+unter `/mnt/raid/<vm>/home.bak/` auf `vmpsateam02-01` mit `rsync` sichern, beispielsweise mit diesem Command auf `vmpsateam02-01`:
 
 ```bash
-rsync -av /home/ /mnt/raid/<vm>/home.bak/
-```
-bzw.
-```bash
-TODO: rsync command für VM02
+rsync -a /home/ /mnt/raid/<vm>/home.bak/
 ```
 
-Analog für `/var/lib` und `/var/www`:
+Die Daten von `vmpsateam02-02` wurden ebenfalls manuell zu `vmpsateam02-01` kopiert (via `rsync` und einem `ssh`-Tunnel von unseren Laptops aus):
+```bash
+
+```
+
+Analog für `/var/lib` und `/var/www` (und auch für `vmpsateam02-02`):
 ```bash
 rsync -a --relative /var/lib /mnt/raid/vmpsateam02-01
 rsync -a --relative /var/www /mnt/raid/vmpsateam02-01
 ...
 ```
-
 
 Auf `vmpsateam02-01` können wir direkt die Mounts erstellen (siehe [mounts/create.yml](../../ansible/roles/mounts/tasks/create.yml)):
 ```yml
@@ -74,4 +74,36 @@ Um die analogen Mounts für `vmpsateam02-02` zu erstellen, müssen wir zunächst
 ## NFS-Server einrichten 
 
 Wir installieren `nfs-kernel-server` via `apt`, und definieren die exports wie in [/etc/exports](../../ansible/roles/raid/templates/vmpsateam02-01/etc/exports) beschrieben.
+
+Der Server muss über den `systemd`-Service neugestartet werden, nachdem die in der Konfigurationsdatei referenzierten Pfade angelegt wurden (da er sie vorher logischerweise nicht gefunden hat).
+
+Damit die anderen VMs auf NFS zugreifen können, konfigurieren wir noch fixe Ports in [/etc/nfs.conf](../../ansible/roles/raid/templates/vmpsateam02-01/etc/nfs.conf), und die nötigen `iptables`-Regeln auf `vmpsateam02-01`:
+
+```
+# Incoming nfs
+{% for network in networks.teams %}
+-A INPUT -p tcp --dport {{ nfs.port }} -s {{ network }} -j ACCEPT
+-A INPUT -p udp --dport {{ nfs.port }} -s {{ network }} -j ACCEPT
+-A INPUT -p tcp --dport {{ nfs.rpcbind_port }} -s {{ network }} -j ACCEPT
+-A INPUT -p udp --dport {{ nfs.rpcbind_port }} -s {{ network }} -j ACCEPT
+-A INPUT -p tcp --dport {{ nfs.mountd_port }} -s {{ network }} -j ACCEPT
+-A INPUT -p udp --dport {{ nfs.mountd_port }} -s {{ network }} -j ACCEPT
+-A INPUT -p tcp --dport {{ nfs.statd_port }} -s {{ network }} -j ACCEPT
+-A INPUT -p udp --dport {{ nfs.statd_port }} -s {{ network }} -j ACCEPT
+-A INPUT -p tcp --dport {{ nfs.lockd_tcpport }} -s {{ network }} -j ACCEPT
+-A INPUT -p udp --dport {{ nfs.lockd_udpport }} -s {{ network }} -j ACCEPT
+{% endfor %}
+```
+
+## autofs konfigurieren
+
+Nun können wir auf `vmpsateam02-02` via `autofs` die analogen Mounts konfigurieren.
+Die config templates `auto.home`, `auto.var`, und `auto.master` in der [autofs-Rolle](../../ansible/roles/autofs) ermöglichen dies.
+
+Nach einem restart des `autofs`-Services konnten wir verifizieren, dass `vmpsateam02-02` in `/home.bak` schreiben kann,
+und die geschriebenen Daten unter `/mnt/raid/vmpsateam02-02/home.bak` auf `vmpsateam02-01` auftauchen.
+Lesen funktioniert auch, und beides auch in die andere Richtung.
+
+Analog wurde nach manuellem `rsync` noch mittels `autofs` jeweils `/var/lib` und `/var/www` von `vmpsateam02-02`
+auf `/mnt/raid/vmpsateam02-02/var/(lib|www)` gemountet.
 

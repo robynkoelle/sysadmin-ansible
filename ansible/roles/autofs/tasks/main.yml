@@ -1,0 +1,11 @@
+- import_tasks: dependencies.yml
+  tags:
+    - autofs
+    - autofs-dependencies
+
+- import_tasks: config.yml
+  tags:
+    - autofs
+    - autofs-config
+  notify: restart autofs
+

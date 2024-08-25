@@ -9,3 +9,9 @@
     dest: "/etc/exports"
   notify: restart nfs
 
+- name: copy /etc/nfs.conf
+  template:
+    src: "{{ host_name }}/etc/nfs.conf"
+    dest: "/etc/nfs.conf"
+  notify: restart nfs
+

@@ -1,0 +1,30 @@
+- name: check if auto.master template exists
+  set_fact:
+    auto_master_exists: "{{ lookup('fileglob', role_path + '/templates/' + host_name + '/etc/auto.master') | length > 0 }}"
+
+- name: copy auto.master
+  template:
+    src: "{{ host_name }}/etc/auto.master"
+    dest: /etc/auto.master
+  when: auto_master_exists
+
+- name: check if auto.home template exists
+  set_fact:
+    auto_home_exists: "{{ lookup('fileglob', role_path + '/templates/' + host_name + '/etc/auto.home') | length > 0 }}"
+
+- name: copy auto.home
+  template:
+    src: "{{ host_name}}/etc/auto.home"
+    dest: /etc/auto.home
+  when: auto_home_exists
+
+- name: check if auto.var template exists
+  set_fact:
+    auto_var_exists: "{{ lookup('fileglob', role_path + '/templates/' + host_name + '/etc/auto.var') | length > 0 }}"
+
+- name: copy auto.var
+  template:
+    src: "{{ host_name}}/etc/auto.var"
+    dest: /etc/auto.var
+  when: auto_var_exists
+

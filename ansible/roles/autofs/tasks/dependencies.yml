@@ -1,0 +1,10 @@
+- name: install autofs
+  apt:
+    name: autofs
+    state: present
+
+- name: install nfs-common
+  apt:
+    name: nfs-common
+    state: present
+
