@@ -53,6 +53,12 @@ COMMIT
 -A OUTPUT -d {{ network }} -j ACCEPT
 {% endfor %}
 
+# Outgoing nfs
+{% for network in networks.teams %}
+-A OUTPUT -p tcp --sport 2049 -d {{ network }} -j ACCEPT
+{% endfor %}
+
+
 -A FORWARD -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
 
 # Allow all ICMP traffic

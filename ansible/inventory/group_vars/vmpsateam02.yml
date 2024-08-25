@@ -274,3 +274,11 @@ networks:
     - 192.168.92.1/24
     - 192.168.102.1/24
 
+nfs:
+  port: 2049
+  mountd_port: 20048
+  statd_port: 20047
+  lockd_tcpport: 20046
+  lockd_udpport: 20045
+  rpcbind_port: 111
+

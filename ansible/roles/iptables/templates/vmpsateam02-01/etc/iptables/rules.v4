@@ -39,6 +39,20 @@ COMMIT
 -A INPUT -p tcp --dport 5432 -s 0.0.0.0/0 -j ACCEPT
 -A INPUT -p tcp  -s 172.17.0.0/16 -j ACCEPT
 
+# Incoming nfs
+{% for network in networks.teams %}
+-A INPUT -p tcp --dport {{ nfs.port }} -s {{ network }} -j ACCEPT
+-A INPUT -p udp --dport {{ nfs.port }} -s {{ network }} -j ACCEPT
+-A INPUT -p tcp --dport {{ nfs.rpcbind_port }} -s {{ network }} -j ACCEPT
+-A INPUT -p udp --dport {{ nfs.rpcbind_port }} -s {{ network }} -j ACCEPT
+-A INPUT -p tcp --dport {{ nfs.mountd_port }} -s {{ network }} -j ACCEPT
+-A INPUT -p udp --dport {{ nfs.mountd_port }} -s {{ network }} -j ACCEPT
+-A INPUT -p tcp --dport {{ nfs.statd_port }} -s {{ network }} -j ACCEPT
+-A INPUT -p udp --dport {{ nfs.statd_port }} -s {{ network }} -j ACCEPT
+-A INPUT -p tcp --dport {{ nfs.lockd_tcpport }} -s {{ network }} -j ACCEPT
+-A INPUT -p udp --dport {{ nfs.lockd_udpport }} -s {{ network }} -j ACCEPT
+{% endfor %}
+
 # Outgoing explicit allow
 -A OUTPUT -d 131.159.0.0/16 -j ACCEPT
 {% for network in networks.teams %}
