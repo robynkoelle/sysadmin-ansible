@@ -1,5 +1,3 @@
-/home.bak -fstype=nfs,rw 192.168.2.1:/mnt/raid/vmpsateam02-02/home.bak
-
 # Users with their own nfs servers:
 /home/damian.schneider -fstype=nfs,rw 192.168.1.9:/whirl/ship/cabin/damian.schneider
 
