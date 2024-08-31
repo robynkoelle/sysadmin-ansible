@@ -1,0 +1,15 @@
+- import_tasks: dependencies.yml
+  tags:
+    - samba
+    - samba-dependencies
+
+- import_tasks: config.yml
+  tags:
+    - samba
+    - samba-config
+
+- import_tasks: users.yml
+  tags:
+    - samba
+    - samba-users
+

@@ -1,0 +1,5 @@
+- import_tasks: dependencies.yml
+  tags:
+    - samba-client
+    - samba-client-dependencies
+

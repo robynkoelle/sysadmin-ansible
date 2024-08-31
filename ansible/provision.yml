@@ -20,6 +20,7 @@
     - netplan
     - iptables
     - http-proxy
+    - samba-client 
 
 - name: router setup
   hosts: vmpsateam02-01
@@ -30,6 +31,7 @@
     - dhcp
     - postgresql
     - raid
+    - samba
 
 - name: additional setup
   hosts: vmpsateam02

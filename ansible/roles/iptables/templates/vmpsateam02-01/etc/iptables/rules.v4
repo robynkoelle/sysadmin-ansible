@@ -51,6 +51,11 @@ COMMIT
 -A INPUT -p udp --dport {{ nfs.statd_port }} -s {{ network }} -j ACCEPT
 -A INPUT -p tcp --dport {{ nfs.lockd_tcpport }} -s {{ network }} -j ACCEPT
 -A INPUT -p udp --dport {{ nfs.lockd_udpport }} -s {{ network }} -j ACCEPT
+
+# Samba
+-A INPUT -p tcp --dport 139 -s {{ network }} -j ACCEPT
+-A INPUT -p tcp --dport 445 -s {{ network }} -j ACCEPT
+
 {% endfor %}
 
 # Outgoing explicit allow

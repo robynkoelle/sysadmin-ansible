@@ -1,0 +1,6 @@
+- name: copy samba config
+  template:
+    src: "{{ host_name }}/etc/samba/smb.conf"
+    dest: "/etc/samba/smb.conf"
+  notify: restart smbd 
+

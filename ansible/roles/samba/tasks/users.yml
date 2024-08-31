@@ -1,0 +1,5 @@
+- name: add samba users
+  shell: '(echo "{{ item.smb_password }}"; echo "{{ item.smb_password }}") |smbpasswd -a {{ item.name }}'
+  loop: "{{ users.values() | list }}"
+  when: item.smb_password is defined
+

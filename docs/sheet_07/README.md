@@ -1,3 +1,5 @@
+# Aufgabenblatt 7: okumentation
+
 ## Festplatten anlegen
 
 Team 01 stellt folgendes Skript zur Verfügung (danke), um die Festplatten und den SATA Controller über die Commandline anzulegen:
@@ -46,10 +48,7 @@ unter `/mnt/raid/<vm>/home.bak/` auf `vmpsateam02-01` mit `rsync` sichern, beisp
 rsync -a /home/ /mnt/raid/<vm>/home.bak/
 ```
 
-Die Daten von `vmpsateam02-02` wurden ebenfalls manuell zu `vmpsateam02-01` kopiert (via `rsync` und einem `ssh`-Tunnel von unseren Laptops aus):
-```bash
-
-```
+Die Daten von `vmpsateam02-02` wurden ebenfalls manuell zu `vmpsateam02-01` kopiert (via `rsync`).
 
 Analog für `/var/lib` und `/var/www` (und auch für `vmpsateam02-02`):
 ```bash
@@ -106,4 +105,33 @@ Lesen funktioniert auch, und beides auch in die andere Richtung.
 
 Analog wurde nach manuellem `rsync` noch mittels `autofs` jeweils `/var/lib` und `/var/www` von `vmpsateam02-02`
 auf `/mnt/raid/vmpsateam02-02/var/(lib|www)` gemountet.
+
+Notiz: `fstab` mountet die directories beim Boot - daher war nach der `autofs`-Konfiguration ein Reboot nötig.
+
+## Samba konfigurieren
+
+Wir installieren samba mit apt:
+```shell
+apt install samba
+```
+
+Wir konfigurieren Samba mit der [smb.conf](../../roles/samba/templates/vmpsateam02-01/etc/smb.conf).
+Hierbei haben wir für die home-Verzeichnisse (also unter `"[homes]"`) folgende Einstellungen getroffen:
+- browsable = no, damit die Freigaben der anderen User nicht öffentlich gelistet werden können
+- read only = no, damit geschrieben werden kann
+- create mask = 0700, damit nur der Eigentümer seine eigenen Daten schreiben / lesen kann.
+- directory mask analog
+- `valid users: %S`, damit nur der gerade angemeldete User in sein Verzeichnis schreiben kann.
+
+Wir legen außerdem die Samba-User mittels `sambapasswd` an, wie in der [`samba`-Rolle](../../ansible/roles/samba) beschrieben.
+Jeder User hat dabei von uns ein Passwort vergeben bekommen.
+Die Passwörter haben wir mittels `ansible-vault` verschlüsselt, um sie in diesem Repository verwalten zu können.
+
+In `iptables` geben wir für Samba die Ports `139` und `445` frei (wie schon häufig beschrieben).
+
+Wir verifizieren die Funktionalität von Samba wie folgt:
+`smbclient //localhost/<username> -U <username>`
+Hierfür mussten wir den smbclient (mittels `apt`) auf unseren VMs installieren.
+
+Dann konnten wir innerhalb einer interaktiven Shell erfolgreich Daten in dem jeweiligen Home-Verzeichnis anlegen / ändern / löschen.
 

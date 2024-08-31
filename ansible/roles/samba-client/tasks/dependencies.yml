@@ -1,0 +1,5 @@
+- name: install samba client
+  apt:
+    name: smbclient
+    state: present
+
