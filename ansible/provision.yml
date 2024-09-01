@@ -32,6 +32,7 @@
     - postgresql
     - raid
     - samba
+    - ldap
 
 - name: additional setup
   hosts: vmpsateam02

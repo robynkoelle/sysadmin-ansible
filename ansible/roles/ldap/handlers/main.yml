@@ -1,0 +1,8 @@
+- name: restart slapd
+  systemd_service:
+    name: slapd
+    state: restarted
+
+- name: update certificates
+  shell: "update-ca-certificates"
+

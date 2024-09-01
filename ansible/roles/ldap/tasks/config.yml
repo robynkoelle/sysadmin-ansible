@@ -1,0 +1,6 @@
+- name: copy ldap conf
+  template:
+    src: "{{ host_name}}/etc/ldap/ldap.conf"
+    dest: "/etc/ldap/ldap.conf"
+  notify: restart slapd
+

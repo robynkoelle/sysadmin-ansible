@@ -1,0 +1,46 @@
+- name: copy ldap ca private key
+  template:
+    src: "{{ host_name }}/etc/ssl/private/ldap-ca.pem"
+    dest: "{{ ldap.ca_private_key_path }}"
+
+- name: copy ca info
+  template:
+    src: "{{ host_name }}/etc/ssl/ldap-ca.info"
+    dest: "{{ ldap.ca_info_path }}"
+
+- name: copy ca certificate
+  template:
+    src: "{{ host_name }}/usr/local/share/ca-certificates/ldap-cacert.crt"
+    dest: "{{ ldap.ca_cert_path }}"
+  notify: update certificates
+
+- name: copy slapd cert private key
+  template:
+    src: "{{ host_name }}/etc/ldap/slapd_key.pem"
+    dest: "{{ ldap.slapd_cert_private_key_path }}"
+    group: openldap
+    mode: "0640"
+
+- name: copy slapd cert
+  template:
+    src: "{{ host_name }}/etc/ldap/slapd_cert.pem"
+    dest: "{{ ldap.slapd_cert_path }}"
+    group: openldap
+
+- name: copy certinfo.ldif
+  template:
+    src: "{{ host_name}}/etc/ldap/certinfo.ldif"
+    dest: "/etc/ldap/certinfo.ldif"
+
+- name: update ldap cert
+  shell: "ldapmodify -Y EXTERNAL -H ldapi:/// -f /etc/ldap/certinfo.ldif"
+  register: res
+  failed_when: res.rc != 20 and res.rc != 0 # ignore error when value already exists.
+
+- name: enable LDAPS in slapd
+  lineinfile:
+    path: /etc/default/slapd
+    regexp: '^SLAPD_SERVICES='
+    line: 'SLAPD_SERVICES="ldap:/// ldapi:/// ldaps:///"'
+  notify: restart slapd
+

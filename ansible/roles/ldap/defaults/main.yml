@@ -1,0 +1,8 @@
+ldap:
+  ca_private_key_path: "/etc/ssl/private/ldap-ca.pem"
+  ca_info_path: "/etc/ssl/ldap-ca.info"
+  ca_cert_path: "/usr/local/share/ca-certificates/ldap-cacert.crt"
+  ca_cert_symlink: "/etc/ssl/certs/ldap-cacert.pem"
+  slapd_cert_private_key_path: "/etc/ldap/slapd_key.pem"
+  slapd_cert_path: "/etc/ldap/slapd_cert.pem"
+
