@@ -1,4 +1,4 @@
-dn: ou=people,dc=ldap,dc=psa-team02,dc=cit,dc=tum,dc=de
+dn: ou=people,dc=team02,dc=psa,dc=cit,dc=tum,dc=de
 objectClass: top
 objectClass: organizationalUnit
 ou: people 
