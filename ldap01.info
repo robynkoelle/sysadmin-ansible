@@ -1,0 +1,6 @@
+organization = team02
+cn = ldap.psa-team02.cit.tum.de
+tls_www_server
+encryption_key
+signing_key
+expiration_days = 365
