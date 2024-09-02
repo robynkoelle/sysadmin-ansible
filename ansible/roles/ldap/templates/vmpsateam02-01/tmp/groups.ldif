@@ -1,0 +1,8 @@
+{% for group in custom_groups.values() %}
+dn: cn={{ group.name }},ou=groups,{{ ldap.directory.tree }}
+cn: {{ group.name }}
+objectClass: posixGroup
+objectClass: top
+gidNumber: {{ group.gid }}
+
+{% endfor %}

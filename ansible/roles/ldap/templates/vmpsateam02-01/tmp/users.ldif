@@ -1,0 +1,22 @@
+{% for user in users.values() %}
+{% if user.name != "humanuser" and user.name != "root" %}
+dn: uid={{ user.name }},ou=people,{{ ldap.directory.tree }}
+ou: people
+objectClass: top
+objectClass: account
+objectClass: posixAccount
+objectClass: shadowAccount
+cn: {{ user.name }}
+uid: {{ user.name }}
+uidNumber: {{ user.uid }}
+gidNumber: {{ user.gid }}
+userPassword: {{ user.ldap_initial_password }}
+homeDirectory: /home/{{ user.name }}
+loginShell: /bin/bash
+shadowLastChange: 0
+shadowMax: 0
+shadowWarning: 0
+
+{% endif %}
+{% endfor %}
+

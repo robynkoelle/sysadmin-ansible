@@ -146,4 +146,9 @@ Um sicherzustellen, dass die TLS-Verbindung funktioniert, können folgende Tests
    ```
 
 
-## Migration
+## User und Gruppen anlegen
+
+Wir nutzen `ldapadd` und Ansible-Templating, um unsere Gruppen und Nutzer anzulegen.
+Unsere Ansible-Variablen fungieren als Source-of-Truth für die UIDs und GIDs, die wir an LDAP weitergeben.
+Die LDIF-Dateien sind in [roles/ldap/templates](../roles/ldap/templates).
+
