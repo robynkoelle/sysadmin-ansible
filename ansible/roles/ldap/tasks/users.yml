@@ -1,0 +1,19 @@
+- name: copy ldapscripts config
+  template:
+    src: "{{ host_name }}/etc/ldapscripts/ldapscripts.conf"
+    dest: "/etc/ldapscripts/ldapscripts.conf"
+
+# Do not use template here - this approach ensures there is no newline in the file.
+- name: set ldapscripts passwd
+  shell: 'echo -n "{{ ldap.directory.admin_password }}" > /etc/ldapscripts/ldapscripts.passwd && chmod 0600 /etc/ldapscripts/ldapscripts.passwd'
+
+- name: add ldap groups 
+  shell: "ldapaddgroup {{ item.group }}"
+  ignore_errors: true # ignore error if already exists
+  loop: "{{ users.values() | selectattr('name', '!=', 'root') | selectattr('name', '!=', 'humanuser') | list }}"
+ 
+- name: add ldap users 
+  shell: "ldapadduser {{ item.name }} {{ item.group }}"
+  ignore_errors: true # ignore error if already exists
+  loop: "{{ users.values() | selectattr('name', '!=', 'root') | selectattr('name', '!=', 'humanuser') | list }}"
+
