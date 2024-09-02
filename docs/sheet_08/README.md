@@ -5,10 +5,26 @@ Wir installieren `slapd` und `ldap-utils` mit apt:
 ```shell
 apt install slapd ldap-utils
 ```
+Bei dem Prompt wird das Admin Passwort gesetzt.
 
 ## LDAP konfigurieren
-Die Konfiguration von `slapd` erfolgt in der Datei `ldap.conf`. Die Datei setzt sich wie folgt zusammen:
-- *(Details zur Konfiguration sollten hier ergänzt werden)*
+Bei dieser Aufgabe haben wir uns dazu entschieden einen Teil der Konfiguration interaktiv im Terminal zu machen, anstatt wie bei den anderen Aufgaben mit Ansible.
+
+- Omit OpenLDAP server configuraiotn: No
+- DNS domain name: ldap.psa-team02.cit.tum.de
+- Organization name: team02
+- Administrator password of the LDAP directory: `bobby_tables`
+- Database remove when slapd is purged: No
+
+Um die Konfiguration von `slapd` zu erleichtern, legen wir in der Datei `ldap.conf` folgende Variablen an:
+```
+TLS_CACERT	/etc/ssl/certs/ca-certificates.crt
+
+BASE dc=ldap,dc=team02,dc=psa,dc=cit,dc=tum,dc=de
+URI ldap://ldap.psa-team02.cit.tum.de
+```
+
+
 
 ## SSL: TLS für LDAP einrichten
 
