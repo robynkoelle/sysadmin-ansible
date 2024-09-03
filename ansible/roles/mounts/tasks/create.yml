@@ -7,5 +7,16 @@
     boot: true
     state: mounted
   loop: "{{ mounts }}"
-  when: mounts is defined
+  when: mounts is defined and (item.nfs is not defined or item.nfs | bool == false)
+
+- name: mount nfs directories
+  ansible.posix.mount:
+    src: "{{ item.from }}"
+    path: "{{ item.to }}"
+    fstype: nfs 
+    opts: rw,sync,hard 
+    boot: true
+    state: mounted
+  loop: "{{ mounts }}"
+  when: mounts is defined and item.nfs is defined and item.nfs == true
 

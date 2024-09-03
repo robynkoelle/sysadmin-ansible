@@ -16,6 +16,16 @@
     path: "{{ raid.mountpoint }}/{{ item }}"
     state: directory
   loop:
+    - "home"
     - "vmpsateam02-01"
     - "vmpsateam02-02"
+
+- name: create home directories for each user
+  file:
+    path: "{{ raid.mountpoint }}/home/{{ item.name }}"
+    state: directory
+    owner: "{{ item.name }}"
+    group: "{{ item.group }}"
+    mode: "0755"
+  loop: "{{ users.values() | selectattr('name', '!=', 'root') | list }}"
 

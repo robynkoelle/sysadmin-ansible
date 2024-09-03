@@ -1,6 +1,6 @@
 # Users with their own nfs servers:
-/home/damian.schneider -fstype=nfs,rw 192.168.1.9:/whirl/ship/cabin/damian.schneider
+damian.schneider -fstype=nfs,rw 192.168.1.9:/whirl/ship/cabin/damian.schneider
 
 # Other users:
-/home/* -fstype=nfs,rw 192.168.2.1:/mnt/raid/home/&
+* -fstype=nfs,rw 192.168.2.1:/mnt/raid/home/&
 

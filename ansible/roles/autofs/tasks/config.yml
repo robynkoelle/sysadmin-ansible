@@ -18,13 +18,3 @@
     dest: /etc/auto.home
   when: auto_home_exists
 
-- name: check if auto.var template exists
-  set_fact:
-    auto_var_exists: "{{ lookup('fileglob', role_path + '/templates/' + host_name + '/etc/auto.var') | length > 0 }}"
-
-- name: copy auto.var
-  template:
-    src: "{{ host_name}}/etc/auto.var"
-    dest: /etc/auto.var
-  when: auto_var_exists
-

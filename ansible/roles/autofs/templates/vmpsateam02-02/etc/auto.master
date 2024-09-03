@@ -37,6 +37,5 @@
 #
 +auto.master
 
-/- /etc/auto.home
-/var /etc/auto.var
+/home /etc/auto.home
 

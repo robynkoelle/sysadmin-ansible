@@ -68,6 +68,8 @@ mounts:
       from: /mnt/raid/vmpsateam02-01/home.bak
 ```
 
+Wir erzeugen unter `/mnt/raid/home` die jeweils neuen sources of truth für die home directories der Nutzer (mit den korrekten permissions).
+
 Um die analogen Mounts für `vmpsateam02-02` zu erstellen, müssen wir zunächst den NFS-Server auf `vmpsateam02-01` einrichten.
 
 ## NFS-Server einrichten 
@@ -97,14 +99,14 @@ Damit die anderen VMs auf NFS zugreifen können, konfigurieren wir noch fixe Por
 ## autofs konfigurieren
 
 Nun können wir auf `vmpsateam02-02` via `autofs` die analogen Mounts konfigurieren.
-Die config templates `auto.home`, `auto.var`, und `auto.master` in der [autofs-Rolle](../../ansible/roles/autofs) ermöglichen dies.
+Die Datenverzeichnisse haben wir unter `/mnt/raid/<vm>` angelegt, und mit `rsync` die jeweiligen Daten rüberkopiert.
+Die config templates `auto.home` und `auto.master` in der [autofs-Rolle](../../ansible/roles/autofs) ermöglichen die automounts für die Home-Verzeichnisse der User.
+Die `/home.bak`, `/var/lib`, und `/var/www` directories mounten wir über fstab via NFS, wie in der [mounts-Rolle](../../ansible/roles/mounts) beschrieben.
 
-Nach einem restart des `autofs`-Services konnten wir verifizieren, dass `vmpsateam02-02` in `/home.bak` schreiben kann,
-und die geschriebenen Daten unter `/mnt/raid/vmpsateam02-02/home.bak` auf `vmpsateam02-01` auftauchen.
+Nach einem restart des `autofs`-Services konnten wir verifizieren, dass `vmpsateam02-02` in `/home.bak`, `/var/lib`, und `/var/www` schreiben kann,
+und die geschriebenen Daten unter `/mnt/raid/vmpsateam02-02/home.bak` (etc.) auf `vmpsateam02-01` auftauchen.
 Lesen funktioniert auch, und beides auch in die andere Richtung.
-
-Analog wurde nach manuellem `rsync` noch mittels `autofs` jeweils `/var/lib` und `/var/www` von `vmpsateam02-02`
-auf `/mnt/raid/vmpsateam02-02/var/(lib|www)` gemountet.
+Gleiches gilt für die über `autofs` gemounteten User-Directories.
 
 Notiz: `fstab` mountet die directories beim Boot - daher war nach der `autofs`-Konfiguration ein Reboot nötig.
 

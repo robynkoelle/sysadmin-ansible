@@ -35,3 +35,14 @@ network_interfaces:
       - 192.168.2.1
     dhcp: true
 
+mounts:
+  - to: "/var/lib"
+    from: "192.168.2.1:/mnt/raid/vmpsateam02-02/var/lib"
+    nfs: true 
+  - to: "/var/www"
+    from: "192.168.2.1:/mnt/raid/vmpsateam02-02/var/www"
+    nfs: true
+  - to: "/home.bak"
+    from: "192.168.2.1:/mnt/raid/vmpsateam02-02/home.bak"
+    nfs: true
+
