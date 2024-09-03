@@ -156,6 +156,9 @@ Die LDIF-Dateien sind in [roles/ldap/templates](../roles/ldap/templates).
 
 Wir installieren auf allen LDAP-clients SSSD und ldap-utils.
 Wir konfigurieren SSSD wie in [sssd.conf](../roles/ldap-client/templates/etc/sssd/sssd.conf) beschrieben.
+Dabei ist es wichtig, dass die Reihenfolge der Authentifizierungsmethoden mit `sss` beginnt, da LDAP als primäre Methode genutzt werden soll.
+`passwd: sss files systemd`
+Diese Einstellung stellt genau das sicher.
 
 Auf den Clients müssen wir zusätzlich noch dem selbst erzeugten CA-Zertifikat (siehe oben) vertrauen.
 Dies machen wir mit `update-ca-certificates`, nachdem wir es unter `/usr/local/share/ca-certificates/` abgelegt haben.
@@ -169,4 +172,6 @@ anonymous
 root@vmpsateam02-02:~# ldapwhoami -x -H ldaps://ldap.psa-team02.cit.tum.de
 anonymous
 ```
+
+Die Funktionalität wurde mit passwd getestet, indem ein neues Passwort gesetzt wurde und der veränderte hash mit ldapsearch überprüft wurde.
 
