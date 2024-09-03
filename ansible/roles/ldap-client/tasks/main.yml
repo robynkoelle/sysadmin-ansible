@@ -13,4 +13,8 @@
     - ldap-client
     - ldap-client-sssd
 
+- import_tasks: nsswitch.yml
+  tags:
+    - ldap-client
+    - ldap-client-nsswitch
 
