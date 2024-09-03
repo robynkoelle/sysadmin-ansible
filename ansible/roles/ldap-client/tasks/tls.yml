@@ -1,0 +1,8 @@
+- name: copy trusted ca certificate
+  copy:
+    src: "../../../shared-files/ldap-cacert.crt" 
+    dest: "/usr/local/share/ca-certificates/ldap-cacert.crt"
+
+- name: update trusted certificates
+  shell: "update-ca-certificates"
+

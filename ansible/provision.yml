@@ -44,4 +44,5 @@
     - docker
     - mounts
     - autofs
+    - ldap-client
 

@@ -1,0 +1,9 @@
+- name: copy sssd config
+  template:
+    src: etc/sssd/sssd.conf
+    dest: /etc/sssd/sssd.conf
+    owner: root
+    group: root
+    mode: 0600
+  notify: restart sssd
+

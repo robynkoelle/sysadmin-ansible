@@ -1,0 +1,4 @@
+ldap_client:
+  directory: dc=team02,dc=psa,dc=cit,dc=tum,dc=de
+  domain: ldap.psa-team02.cit.tum.de
+  address: "ldap://ldap.psa-team02.cit.tum.de"
