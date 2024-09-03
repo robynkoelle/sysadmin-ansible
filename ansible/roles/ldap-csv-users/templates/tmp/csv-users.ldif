@@ -1,0 +1,16 @@
+{% for user in ldap_csv_users %}
+dn: uid={{ user.matriculation_number }},ou=people,{{ ldap.directory.tree }}
+ou: people
+objectClass: top
+objectClass: inetOrgPerson
+cn: {{ user.first_name }} {{ user.name }}
+uid: {{ user.matriculation_number }}
+sn: {{ user.name }}
+userCertificate;binary:: {{ user.user_cert }}
+street: {{ user.street }}
+postalCode: {{ user.postal_code }}
+telephoneNumber: {{ user.phone }}
+homePostalAddress: {{ user.street }}
+
+{% endfor %}
+

@@ -1,0 +1,17 @@
+- name: ensure directory exists
+  file:
+    path: /usr/local/share/ldap-csv-user-certs
+    state: directory
+
+- name: copy certificates
+  template:
+    src: "{{ item.matriculation_number }}.crt"
+    dest: "/usr/local/share/ldap-csv-user-certs/{{ item.matriculation_number }}.crt"
+  loop: "{{ ldap_csv_users }}"
+
+- name: copy certificate keys 
+  template:
+    src: "{{ item.matriculation_number }}.key"
+    dest: "/usr/local/share/ldap-csv-user-certs/{{ item.matriculation_number }}.key"
+  loop: "{{ ldap_csv_users }}"
+

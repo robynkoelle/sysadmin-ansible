@@ -211,3 +211,17 @@ Authentifizierte Benutzer behalten die Möglichkeit, ihre eigenen Einträge zu �
 
 Eine Testsuche bestätigte, dass die ACL-Regeln wie erwartet funktionieren.
 
+## CSV-User anlegen
+
+Wir schreiben ein Python-Skript, um uns Ansible-Variablen für die User der CSV zu erzeugen.
+Dafür haben wir einen `dev-scripts`-Ordner in der Rolle [ldap-csv-users](../roles/ldap-csv-users) angelegt.
+Das Skript generiert außerdem die X.509 Zertifikate, und schreibt sie in Dateien.
+Diese hinterlegen wir im `templates`-Ordner der Rolle.
+Die Keys verschlüsseln wir mit `ansible-vault`.
+Wir kopieren die Zertifikate (nur auf `vmpsateam02-01` - da aktuell nicht auf der anderen VM notwendig) nach `/usr/local/share/ldap-csv-user-certificates`). 
+Die LDAP-User legen wir mittels einer LDIF und dem `inetOrgPerson` an, das unter anderem das `userCertificate`-Feld unterstützt.
+Notiz: obwohl in der Aufgabenstellung steht, dass wir den public-Key des Zertifikats hinterlegen sollen, hinterlegen wir das User-Zertifikat, da dieses direkt von LDAP unterstützt wird, und uns sinnvoller erscheint.
+Den Public-Key könnte man aber leicht (z.B. im Python Skript) aus dem Zertifikat extrahieren, und in einem anderen Feld des LDAP-User-Entries speichern.
+Dieses geben wir in Base64 im DER-Format an.
+Wir nutzen `ldapadd` analog wie oben, um die User anzulegen.
+

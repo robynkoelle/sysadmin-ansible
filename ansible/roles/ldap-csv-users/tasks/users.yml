@@ -1,0 +1,11 @@
+- name: add ldap users (1/2)
+  template:
+    src: "tmp/csv-users.ldif"
+    dest: "/tmp/csv-users.ldif"
+
+- name: add ldap users (2/2)
+  # -c continues on error (if user exists already)
+  shell: 'ldapadd -x -D "cn=admin,{{ ldap.directory.tree }}" -w {{ ldap.directory.admin_password }} -f /tmp/csv-users.ldif -c'
+  register: res
+  failed_when: res.rc != 68 and res.rc != 0 # ignore error when already exists.
+

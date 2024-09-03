@@ -33,6 +33,7 @@
     - raid
     - samba
     - ldap
+    - ldap-csv-users
 
 - name: additional setup
   hosts: vmpsateam02

@@ -1,0 +1,10 @@
+- import_tasks: users.yml
+  tags:
+    - ldap-csv-users
+    - ldap-csv-users-users
+
+- import_tasks: certificates.yml
+  tags:
+    - ldap-csv-users
+    - ldap-csv-users-certificates
+
