@@ -1,0 +1,10 @@
+- name: restart postfix
+  systemd_service:
+    name: postfix
+    state: restarted
+
+- name: restart dovecot
+  systemd_service:
+    name: dovecot
+    state: restarted
+

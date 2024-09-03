@@ -1,0 +1,11 @@
+- name: install postfix
+  apt:
+    name: postfix
+    state: present
+
+# For SASL
+- name: install dovecot-core
+  apt:
+    name: dovecot-core
+    state: present
+

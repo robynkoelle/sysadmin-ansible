@@ -1,0 +1,17 @@
+- import_tasks: dependencies.yml
+  tags:
+    - mail 
+    - mail-dependencies
+
+- import_tasks: postfix.yml
+  tags:
+    - mail 
+    - mail-postfix
+  notify: restart postfix
+
+- import_tasks: dovecot.yml
+  tags:
+    - mail
+    - mail-dovecot
+  notify: restart dovecot
+

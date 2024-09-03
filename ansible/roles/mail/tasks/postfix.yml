@@ -1,0 +1,16 @@
+- name: copy main.cf
+  template:
+    src: "{{ host_name }}/etc/postfix/main.cf"
+    dest: "/etc/postfix/main.cf"
+
+- name: copy mailname
+  template:
+    src: "{{ host_name}}/etc/mailname"
+    dest: "/etc/mailname"
+
+- name: edit aliases
+  lineinfile:
+    line: "postmaster:    root"
+    path: /etc/aliases
+    regexp: "^postmaster:"
+

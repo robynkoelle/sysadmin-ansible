@@ -1,0 +1,11 @@
+- name: copy master config
+  template:
+    src: "{{ host_name }}/etc/dovecot/conf.d/10-master.conf"
+    dest: /etc/dovecot/conf.d/10-master.conf
+
+- name: edit aliases
+  lineinfile:
+    line: "auth_mechanisms = plain login"
+    path: /etc/dovecot/conf.d/10-auth.conf
+    regexp: "^auth_mechanisms ="
+
