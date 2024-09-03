@@ -146,3 +146,5 @@ Um sicherzustellen, dass die TLS-Verbindung funktioniert, können folgende Tests
 
 
 ## Migration
+Mit Ansible legen wir die Groups und User an, welche bereits auf dem System bestehen, wobei `ldapscripts` unsere Aufgabe erleichtert. 
+Dafür müssen wir in ldapscripts die (Konfiguration)[] anpassen, damit die Variablen wie host etc automatisch übernommen werden.
