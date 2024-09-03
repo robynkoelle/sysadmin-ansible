@@ -1,0 +1,8 @@
+- name: add ldap acl (1/2)
+  template:
+    src: "{{ host_name }}/tmp/acl.ldif"
+    dest: "/tmp/acl.ldif"
+
+- name: add ldap acl (2/2)
+  shell: 'ldapmodify -Y EXTERNAL -H ldapi:/// -f /tmp/acl.ldif'
+

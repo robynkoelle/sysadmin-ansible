@@ -25,8 +25,6 @@ BASE dc=team02,dc=psa,dc=cit,dc=tum,dc=de
 URI ldap://ldap.psa-team02.cit.tum.de
 ```
 
-
-
 ## SSL: TLS für LDAP einrichten
 
 Für die verschlüsselte Kommunikation zwischen Client und Server generieren wir ein selbst signiertes Zertifikat. Diese Schritte stellen sicher, dass die LDAP-Kommunikation mittels TLS gesichert wird.
@@ -145,7 +143,6 @@ Um sicherzustellen, dass die TLS-Verbindung funktioniert, können folgende Tests
    ldapwhoami -x -H ldaps://ldap.psa-team02.cit.tum.de
    ```
 
-
 ## User und Gruppen anlegen
 
 Wir nutzen `ldapadd` und Ansible-Templating, um unsere Gruppen und Nutzer anzulegen.
@@ -174,4 +171,43 @@ anonymous
 ```
 
 Die Funktionalität wurde mit passwd getestet, indem ein neues Passwort gesetzt wurde und der veränderte hash mit ldapsearch überprüft wurde.
+
+
+## ACL für Zugriffsbeschränkung bei anonymous bind
+
+Der LDAP-Server war so konfiguriert, dass anonyme Benutzer (ohne Authentifizierung) uneingeschränkten Lesezugriff auf alle Einträge hatten.
+Dies wurde durch die Standard-Access Control List (ACL) ermöglicht:
+```
+olcAccess: {2}to * by * read
+```
+
+Diese Regel erlaubt es jedem Benutzer, alle Daten zu lesen, was nicht den Sicherheitsanforderungen entspricht.
+Wir wollen den Zugriff für anonyme Benutzer einschränken, sodass sie nur noch nach dem Attribut uid suchen können.
+Wir haben die ACL auf dem LDAP-Server basierend auf den Erkenntnissen von Team10 angepasst.
+Dabei wurde die Access Control List so modifiziert, dass anonyme Benutzer nur noch das uid-Attribut und den dazugehörigen Eintrag (entry) lesen können.
+
+Erstellung der LDIF-Datei zur Modifikation der ACL (danke an Team10):
+```
+dn: olcDatabase={1}mdb,cn=config
+changetype: modify
+delete: olcAccess
+olcAccess: {2}
+-
+add: olcAccess
+olcAccess: {2} to attrs=uid by * read
+olcAccess: {3} to attrs=entry by * read
+olcAccess: {4} to * by self write by users read by * none
+```
+
+- `olcAccess: {2} to attrs=uid by * read`: Erlaubt allen Benutzern, einschließlich anonymer Benutzer, das Lesen des uid-Attributs.
+- `olcAccess: {3} to attrs=entry by * read`: Erlaubt das Lesen des Eintrags selbst, was notwendig ist, um auf das uid-Attribut zuzugreifen.
+- `olcAccess: {4} to * by self write by users read by * none`: Erlaubt authentifizierten Benutzern das Ändern ihrer eigenen Einträge und das Lesen anderer Einträge. Anonyme Benutzer erhalten hier keine weiteren Rechte.
+
+Die Änderungen haben wir mittels `ldapmodify` angewendet.
+
+Nach der Anpassung der ACL können anonyme Benutzer nur noch das uid-Attribut und den dazugehörigen Eintrag lesen.
+Alle anderen Zugriffe für anonyme Benutzer wurden deaktiviert.
+Authentifizierte Benutzer behalten die Möglichkeit, ihre eigenen Einträge zu ändern und die Einträge anderer Benutzer zu lesen.
+
+Eine Testsuche bestätigte, dass die ACL-Regeln wie erwartet funktionieren.
 

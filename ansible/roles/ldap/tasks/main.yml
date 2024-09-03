@@ -18,3 +18,8 @@
     - ldap
     - ldap-users
 
+- import_tasks: acl.yml
+  tags:
+    - ldap
+    - ldap-acl
+

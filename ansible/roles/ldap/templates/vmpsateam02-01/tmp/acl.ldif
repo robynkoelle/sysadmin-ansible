@@ -1,0 +1,10 @@
+dn: olcDatabase={1}mdb,cn=config
+changetype: modify
+delete: olcAccess
+olcAccess: {2}
+-
+add: olcAccess
+olcAccess: {2} to attrs=uid by * read
+olcAccess: {3} to attrs=entry by * read
+olcAccess: {4} to * by self write by users read by * none
+
