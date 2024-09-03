@@ -1,0 +1,10 @@
+- name: install sssd-ldap
+  apt:
+    name: sssd-ldap
+    state: present
+
+- name: install ldap-utils
+  apt:
+    name: ldap-utils
+    state: present
+

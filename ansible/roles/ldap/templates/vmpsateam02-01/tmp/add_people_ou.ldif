@@ -1,0 +1,5 @@
+dn: ou=people,dc=team02,dc=psa,dc=cit,dc=tum,dc=de
+objectClass: top
+objectClass: organizationalUnit
+ou: people 
+

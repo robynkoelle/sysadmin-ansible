@@ -1,10 +1,5 @@
-- name: install slapd
+- name: install ldapscripts
   apt:
-    name: slapd
-    state: present
-
-- name: install ldap-utils
-  apt:
-    name: ldap-utils
+    name: ldapscripts
     state: present
 

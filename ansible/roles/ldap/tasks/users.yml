@@ -1,0 +1,22 @@
+- name: add ldap groups (1/2)
+  template:
+    src: "{{ host_name }}/tmp/groups.ldif"
+    dest: "/tmp/groups.ldif"
+
+- name: add ldap groups (2/2)
+  # -c continues on error (if user exists already)
+  shell: 'ldapadd -x -D "cn=admin,{{ ldap.directory.tree }}" -w {{ ldap.directory.admin_password }} -f /tmp/groups.ldif -c'
+  register: res
+  failed_when: res.rc != 68 and res.rc != 0 # ignore error when already exists.
+
+- name: add ldap users (1/2)
+  template:
+    src: "{{ host_name }}/tmp/users.ldif"
+    dest: "/tmp/users.ldif"
+
+- name: add ldap users (2/2)
+  # -c continues on error (if user exists already)
+  shell: 'ldapadd -x -D "cn=admin,{{ ldap.directory.tree }}" -w {{ ldap.directory.admin_password }} -f /tmp/users.ldif -c'
+  register: res
+  failed_when: res.rc != 68 and res.rc != 0 # ignore error when already exists.
+

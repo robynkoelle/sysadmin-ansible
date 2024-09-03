@@ -13,3 +13,8 @@
     - ldap
     - ldap-tls
 
+- import_tasks: users.yml
+  tags:
+    - ldap
+    - ldap-users
+

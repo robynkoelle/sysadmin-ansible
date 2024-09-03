@@ -8,10 +8,11 @@ apt install slapd ldap-utils
 Bei dem Prompt wird das Admin Passwort gesetzt.
 
 ## LDAP konfigurieren
-Bei dieser Aufgabe haben wir uns dazu entschieden einen Teil der Konfiguration interaktiv im Terminal zu machen, anstatt wie bei den anderen Aufgaben mit Ansible.
+Bei dieser Aufgabe haben wir uns dazu entschieden einen Teil der Konfiguration interaktiv im Terminal zu machen, anstatt wie bei den anderen Aufgaben mit Ansible: `dpkg-reconfigure slapd`
 
 - Omit OpenLDAP server configuraiotn: No
-- DNS domain name: ldap.psa-team02.cit.tum.de
+- DNS domain name: team02.psa.cit.tum.de
+    - Notiz: diese Domain geben wir an, um den geforderten DIT-Prefix `dc=team02,dc=psa,dc=cit,dc=tum,dc=de` zu bekommen. Wir legen dennoch einen DNS Eintrag für `ldap.psa-team02.cit.tum.de` bei unserem DNS Server an (was auch das Zertifikat betrifft, das weiter unten in diesem Dokument beschrieben ist).
 - Organization name: team02
 - Administrator password of the LDAP directory: `bobby_tables`
 - Database remove when slapd is purged: No
@@ -20,7 +21,7 @@ Um die Konfiguration von `slapd` zu erleichtern, legen wir in der Datei `ldap.co
 ```
 TLS_CACERT	/etc/ssl/certs/ca-certificates.crt
 
-BASE dc=ldap,dc=team02,dc=psa,dc=cit,dc=tum,dc=de
+BASE dc=team02,dc=psa,dc=cit,dc=tum,dc=de
 URI ldap://ldap.psa-team02.cit.tum.de
 ```
 
@@ -145,6 +146,27 @@ Um sicherzustellen, dass die TLS-Verbindung funktioniert, können folgende Tests
    ```
 
 
-## Migration
-Mit Ansible legen wir die Groups und User an, welche bereits auf dem System bestehen, wobei `ldapscripts` unsere Aufgabe erleichtert. 
-Dafür müssen wir in ldapscripts die (Konfiguration)[] anpassen, damit die Variablen wie host etc automatisch übernommen werden.
+## User und Gruppen anlegen
+
+Wir nutzen `ldapadd` und Ansible-Templating, um unsere Gruppen und Nutzer anzulegen.
+Unsere Ansible-Variablen fungieren als Source-of-Truth für die UIDs und GIDs, die wir an LDAP weitergeben.
+Die LDIF-Dateien sind in [roles/ldap/templates](../roles/ldap/templates).
+
+## LDAP als Client nutzen
+
+Wir installieren auf allen LDAP-clients SSSD und ldap-utils.
+Wir konfigurieren SSSD wie in [sssd.conf](../roles/ldap-client/templates/etc/sssd/sssd.conf) beschrieben.
+
+Auf den Clients müssen wir zusätzlich noch dem selbst erzeugten CA-Zertifikat (siehe oben) vertrauen.
+Dies machen wir mit `update-ca-certificates`, nachdem wir es unter `/usr/local/share/ca-certificates/` abgelegt haben.
+
+Zusätzlich geben wir in `iptables` noch die LDAP-Ports frei.
+
+Wir verifizieren wie folgt, dass der LDAP(S) Zugriff funktioniert:
+```
+root@vmpsateam02-02:~# ldapwhoami -x -ZZ -H ldap://ldap.psa-team02.cit.tum.de
+anonymous
+root@vmpsateam02-02:~# ldapwhoami -x -H ldaps://ldap.psa-team02.cit.tum.de
+anonymous
+```
+

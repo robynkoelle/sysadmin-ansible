@@ -56,6 +56,10 @@ COMMIT
 -A INPUT -p tcp --dport 139 -s {{ network }} -j ACCEPT
 -A INPUT -p tcp --dport 445 -s {{ network }} -j ACCEPT
 
+# Ldap
+-A INPUT -p tcp --dport 389 -s {{ network }} -j ACCEPT
+-A INPUT -p tcp --dport 636 -s {{ network }} -j ACCEPT
+
 {% endfor %}
 
 # Outgoing explicit allow

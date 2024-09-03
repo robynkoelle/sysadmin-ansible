@@ -4,3 +4,23 @@
     dest: "/etc/ldap/ldap.conf"
   notify: restart slapd
 
+- name: add groups ou (1/2)
+  template:
+    src: "{{ host_name }}/tmp/add_groups_ou.ldif"
+    dest: /tmp/add_groups_ou.ldif
+
+- name: add groups ou (2/2)
+  shell: 'ldapadd -w {{ ldap.directory.admin_password }} -x -D "cn=admin,{{ ldap.directory.tree }}" -f /tmp/add_groups_ou.ldif'
+  register: res
+  failed_when: res.rc != 68 and res.rc != 0 # ignore error when already exists.
+
+- name: add people ou (1/2)
+  template:
+    src: "{{ host_name }}/tmp/add_people_ou.ldif"
+    dest: /tmp/add_people_ou.ldif
+
+- name: add people ou (2/2)
+  shell: 'ldapadd -w {{ ldap.directory.admin_password }} -x -D "cn=admin,{{ ldap.directory.tree }}" -f /tmp/add_people_ou.ldif'
+  register: res
+  failed_when: res.rc != 68 and res.rc != 0 # ignore error when already exists.
+
