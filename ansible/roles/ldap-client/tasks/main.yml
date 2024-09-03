@@ -1,0 +1,20 @@
+- import_tasks: dependencies.yml
+  tags:
+    - ldap-client
+    - ldap-client-dependencies
+
+- import_tasks: tls.yml
+  tags:
+    - ldap-client
+    - ldap-client-tls
+
+- import_tasks: sssd.yml
+  tags:
+    - ldap-client
+    - ldap-client-sssd
+
+- import_tasks: nsswitch.yml
+  tags:
+    - ldap-client
+    - ldap-client-nsswitch
+

@@ -1,0 +1,5 @@
+- name: update nsswitch.conf
+  template:
+    src: etc/nsswitch.conf
+    dest: /etc/nsswitch.conf
+

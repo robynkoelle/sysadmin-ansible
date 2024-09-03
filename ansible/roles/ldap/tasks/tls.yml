@@ -10,6 +10,7 @@
 
 - name: copy ca certificate
   template:
+    src: "../../../shared-files/ldap-cacert.crt"
     src: "{{ host_name }}/usr/local/share/ca-certificates/ldap-cacert.crt"
     dest: "{{ ldap.ca_cert_path }}"
   notify: update certificates

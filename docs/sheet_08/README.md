@@ -152,3 +152,21 @@ Wir nutzen `ldapadd` und Ansible-Templating, um unsere Gruppen und Nutzer anzule
 Unsere Ansible-Variablen fungieren als Source-of-Truth für die UIDs und GIDs, die wir an LDAP weitergeben.
 Die LDIF-Dateien sind in [roles/ldap/templates](../roles/ldap/templates).
 
+## LDAP als Client nutzen
+
+Wir installieren auf allen LDAP-clients SSSD und ldap-utils.
+Wir konfigurieren SSSD wie in [sssd.conf](../roles/ldap-client/templates/etc/sssd/sssd.conf) beschrieben.
+
+Auf den Clients müssen wir zusätzlich noch dem selbst erzeugten CA-Zertifikat (siehe oben) vertrauen.
+Dies machen wir mit `update-ca-certificates`, nachdem wir es unter `/usr/local/share/ca-certificates/` abgelegt haben.
+
+Zusätzlich geben wir in `iptables` noch die LDAP-Ports frei.
+
+Wir verifizieren wie folgt, dass der LDAP(S) Zugriff funktioniert:
+```
+root@vmpsateam02-02:~# ldapwhoami -x -ZZ -H ldap://ldap.psa-team02.cit.tum.de
+anonymous
+root@vmpsateam02-02:~# ldapwhoami -x -H ldaps://ldap.psa-team02.cit.tum.de
+anonymous
+```
+
