@@ -153,8 +153,11 @@ Die LDIF-Dateien sind in [roles/ldap/templates](../roles/ldap/templates).
 
 Wir installieren auf allen LDAP-clients SSSD und ldap-utils.
 Wir konfigurieren SSSD wie in [sssd.conf](../roles/ldap-client/templates/etc/sssd/sssd.conf) beschrieben.
-Dabei ist es wichtig, dass die Reihenfolge der Authentifizierungsmethoden mit `sss` beginnt, da LDAP als primäre Methode genutzt werden soll.
+Dabei geben wir die Admin-Credentials für unser LDAP Directory an (damit die ACLs in dem nachfolgenden Abschnitt uns keine Probleme bereiten).
+Dabei ist es wichtig, dass die Reihenfolge der Authentifizierungsmethoden in `/etc/nsswitch.conf` mit `sss` beginnen, da LDAP als primäre Methode genutzt werden soll:
+
 `passwd: sss files systemd`
+
 Diese Einstellung stellt genau das sicher.
 
 Auf den Clients müssen wir zusätzlich noch dem selbst erzeugten CA-Zertifikat (siehe oben) vertrauen.
