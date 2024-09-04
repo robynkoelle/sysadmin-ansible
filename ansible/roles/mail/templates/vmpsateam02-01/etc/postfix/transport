@@ -1,0 +1,16 @@
+# Internal delivery
+.psa-team02.cit.tum.de              : 
+
+# External delivery
+.psa-team01.cit.tum.de              smtp:psa-team01.cit.tum.de:25
+.psa-team03.cit.tum.de              smtp:psa-team03.cit.tum.de:25
+.psa-team04.cit.tum.de              smtp:psa-team04.cit.tum.de:25
+.psa-team05.cit.tum.de              smtp:psa-team05.cit.tum.de:25
+.psa-team06.cit.tum.de              smtp:psa-team06.cit.tum.de:25
+.psa-team07.cit.tum.de              smtp:psa-team07.cit.tum.de:25
+.psa-team08.cit.tum.de              smtp:psa-team08.cit.tum.de:25
+.psa-team09.cit.tum.de              smtp:psa-team09.cit.tum.de:25
+.psa-team10.cit.tum.de              smtp:psa-team10.cit.tum.de:25
+
+/.*/      smtp:mailrelay.cit.tum.de
+

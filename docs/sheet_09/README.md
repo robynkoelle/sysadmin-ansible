@@ -131,3 +131,22 @@ quit
 Connection closed by foreign host.
 ```
 
+## Ersetzen von Subdomains
+
+Wenn die Sender-Adresse einer Mail (FROM) die Struktur jemand@subdomain.psa-team02.cit.tum.de hat, können wir die Subdomain aus der Absenderadresse entfernen, indem wir eine `/etc/header_checks`-Datei anlegen, und diese in Postfix' `main.cf` als `header_checks` angeben:
+
+```
+header_checks = regexp:/etc/postfix/header_checks
+```
+
+Die Datei nutzt eine Regex, um die Subdomain aus der ursprünglichen Adresse zu entfernen:
+```
+/^From:\s*([^@]+)@subdomain\.(psa-team[0-9]{2}\.cit\.tum\.de)/ REPLACE From: ${1}@${2}
+```
+
+Dass es funktioniert sehen wir dann nach Senden einer Beispiel-Mail im `/var/log/mail.log`:
+
+```
+2024-09-04T22:15:43.011832+00:00 vmpsateam02-01 postfix/cleanup[23022]: 01E2BA5AAD: replace: header From: robyn.koelle@subdomain.psa-team02.cit.tum.de from early-bird.psa-team02.cit.tum.de[192.168.2.1]; from=<robyn.koelle@subdomain.psa-team02.cit.tum.de> to=<adrian.averwald@psa-team02.cit.tum.de> proto=ESMTP helo=<[10.0.2.15]>: From: robyn.koelle@psa-team02.cit.tum.de
+```
+

@@ -14,3 +14,16 @@
     path: /etc/aliases
     regexp: "^postmaster:"
 
+- name: copy transport maps
+  template:
+    src: "{{ host_name }}/etc/postfix/transport"
+    dest: /etc/postfix/transport
+
+- name: postmap transport maps
+  shell: "postmap /etc/postfix/transport"
+
+- name: copy header checks
+  template:
+    src: "{{ host_name }}/etc/postfix/header_checks"
+    dest: "/etc/postfix/header_checks"
+
