@@ -21,37 +21,53 @@ readme_directory = no
 # fresh installs.
 compatibility_level = 3.6
 
-
-
-# TLS parameters
-smtpd_tls_cert_file=/etc/ssl/certs/ssl-cert-snakeoil.pem
-smtpd_tls_key_file=/etc/ssl/private/ssl-cert-snakeoil.key
-smtpd_tls_security_level=may
-
-smtp_tls_CApath=/etc/ssl/certs
-smtp_tls_security_level=may
-smtp_tls_session_cache_database = btree:${data_directory}/smtp_scache
-
-
-smtpd_relay_restrictions = permit_mynetworks permit_sasl_authenticated defer_unauth_destination
+# General config:
 myhostname = psa-team02.cit.tum.de
+mydestination = psa-team02.cit.tum.de, vmpsateam02-01.psa-team02.cit.tum.de, vmpsateam02-01, localhost.localdomain, , localhost
+mynetworks = 192.168.2.0/24 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128
+
 alias_maps = hash:/etc/aliases
 alias_database = hash:/etc/aliases
-mydestination = psa-team02.cit.tum.de, vmpsateam02-01.psa-team02.cit.tum.de, vmpsateam02-01, localhost.localdomain, , localhost
-relayhost = mailrelay.cit.tum.de
-mynetworks = 192.168.2.0/24 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128
+
 mailbox_size_limit = 0
 recipient_delimiter = +
+
 inet_interfaces = all
 inet_protocols = ipv4
 
 home_mailbox = Maildir/
 
+# TLS parameters
+smtpd_tls_cert_file=/etc/ssl/certs/ssl-cert-snakeoil.pem
+smtpd_tls_key_file=/etc/ssl/private/ssl-cert-snakeoil.key
+smtpd_tls_security_level=may
+smtp_tls_CApath=/etc/ssl/certs
+smtp_tls_security_level=may
+smtp_tls_session_cache_database = btree:${data_directory}/smtp_scache
+
+smtpd_relay_restrictions = permit_sasl_authenticated, permit_mynetworks, reject
+
+# Restrict email acceptance 
+smtpd_recipient_restrictions = 
+    reject_unlisted_recipient,
+    permit_sasl_authenticated,
+    permit_mynetworks,
+    reject
+
+smtpd_sender_restrictions = permit_sasl_authenticated, reject
+
+# Dovecot SASL:
 smtpd_sasl_type = dovecot
 smtpd_sasl_path = private/auth
-smtpd_sasl_local_domain =
+smtpd_sasl_local_domain = $myhostname
 smtpd_sasl_security_options = noanonymous
-smtpd_sasl_tls_security_options = noanonymous
 broken_sasl_auth_clients = yes
 smtpd_sasl_auth_enable = yes
+
+# Relay:
+relayhost = mailrelay.cit.tum.de
+
+## Header rewriting:
+smtpproxy_generic_sender = noreply@tum.de
+
 

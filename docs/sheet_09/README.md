@@ -9,9 +9,24 @@ Wir installieren `postfix` über `apt`.
 Wir konfigurieren `postfix` wie in der [mail-Rolle](../../ansible/roles/mail) beschrieben.
 Wir editieren die (mitgelieferte) `/etc/postfix/main.cf`, und heben folgende Konfigurationen für die Dokumentation hervor:
 
-Vermeiden dass wir ein open relay sind durch folgende Zeile in der `/etc/postfix/main.cf`:
+Vermeiden, dass wir ein open relay sind durch folgende Zeilen in der `/etc/postfix/main.cf`:
 ```
-smtpd_recipient_restrictions = permit_sasl_authenticated,permit_mynetworks,reject_unauth_destination
+smtpd_relay_restrictions = permit_sasl_authenticated, permit_mynetworks, reject
+```
+
+Mails für unbekannte Empfänger bereits im SMTP-Dialog ablehnen:
+```
+# Restrict email acceptance 
+smtpd_recipient_restrictions = 
+    reject_unlisted_recipient,
+    permit_sasl_authenticated,
+    permit_mynetworks,
+    reject
+```
+
+Mails nur von bekannten Nutzern annehmen:
+```
+smtpd_sender_restrictions = permit_sasl_authenticated, reject
 ```
 
 Angegebene Domain bei ausgehenden E-Mails:
@@ -24,9 +39,15 @@ Mails mit dieser destination werden angenommen:
 mydestination = psa-team02.cit.tum.de, vmpsateam02-01.psa-team02.cit.tum.de, vmpsateam02-01, localhost.localdomain, , localhost
 ```
 
-Gegebenen Mail-Relay konfigurieren:
+Gegebenen Mail-Relay konfigurieren (für Mails, die an User gehen, die wir nicht verwalten):
 ```
 relayhost = mailrelay.cit.tum.de
+```
+
+Umschreiben der Senderadresse bei Relay:
+```
+## Header rewriting:
+smtpproxy_generic_sender = noreply@tum.de
 ```
 
 Beschränkung für Netzwerke, die uns anfragen können:
@@ -41,11 +62,11 @@ home_mailbox = Maildir/
 
 SMTP-Authentication einrichten:
 ```
+# Dovecot SASL:
 smtpd_sasl_type = dovecot
 smtpd_sasl_path = private/auth
-smtpd_sasl_local_domain =
+smtpd_sasl_local_domain = $myhostname
 smtpd_sasl_security_options = noanonymous
-smtpd_sasl_tls_security_options = noanonymous
 broken_sasl_auth_clients = yes
 smtpd_sasl_auth_enable = yes
 ```
@@ -59,11 +80,6 @@ Für die Authentifizierung / SASL:
 # /etc/dovecot/conf.d/10-master.conf
 
 service auth {
-  # auth_socket_path points to this userdb socket by default. It's typically
-  # used by dovecot-lda, doveadm, possibly imap process, etc. Its default
-  # permissions make it readable only by root, but you may need to relax these
-  # permissions. Users that have access to this socket are able to get a list
-  # of all usernames and get results of everyone's userdb lookups.
   unix_listener auth-userdb {
     #mode = 0600
     #user = 
@@ -80,6 +96,11 @@ service auth {
 ```
 
 Und in `/etc/dovecot/conf.d/10-auth.conf`: `auth_mechanisms = plain login`
+
+Per default verwendet dovecot jeweils pam und passwd als Driver für passdb bzw. userdb.
+Demnach entspricht die SASL-Authentifizierung bei Postfix insgesamt der folgenden Kette:
+Postfix -> Dovecot SASL -> PAM -> SSSD -> LDAP.
+Man authentifiziert sich also mit seinen LDAP-Credentials.
 
 ## Testen
 
