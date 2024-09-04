@@ -39,8 +39,8 @@ COMMIT
 -A INPUT -p tcp --dport 5432 -s 0.0.0.0/0 -j ACCEPT
 -A INPUT -p tcp  -s 172.17.0.0/16 -j ACCEPT
 
-# Incoming nfs
 {% for network in networks.teams %}
+# Incoming nfs
 -A INPUT -p tcp --dport {{ nfs.port }} -s {{ network }} -j ACCEPT
 -A INPUT -p udp --dport {{ nfs.port }} -s {{ network }} -j ACCEPT
 -A INPUT -p tcp --dport {{ nfs.rpcbind_port }} -s {{ network }} -j ACCEPT
@@ -59,6 +59,9 @@ COMMIT
 # Ldap
 -A INPUT -p tcp --dport 389 -s {{ network }} -j ACCEPT
 -A INPUT -p tcp --dport 636 -s {{ network }} -j ACCEPT
+
+# Mail
+-A INPUT -p tcp --dport 25 -s {{ network }} -j ACCEPT
 
 {% endfor %}
 
