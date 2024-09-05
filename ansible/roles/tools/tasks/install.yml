@@ -6,3 +6,5 @@
     - net-tools
     - nmap
     - traceroute
+    - mailutils
+

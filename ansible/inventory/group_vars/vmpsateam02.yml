@@ -3,6 +3,10 @@ custom_groups:
     name: humanuser
     gid: 1000
 
+  mailuser:
+    name: mailuser
+    gid: 1001
+
   psa:
     name: psa
     gid: 1200
@@ -61,8 +65,21 @@ users:
   humanuser:
     name: humanuser
     uid: 1000
+    gid: 1000
     group: humanuser
     groups: [ "humanuser", "sudo" ]
+    ldap_initial_password: "{SSHA}VT4sT9s/uOcbKdTx1D98qqHphTBkbzhh" 
+    authorized_key: |
+      ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGAcXmOMt1GPLEUtBs/AHZU6UbE4Mv7Wq8+c+cF29kTo robyn
+      ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILTWgxRYsRjQcbYrGKRdzUGCyad9aVhgCLL29b5onayX adrian@thinkpadri
+
+  mailuser:
+    name: mailuser
+    uid: 1001
+    gid: 1001
+    group: mailuser
+    groups: [ "mailuser" ]
+    ldap_initial_password: "{SSHA}VT4sT9s/uOcbKdTx1D98qqHphTBkbzhh" 
     authorized_key: |
       ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGAcXmOMt1GPLEUtBs/AHZU6UbE4Mv7Wq8+c+cF29kTo robyn
       ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILTWgxRYsRjQcbYrGKRdzUGCyad9aVhgCLL29b5onayX adrian@thinkpadri

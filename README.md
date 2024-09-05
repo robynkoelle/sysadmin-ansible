@@ -65,3 +65,10 @@ Wir verwenden das gleiche Vault Passwort für alle verschlüsselten Secrets im R
 Für angenehmere Deployments kann man eine `ansible/.vault-key` Datei mit dem Encryption Key als Inhalt anlegen,
 und mit der `ansible-playbook` Option `--vault-password-file` angeben.
 Diese Datei ist in der `.gitignore` vermerkt.
+
+### Neuen Nutzer anlegen
+
+`provision.yml` mit den jeweiligen Tags in dieser Reihenfolge ausführen:
+- Tags: `raid-filesystem` (erzeugt `home`-directory)
+- Tags: `users,ldap-users`
+

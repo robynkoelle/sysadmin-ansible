@@ -1,5 +1,5 @@
 {% for user in users.values() %}
-{% if user.name != "humanuser" and user.name != "root" %}
+{% if user.name != "root" %}
 dn: uid={{ user.name }},ou=people,{{ ldap.directory.tree }}
 ou: people
 objectClass: top

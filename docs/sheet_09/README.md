@@ -157,3 +157,64 @@ Hier könnte man eine Admin-Adresse hinterlegen - für unseren Use Case ist aber
 Man kann die korrekte Funktion testen, indem man eine E-Mail an `postmaster@psa-team02.cit.tum.de` adressiert.
 Die Mail taucht dann unter `/root/Maildir/new` auf.
 
+## MX Records
+
+Die MX Records haben wir in unserer `bin9`-config angelegt:
+```
+$TTL 1d
+$ORIGIN psa-team02.cit.tum.de.
+
+@               IN      SOA   ns1.psa-team02.cit.tum.de. admin.psa-team02.cit.tum.de. (
+                                6       ; Serial
+                                1w      ; Refresh
+                                15m     ; Retry
+                                3w      ; Expire
+                                2h      ; Negative Cache TTL
+                              )
+
+                IN      NS      ns1.psa-team02.cit.tum.de.
+                IN      NS      ns.psa-team09.cit.tum.de.
+                IN      MX      10 mail.psa-team02.cit.tum.de.
+                IN      A       192.168.2.1
+mail            IN      A       192.168.2.1
+ns1             IN      A       192.168.2.1
+
+www             IN      CNAME   early-bird
+early-bird      IN      A       192.168.2.1
+early-bird      IN      MX      10 mail.psa-team02.cit.tum.de.
+
+late-worm       IN      A       192.168.2.2
+late-worm       IN      MX      10 mail.psa-team02.cit.tum.de.
+
+bearly-ird      IN      A       192.168.2.3
+bearly-ird      IN      MX      10 mail.psa-team02.cit.tum.de.
+
+db              IN      A       192.168.2.1
+db              IN      MX      10 mail.psa-team02.cit.tum.de.
+
+ldap            IN      A       192.168.2.1
+ldap            IN      MX      10 mail.psa-team02.cit.tum.de.
+```
+
+## Mails der VMs
+
+Wir installieren auf `vmpsateam02-02` (unsere einzige andere VM) einen lightweight, relay-only MTA namens `nullmailer` via `apt`.
+Dies erfordert nur 3 Konfigurationsdateien in `/etc/nullmailer` (Zitat aus der [Doku](https://wiki.debian.org/nullmailer)):
+- adminaddr - contains the target email address to send emails
+- defaultdomain - marks the domain the emails are sent from
+- remotes - contains the email login configuration on the remote system
+
+Die konkreten Werte können in der `nullmailer`-Rolle eingesehen werden.
+Wir haben uns einen `mailuser` auf `vmpsateam02-01` angelegt, über den wir uns authentifizieren.
+
+Testen, dass es funktioniert:
+```
+root@vmpsateam02-02:~# echo "hi RK" |mail -s "RK Test" "robyn.koelle@psa-team02.cit.tum.de"
+root@vmpsateam02-02:~# cat /home/robyn.koelle/Maildir/new/* |grep RK
+Subject: RK Test
+Subject: RK Test
+hi RK
+```
+Notiz: da das `home`-Verzeichnis automounted und somit mit `vmpsateam02-01` synchron ist, können wir direkt auf `vmpsateam02-01` in das Maildir des Empfängers schauen.
+Notiz: das hier verwendete `mail` CLI-Tool ist in dem Paket `mailutils` enthalten.
+

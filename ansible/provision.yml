@@ -48,3 +48,9 @@
     - autofs
     - ldap-client
 
+- name: vmpsateam02-02 setup
+  hosts: vmpsateam02-02
+  remote_user: root
+  roles:
+    - nullmailer
+

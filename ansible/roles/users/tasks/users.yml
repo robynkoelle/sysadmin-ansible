@@ -6,6 +6,7 @@
     group: "{{ item.group }}"
     groups: "{{ item.groups }}"
     uid: "{{ item.uid }}"
+    create_home: false # created in raid role
   with_items: "{{ users.values() | list }}"
   when: item.name != "root"
 
@@ -15,3 +16,4 @@
     key: "{{ item.authorized_key }}"
     exclusive: yes
   loop: "{{ users.values() | list }}"
+

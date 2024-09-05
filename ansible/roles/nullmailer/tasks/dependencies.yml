@@ -1,0 +1,5 @@
+- name: install nullmailer
+  apt:
+    name: nullmailer
+    state: present
+

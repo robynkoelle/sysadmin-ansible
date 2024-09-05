@@ -1,0 +1,1 @@
+{{ nullmailer.domain }} smtp --port=25 --user={{ nullmailer.user.name }} --pass="{{ nullmailer.user.password }}"

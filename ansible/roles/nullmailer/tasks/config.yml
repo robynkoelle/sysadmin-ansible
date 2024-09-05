@@ -1,0 +1,14 @@
+- name: copy configuration
+  template:
+    src: "{{ host_name }}/etc/nullmailer/{{ item }}"
+    dest: "/etc/nullmailer/{{ item}}"
+  loop:
+    - adminaddr
+    - defaultdomain
+    - remotes
+
+- name: set remotes permissions
+  file:
+    path: /etc/nullmailer/remotes
+    mode: "0600"
+

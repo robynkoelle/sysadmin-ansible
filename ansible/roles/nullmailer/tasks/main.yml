@@ -1,0 +1,10 @@
+- import_tasks: dependencies.yml
+  tags:
+    - nullmailer
+    - nullmailer-dependencies
+
+- import_tasks: config.yml
+  tags:
+    - nullmailer
+    - nullmailer-config
+
