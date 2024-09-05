@@ -3,9 +3,18 @@
     name: postfix
     state: present
 
-# For SASL
 - name: install dovecot-core
   apt:
     name: dovecot-core
+    state: present
+
+- name: install dovecot-imapd
+  apt:
+    name: dovecot-imapd
+    state: present
+
+- name: install dovecot-pop3d
+  apt:
+    name: dovecot-pop3d
     state: present
 

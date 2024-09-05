@@ -218,3 +218,81 @@ hi RK
 Notiz: da das `home`-Verzeichnis automounted und somit mit `vmpsateam02-01` synchron ist, können wir direkt auf `vmpsateam02-01` in das Maildir des Empfängers schauen.
 Notiz: das hier verwendete `mail` CLI-Tool ist in dem Paket `mailutils` enthalten.
 
+## Dovecot
+
+Für die IMAP-Inbox benötigen wir (zusätzlich zu `dovecot-core`) noch `dovecot-imapd`, was wir mit `apt` installieren.
+Die einzige Änderung, die wir an der Standard-Einstellung von Dovecot noch vornehmen müssen, ist, dass es Maildir verwendet.
+Das geht über die `mail_location` in ``
+
+Test, dass es funktioniert via telnet:
+
+```
+root@vmpsateam02-01:~# telnet 127.0.0.1 143
+Trying 127.0.0.1...
+Connected to 127.0.0.1.
+Escape character is '^]'.
+* OK [CAPABILITY IMAP4rev1 SASL-IR LOGIN-REFERRALS ID ENABLE IDLE LITERAL+ STARTTLS AUTH=PLAIN AUTH=LOGIN] Dovecot (Ubuntu) ready.
+a login robyn.koelle <password> 
+a OK [CAPABILITY IMAP4rev1 SASL-IR LOGIN-REFERRALS ID ENABLE IDLE SORT SORT=DISPLAY THREAD=REFERENCES THREAD=REFS THREAD=ORDEREDSUBJECT MULTIAPPEND URL-PARTIAL CATENATE UNSELECT CHILDREN NAMESPACE UIDPLUS LIST-EXTENDED I18NLEVEL=1 CONDSTORE QRESYNC ESEARCH ESORT SEARCHRES WITHIN CONTEXT=SEARCH LIST-STATUS BINARY MOVE SNIPPET=FUZZY PREVIEW=FUZZY PREVIEW STATUS=SIZE SAVEDATE LITERAL+ NOTIFY SPECIAL-USE] Logged in
+a select INBOX
+* FLAGS (\Answered \Flagged \Deleted \Seen \Draft)
+* OK [PERMANENTFLAGS (\Answered \Flagged \Deleted \Seen \Draft \*)] Flags permitted.
+* 8 EXISTS
+* 8 RECENT
+* OK [UNSEEN 1] First unseen.
+* OK [UIDVALIDITY 1725572455] UIDs valid
+* OK [UIDNEXT 9] Predicted next UID
+a OK [READ-WRITE] Select completed (0.034 + 0.000 + 0.033 secs).
+a fetch 1:* (FLAGS BODY[HEADER.FIELDS (FROM TO SUBJECT DATE)])
+* 1 FETCH (FLAGS (\Seen \Recent) BODY[HEADER.FIELDS (FROM TO SUBJECT DATE)] {209}
+Subject: This is just a test with nullmailer
+To: <robyn.koelle@psa-team02.cit.tum.de>
+Date: Thu,  5 Sep 2024 21:22:06 +0000
+From: Testsystem check <root@vmpsateam02-02.vmpsateam02.psa-team02.cit.tum.de>
+```
+
+Für POP3 installieren wir analog `dovecot-pop3d`.
+Test, dass es funktioniert via telnet:
+
+```
+root@vmpsateam02-01:~# telnet localhost 110
+Trying 127.0.0.1...
+Connected to localhost.
+Escape character is '^]'.
++OK Dovecot (Ubuntu) ready.
+user robyn.koelle
++OK
+pass <password> 
++OK Logged in.
+list
++OK 8 messages:
+1 801
+2 801
+3 801
+4 786
+5 782
+6 878
+7 732
+8 735
+.
+retr 1
++OK 801 octets
+Return-Path: <root@vmpsateam02-02.vmpsateam02.psa-team02.cit.tum.de>
+X-Original-To: robyn.koelle@psa-team02.cit.tum.de
+Delivered-To: robyn.koelle@psa-team02.cit.tum.de
+Received: from vmpsateam02-02 (late-worm.psa-team02.cit.tum.de [192.168.2.2])
+	by psa-team02.cit.tum.de (Postfix) with ESMTPA id 5493CA5A7C
+	for <robyn.koelle@psa-team02.cit.tum.de>; Thu,  5 Sep 2024 19:23:47 +0000 (UTC)
+Received: (nullmailer pid 17758 invoked by uid 0);
+	Thu, 05 Sep 2024 21:22:06 -0000
+Subject: This is just a test with nullmailer
+To: <robyn.koelle@psa-team02.cit.tum.de>
+User-Agent: mail (GNU Mailutils 3.16)
+Date: Thu,  5 Sep 2024 21:22:06 +0000
+Message-Id: <1725571326.880473.17757.nullmailer@vmpsateam02-02>
+From: Testsystem check <root@vmpsateam02-02.vmpsateam02.psa-team02.cit.tum.de>
+```
+
+Dovecot stellt wie gefordert für jeden Nutzer unserer Team-VMs eine Mailbox bereit.
+Diese können lokal auf `vmpsateam02-01` abgerufen werden.
+

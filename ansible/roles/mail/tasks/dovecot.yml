@@ -9,3 +9,9 @@
     path: /etc/dovecot/conf.d/10-auth.conf
     regexp: "^auth_mechanisms ="
 
+- name: use maildir
+  lineinfile:
+    line: "mail_location = maildir:~/Maildir"
+    path: /etc/dovecot/conf.d/10-mail.conf
+    regexp: "^mail_location ="
+

@@ -35,6 +35,7 @@
     - ldap
     - ldap-csv-users
     - mail
+    - dovecot
 
 - name: additional setup
   hosts: vmpsateam02
