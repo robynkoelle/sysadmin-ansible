@@ -150,3 +150,10 @@ Dass es funktioniert sehen wir dann nach Senden einer Beispiel-Mail im `/var/log
 2024-09-04T22:15:43.011832+00:00 vmpsateam02-01 postfix/cleanup[23022]: 01E2BA5AAD: replace: header From: robyn.koelle@subdomain.psa-team02.cit.tum.de from early-bird.psa-team02.cit.tum.de[192.168.2.1]; from=<robyn.koelle@subdomain.psa-team02.cit.tum.de> to=<adrian.averwald@psa-team02.cit.tum.de> proto=ESMTP helo=<[10.0.2.15]>: From: robyn.koelle@psa-team02.cit.tum.de
 ```
 
+## Postmaster
+
+Die Datei `/etc/aliases` definiert root als unseren `postmaster`.
+Hier könnte man eine Admin-Adresse hinterlegen - für unseren Use Case ist aber der `root`-User gut geeignet und eine pragmatische Lösung.
+Man kann die korrekte Funktion testen, indem man eine E-Mail an `postmaster@psa-team02.cit.tum.de` adressiert.
+Die Mail taucht dann unter `/root/Maildir/new` auf.
+
