@@ -1,16 +1,22 @@
-$TTL    86400
-@       IN      SOA     ns1.psa-team02.cit.tum.de. admin.psa-team02.cit.tum.de. (
-                              2024050801         ; Serial
-                              604800             ; Refresh
-                              86400              ; Retry
-                              2419200            ; Expire
-                              86400 )            ; Negative Cache TTL
+$TTL 1d 
+$ORIGIN 2.168.192.in-addr.arpa.
 
-@       IN      NS      ns1.psa-team02.cit.tum.de.
-1       IN      PTR     early-bird.psa-team02.cit.tum.de.
-2       IN      PTR     late-worm.psa-team02.cit.tum.de.
-3       IN      PTR     www.psa-team02.cit.tum.de.
-4       IN      PTR     bearly-ird.psa-team02.cit.tum.de
-5       IN      PTR     db.psa-team02.cit.tum.de
-6       IN      PTR     ldap.psa-team02.cit.tum.de
+@               IN      SOA     ns1.psa-team02.cit.tum.de. admin.psa-team02.cit.tum.de. (
+                                  6     ; Serial
+                                  1w    ; Refresh
+                                  15m   ; Retry
+                                  3w    ; Expire
+                                  2h    ; Negative Cache TTL
+                                )            
+
+                IN      NS      ns1.psa-team02.cit.tum.de.
+1               IN      PTR     psa-team02.cit.tum.de.
+1               IN      PTR     mail.psa-team02.cit.tum.de.
+1               IN      PTR     early-bird.psa-team02.cit.tum.de.
+1               IN      PTR     db.psa-team02.cit.tum.de.
+1               IN      PTR     ldap.psa-team02.cit.tum.de.
+
+2               IN      PTR     late-worm.psa-team02.cit.tum.de.
+
+3               IN      PTR     bearly-ird.psa-team02.cit.tum.de.
 

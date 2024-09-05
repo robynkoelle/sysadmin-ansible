@@ -1,18 +1,34 @@
-$TTL 86400
-@       IN      SOA     ns1.psa-team02.cit.tum.de. admin.psa-team02.cit.tum.de. (
-                              2024050801 ; Serial
-                              604800     ; Refresh
-                              86400      ; Retry
-                              2419200    ; Expire
-                              86400 )    ; Negative Cache TTL
+$TTL 1d 
+$ORIGIN psa-team02.cit.tum.de.
 
-@               IN      NS      ns1.psa-team02.cit.tum.de.
-@               IN      A       192.168.2.1
+@               IN      SOA   ns1.psa-team02.cit.tum.de. admin.psa-team02.cit.tum.de. (
+                                6       ; Serial
+                                1w      ; Refresh
+                                15m     ; Retry
+                                3w      ; Expire
+                                2h      ; Negative Cache TTL
+                              )    
+
+                IN      NS      ns1.psa-team02.cit.tum.de.
+                IN      NS      ns.psa-team09.cit.tum.de.
+                IN      MX      10 mail.psa-team02.cit.tum.de.
+                IN      A       192.168.2.1
+mail            IN      A       192.168.2.1
 ns1             IN      A       192.168.2.1
-early-bird      IN      A       192.168.2.1
+
 www             IN      CNAME   early-bird
+early-bird      IN      A       192.168.2.1
+early-bird      IN      MX      10 mail.psa-team02.cit.tum.de.
+
 late-worm       IN      A       192.168.2.2
+late-worm       IN      MX      10 mail.psa-team02.cit.tum.de.
+
 bearly-ird      IN      A       192.168.2.3
+bearly-ird      IN      MX      10 mail.psa-team02.cit.tum.de.
+
 db              IN      A       192.168.2.1
+db              IN      MX      10 mail.psa-team02.cit.tum.de.
+
 ldap            IN      A       192.168.2.1
+ldap            IN      MX      10 mail.psa-team02.cit.tum.de.
 
