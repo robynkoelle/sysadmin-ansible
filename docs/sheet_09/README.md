@@ -386,7 +386,7 @@ Wir testen Clamav (und somit auch die Funktion von Amavis), indem wir eine Mail 
 echo "Test email with EICAR" | mail -s "Test Email" -A eicar.txt robyn.koelle@psa-team02.cit.tum.de
 ```
 
-Der Log bestätigt, dass die Mail blockiert wurde:
+Der Log bestätigt, dass die Mail blockiert wurde (dies reicht uns aus als passende Maßnahme bei einem Treffer):
 ```
 2024-09-06T21:59:54.872456+00:00 vmpsateam02-01 amavis[48018]: (48018-02) Blocked INFECTED (Eicar-Signature) {DiscardedInbound,Quarantined}, [192.168.2.2]:47128 <root@vmpsateam02-02.psa-team02.cit.tum.de> -> <robyn.koelle@psa-team02.cit.tum.de>, quarantine: S/virus-SAW35wmwyoTa, Queue-ID: A1CD1A5ABD, Message-ID: <1725667188.573865.13440.nullmailer@vmpsateam02-02>, mail_id: SAW35wmwyoTa, Hits: -, size: 1226, 165 ms
 ```
