@@ -27,8 +27,11 @@
 - name: postmap transport maps
   shell: "postmap /etc/postfix/transport"
 
-- name: copy header checks
+- name: copy generic maps
   template:
-    src: "{{ host_name }}/etc/postfix/header_checks"
-    dest: "/etc/postfix/header_checks"
+    src: "{{ host_name }}/etc/postfix/generic"
+    dest: "/etc/postfix/generic"
+
+- name: postmap generic maps
+  shell: "postmap /etc/postfix/generic"
 

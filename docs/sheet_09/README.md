@@ -39,17 +39,6 @@ Mails mit dieser destination werden angenommen:
 mydestination = psa-team02.cit.tum.de, vmpsateam02-01.psa-team02.cit.tum.de, vmpsateam02-01, localhost.localdomain, , localhost
 ```
 
-Gegebenen Mail-Relay konfigurieren (für Mails, die an User gehen, die wir nicht verwalten):
-```
-relayhost = mailrelay.cit.tum.de
-```
-
-Umschreiben der Senderadresse bei Relay:
-```
-## Header rewriting:
-smtpproxy_generic_sender = noreply@tum.de
-```
-
 Beschränkung für Netzwerke, die uns anfragen können:
 ```
 mynetworks = 192.168.2.0/24 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128
@@ -72,6 +61,45 @@ smtpd_sasl_auth_enable = yes
 ```
 
 Für die SMTP-Authentication benötigen wir mindestens `dovecot-core` (mit `apt` installiert), und die folgende Konfiguration.
+
+### Mail-Weiterleitung
+
+Für die Mail-Weiterleitung orientieren wir uns größtenteils an der Lösung von Team09 (danke).
+
+Wir setzen den `relayhost` auf einen leeren Wert, weil wir transport maps verwenden wollen:
+```
+relayhost =
+transport_maps = hash:/etc/postfix/transport
+```
+
+In der transport map geben wir je Domain an, über welchen Server die Mail geschickt werden soll.
+Hier geben wir unseren eigenen Mail-Server für die von uns verwalteten Domains an,
+sowie analog die der anderen Teams.
+Alle restlichen Emails schicken wir über `mailrelay.cit.tum.de`.
+Die Datei `/etc/postfix/transport` kann man in der [mail-Rolle](../../ansible/roles/mail) unter `templates` einsehen.
+Diese müssen wir noch mit `postmap /etc/postfix/transport` mappen, damit eine `transport.db`-Datei entsteht.
+
+Um die Sender-Adresse beim Relay umzuschreiben, erstellen wir einen Service in der `/etc/postfix/master.cf`:
+```
+smtp_extern      unix  -       -       n       -       -       smtp
+  -o smtp_generic_maps=hash:/etc/postfix/generic
+  -o relayhost=mailrelay.cit.tum.de
+```
+
+Die referenzierte Datei `/etc/postfix/generic` kann man ebenfalls in den Rollen-Templates einsehen.
+Diese mappen wir ebenso mit `postmap`.
+
+Nach einem Neustart des `postfix` Services können wir die Funktionalität testen:
+```
+echo "Testnachricht" |mail -s "Testbetreff" -r "robyn.koelle@psa-team02.cit.tum.de" robyn.koelle@tum.de
+```
+
+Der Mail-Log (und ein Blick ins Postfach) bestätigt, dass die Mail über den Relay geschickt wurde:
+```
+2024-09-06T23:43:22.352075+00:00 vmpsateam02-01 postfix/smtp[55862]: 4DC1BA5B39: to=<robyn.koelle@tum.de>, relay=mailrelay.in.tum.de[131.159.254.10]:25, delay=0.03, delays=0.01/0/0.01/0.02, dsn=2.0.0, status=sent (250 2.0.0 Ok: queued as 549DA1D9)
+```
+
+Der Mail-Log bestätigt analog, dass Mails an die jeweiligen Mailserver der anderen Teams übertragen wurden, zum Beispiel bei einer Nachricht an `lukas.eckert@psa-team09.cit.tum.de`. 
 
 ### Dovecot für SASL
 

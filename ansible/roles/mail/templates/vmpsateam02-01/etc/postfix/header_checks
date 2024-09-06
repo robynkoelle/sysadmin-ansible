@@ -1,2 +1,0 @@
-/^From:\s*([^@]+)@subdomain\.(psa-team[0-9]{2}\.cit\.tum\.de)/ REPLACE From: ${1}@${2}
-

@@ -167,3 +167,7 @@ smtp-amavis     unix    -       -       -       -       2       smtp
         -o smtpd_client_connection_rate_limit=0
         -o receive_override_options=no_header_body_checks,no_unknown_recipient_checks
 
+smtp_extern      unix  -       -       n       -       -       smtp
+  -o smtp_generic_maps=hash:/etc/postfix/generic
+  -o relayhost=mailrelay.cit.tum.de
+

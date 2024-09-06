@@ -68,9 +68,6 @@ smtpd_sasl_auth_enable = yes
 relayhost =
 transport_maps = hash:/etc/postfix/transport
 
-## Header rewriting for relayed messages:
-smtpproxy_generic_sender = noreply@tum.de
-
 # Header Checks:
 header_checks = regexp:/etc/postfix/header_checks
 
