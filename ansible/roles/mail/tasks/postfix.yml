@@ -3,6 +3,11 @@
     src: "{{ host_name }}/etc/postfix/main.cf"
     dest: "/etc/postfix/main.cf"
 
+- name: copy master.cf
+  template:
+    src: "{{ host_name }}/etc/postfix/master.cf"
+    dest: "/etc/postfix/master.cf"
+
 - name: copy mailname
   template:
     src: "{{ host_name}}/etc/mailname"

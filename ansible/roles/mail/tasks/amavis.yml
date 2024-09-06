@@ -1,0 +1,9 @@
+- name: copy configs
+  template:
+    src: "{{ host_name}}/etc/amavis/conf.d/{{ item }}"
+    dest: "/etc/amavis/conf.d/{{ item }}"
+  loop:
+    - 15-content_filter_mode
+    - 05-domain_id
+    - 50-user
+

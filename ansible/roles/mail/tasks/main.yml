@@ -3,6 +3,20 @@
     - mail 
     - mail-dependencies
 
+- import_tasks: clamav.yml
+  tags:
+    - mail
+    - mail-clamav
+  notify:
+    - restart clamav
+    - restart clamav-freshclam
+
+- import_tasks: amavis.yml
+  tags:
+    - mail
+    - mail-amavis
+  notify: restart amavis
+
 - import_tasks: postfix.yml
   tags:
     - mail 

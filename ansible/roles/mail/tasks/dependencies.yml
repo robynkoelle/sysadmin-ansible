@@ -18,3 +18,18 @@
     name: dovecot-pop3d
     state: present
 
+- name: install amavis
+  apt:
+    name: amavisd-new
+    state: present
+
+- name: install clamav
+  apt:
+    name: clamav-daemon
+    state: present
+
+- name: install spamassassin
+  apt:
+    name: spamassassin
+    state: present
+

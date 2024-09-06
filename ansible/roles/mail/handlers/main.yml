@@ -8,3 +8,16 @@
     name: dovecot
     state: restarted
 
+- name: restart clamav
+  systemd_service:
+    name: clamav-daemon
+    state: restarted
+
+- name: restart clamav-freshclam
+  systemd_service:
+    name: clamav-freshclam
+    state: restarted
+
+- name: restart amavis
+  shell: "/etc/init.d/amavis restart"
+

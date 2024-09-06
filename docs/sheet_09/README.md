@@ -296,3 +296,70 @@ From: Testsystem check <root@vmpsateam02-02.vmpsateam02.psa-team02.cit.tum.de>
 Dovecot stellt wie gefordert für jeden Nutzer unserer Team-VMs eine Mailbox bereit.
 Diese können lokal auf `vmpsateam02-01` abgerufen werden.
 
+## Virenscanner und Spam-Filter
+
+Wir erhöhen zunächst den Arbeitsspeicher von `vmpsateam02-01` auf 4096MB über die Virtualbox GUI.
+Wir halten uns in diesem Abschnitt an [dieses Tutorial](https://help.ubuntu.com/community/PostfixAmavisNew).
+
+Wir installieren mit `apt` die Pakete `amavisd-new`, `spamassassin`, und `clamav-daemon`.
+Damit Clamav Zugriff zu den notwendigen Dateien hat, fügen wir den `clamav`-User der `amavis`-Gruppe hinzu, und umgekehrt.
+Der `clamav-freshclam`-Service hält die Virusdefinitionen aktuell.
+Damit der Download über unsere Proxy geht, müssen wir `HTTPProxyServer proxy.cit.tum.de` in `/etc/clamav/freshclam.conf` setzen (und den Service neustarten).
+Ansonsten sind die Standard-Einstellungen von Clamav für uns ausreichend.
+
+Amavis stellt einen eigenständigen daemon zur Verfügung, der die Spamassassin-Libraries verwendet - daher müssen wir Spamassassin selbst nicht weiter konfigurieren.
+Wir aktivieren die Spam- und Antivirus-Funktion von Amavis mittels der Datei `/etc/amavis/conf.d/15-content_filter_mode`.
+Zusätzlich spezifizieren wir die "lokalen" Domains, die Postfix verwaltet, für Amavis in `/etc/amavis/conf.d/05-domain_id`.
+In `/etc/amavis/conf.d/50-user` whitelisten wir diese Domains.
+Die Config-Dateien können in der [mail-Rolle](../../ansible/roles/mail) unter `templates` eingesehen werden.
+
+Wir teilen Postfix den Content-Filter in der `main.cf` mit:
+```
+content_filter = smtp-amavis:[127.0.0.1]:10024
+```
+
+Zusätzlich fügen wir folgenden Abschnitt der `master.cf` hinzu:
+```
+smtp-amavis     unix    -       -       -       -       2       smtp
+        -o smtp_data_done_timeout=1200
+        -o smtp_send_xforward_command=yes
+        -o disable_dns_lookups=yes
+        -o max_use=20
+
+127.0.0.1:10025 inet    n       -       -       -       -       smtpd
+        -o content_filter=
+        -o local_recipient_maps=
+        -o relay_recipient_maps=
+        -o smtpd_restriction_classes=
+        -o smtpd_delay_reject=no
+        -o smtpd_client_restrictions=permit_mynetworks,reject
+        -o smtpd_helo_restrictions=
+        -o smtpd_sender_restrictions=
+        -o smtpd_recipient_restrictions=permit_mynetworks,reject
+        -o smtpd_data_restrictions=reject_unauth_pipelining
+        -o smtpd_end_of_data_restrictions=
+        -o mynetworks=127.0.0.0/8
+        -o smtpd_error_sleep_time=0
+        -o smtpd_soft_error_limit=1001
+        -o smtpd_hard_error_limit=1000
+        -o smtpd_client_connection_count_limit=0
+        -o smtpd_client_connection_rate_limit=0
+        -o receive_override_options=no_header_body_checks,no_unknown_recipient_checks
+```
+
+Dem `pickup` Transport-Service fügen wir noch die folgenden Optionen hinzu, damit Spam-Report Nachrichten nicht als Spam gewertet werden:
+```
+-o content_filter=
+-o receive_override_options=no_header_body_checks
+```
+
+Wir testen Clamav (und somit auch die Funktion von Amavis), indem wir eine Mail mit einer bekannten Antivirus-Testdatei namens EICAR verschicken: 
+```
+echo "Test email with EICAR" | mail -s "Test Email" -A eicar.txt robyn.koelle@psa-team02.cit.tum.de
+```
+
+Der Log bestätigt, dass die Mail blockiert wurde:
+```
+2024-09-06T21:59:54.872456+00:00 vmpsateam02-01 amavis[48018]: (48018-02) Blocked INFECTED (Eicar-Signature) {DiscardedInbound,Quarantined}, [192.168.2.2]:47128 <root@vmpsateam02-02.psa-team02.cit.tum.de> -> <robyn.koelle@psa-team02.cit.tum.de>, quarantine: S/virus-SAW35wmwyoTa, Queue-ID: A1CD1A5ABD, Message-ID: <1725667188.573865.13440.nullmailer@vmpsateam02-02>, mail_id: SAW35wmwyoTa, Hits: -, size: 1226, 165 ms
+```
+

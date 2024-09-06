@@ -74,3 +74,6 @@ smtpproxy_generic_sender = noreply@tum.de
 # Header Checks:
 header_checks = regexp:/etc/postfix/header_checks
 
+# Content filters:
+content_filter = smtp-amavis:[127.0.0.1]:10024
+
