@@ -2,3 +2,5 @@
   tags:
     - hostname
     - hostname-hostname
+  notify: restart systemd-hostnamed
+

@@ -3,6 +3,10 @@ ansible_port: 60202
 
 host_name: vmpsateam02-02
 
+host:
+  fqdn: vmpsateam02-02.psa.cit.tum.de
+  ip_address: 192.168.2.2
+
 network_interfaces:
   enp0s8:
     name_servers:

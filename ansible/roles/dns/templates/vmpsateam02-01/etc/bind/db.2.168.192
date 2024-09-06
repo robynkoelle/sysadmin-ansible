@@ -13,10 +13,12 @@ $ORIGIN 2.168.192.in-addr.arpa.
 1               IN      PTR     psa-team02.cit.tum.de.
 1               IN      PTR     mail.psa-team02.cit.tum.de.
 1               IN      PTR     early-bird.psa-team02.cit.tum.de.
+1               IN      PTR     vmpsateam02-01.psa-team02.cit.tum.de.
 1               IN      PTR     db.psa-team02.cit.tum.de.
 1               IN      PTR     ldap.psa-team02.cit.tum.de.
 
 2               IN      PTR     late-worm.psa-team02.cit.tum.de.
+2               IN      PTR     vmpsateam02-02.psa-team02.cit.tum.de.
 
 3               IN      PTR     bearly-ird.psa-team02.cit.tum.de.
 

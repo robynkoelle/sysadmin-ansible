@@ -19,9 +19,11 @@ ns1             IN      A       192.168.2.1
 www             IN      CNAME   early-bird
 early-bird      IN      A       192.168.2.1
 early-bird      IN      MX      10 mail.psa-team02.cit.tum.de.
+vmpsateam02-01  IN      A       192.168.2.1
 
 late-worm       IN      A       192.168.2.2
 late-worm       IN      MX      10 mail.psa-team02.cit.tum.de.
+vmpsateam02-01  IN      A       192.168.2.2
 
 bearly-ird      IN      A       192.168.2.3
 bearly-ird      IN      MX      10 mail.psa-team02.cit.tum.de.

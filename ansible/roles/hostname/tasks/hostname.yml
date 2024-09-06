@@ -1,3 +1,10 @@
 - name: set hostname
   hostname:
     name: "{{ host_name }}"
+
+- name: Update /etc/hosts to include FQDN
+  lineinfile:
+    path: /etc/hosts
+    line: "{{ host.ip_address }} {{ host.fqdn }} {{ host_name }}"
+    state: present
+
