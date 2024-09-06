@@ -20,10 +20,12 @@ www             IN      CNAME   early-bird
 early-bird      IN      A       192.168.2.1
 early-bird      IN      MX      10 mail.psa-team02.cit.tum.de.
 vmpsateam02-01  IN      A       192.168.2.1
+vmpsateam02-01  IN      MX      10 mail.psa-team02.cit.tum.de.
 
 late-worm       IN      A       192.168.2.2
 late-worm       IN      MX      10 mail.psa-team02.cit.tum.de.
-vmpsateam02-01  IN      A       192.168.2.2
+vmpsateam02-02  IN      A       192.168.2.2
+vmpsateam02-02  IN      MX      10 mail.psa-team02.cit.tum.de. 
 
 bearly-ird      IN      A       192.168.2.3
 bearly-ird      IN      MX      10 mail.psa-team02.cit.tum.de.
