@@ -1,0 +1,1 @@
+/^From: ([^<]+) <([^@]+)@[^.]+\.psa-team02\.cit\.tum\.de>/    REPLACE From: ${1} <${2}@psa-team02.cit.tum.de>

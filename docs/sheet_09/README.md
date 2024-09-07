@@ -169,13 +169,13 @@ header_checks = regexp:/etc/postfix/header_checks
 
 Die Datei nutzt eine Regex, um die Subdomain aus der ursprünglichen Adresse zu entfernen:
 ```
-/^From:\s*([^@]+)@subdomain\.(psa-team[0-9]{2}\.cit\.tum\.de)/ REPLACE From: ${1}@${2}
+/^From: ([^<]+) <([^@]+)@[^.]+\.psa-team02\.cit\.tum\.de>/    REPLACE From: ${1} <${2}@psa-team02.cit.tum.de>
 ```
 
 Dass es funktioniert sehen wir dann nach Senden einer Beispiel-Mail im `/var/log/mail.log`:
 
 ```
-2024-09-04T22:15:43.011832+00:00 vmpsateam02-01 postfix/cleanup[23022]: 01E2BA5AAD: replace: header From: robyn.koelle@subdomain.psa-team02.cit.tum.de from early-bird.psa-team02.cit.tum.de[192.168.2.1]; from=<robyn.koelle@subdomain.psa-team02.cit.tum.de> to=<adrian.averwald@psa-team02.cit.tum.de> proto=ESMTP helo=<[10.0.2.15]>: From: robyn.koelle@psa-team02.cit.tum.de
+2024-09-07T00:37:46.289455+00:00 vmpsateam02-01 postfix/cleanup[64134]: 45C15A5ACF: replace: header From: robyn.koelle <robyn.koelle@vmpsateam02-02.psa-team02.cit.tum.de> from late-worm.psa-team02.cit.tum.de[192.168.2.2]; from=<robyn.koelle@vmpsateam02-02.psa-team02.cit.tum.de> to=<robyn.koelle@psa-team02.cit.tum.de> proto=ESMTP helo=<vmpsateam02-02>: From: robyn.koelle <robyn.koelle@psa-team02.cit.tum.de>
 ```
 
 ## Postmaster
