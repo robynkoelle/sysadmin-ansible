@@ -161,7 +161,7 @@ Connection closed by foreign host.
 
 ## Ersetzen von Subdomains
 
-Wenn die Sender-Adresse einer Mail (FROM) die Struktur jemand@subdomain.psa-team02.cit.tum.de hat, können wir die Subdomain aus der Absenderadresse entfernen, indem wir eine `/etc/header_checks`-Datei anlegen, und diese in Postfix' `main.cf` als `header_checks` angeben:
+Wenn die Sender-Adresse einer Mail (FROM) die Struktur jemand@subdomain.psa-team02.cit.tum.de hat, können wir die Subdomain aus der Absenderadresse entfernen, indem wir eine `/etc/postfix/header_checks`-Datei anlegen, und diese in Postfix' `main.cf` als `header_checks` angeben:
 
 ```
 header_checks = regexp:/etc/postfix/header_checks
