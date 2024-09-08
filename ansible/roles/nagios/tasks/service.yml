@@ -1,0 +1,5 @@
+- name: start nagios service
+  systemd_service:
+    name: nagios
+    state: started
+

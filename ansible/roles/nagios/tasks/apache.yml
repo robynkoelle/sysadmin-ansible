@@ -1,0 +1,6 @@
+- name: enable apache2 rewrite module
+  shell: "a2enmod rewrite"
+
+- name: enable apache2 cgi module
+  shell: "a2enmod cgi"
+

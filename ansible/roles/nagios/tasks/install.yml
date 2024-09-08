@@ -1,0 +1,45 @@
+- name: download source
+  get_url:
+    url: "https://assets.nagios.com/downloads/nagioscore/releases/nagios-{{ nagios.version }}.tar.gz"
+    dest: /tmp/nagioscore.tar.gz
+
+- name: uncompress source
+  shell: 
+    cmd: "tar xzf nagioscore.tar.gz"
+    chdir: "/tmp/"
+
+- name: compile 
+  shell:
+    cmd: "./configure --with-httpd-conf=/etc/apache2/sites-enabled && make all"
+    chdir: "/tmp/nagios-{{ nagios.version }}/"
+
+- name: create user and group
+  shell:
+    cmd: "make install-groups-users"
+    chdir: "/tmp/nagios-{{ nagios.version }}/"
+
+- name: install binaries
+  shell:
+    cmd: "make install"
+    chdir: "/tmp/nagios-{{ nagios.version }}/"
+
+- name: install service / daemon
+  shell:
+    cmd: "make install-daemoninit"
+    chdir: "/tmp/nagios-{{ nagios.version }}/"
+
+- name: install command mode
+  shell:
+    cmd: "make install-commandmode"
+    chdir: "/tmp/nagios-{{ nagios.version }}/"
+
+- name: install config files 
+  shell:
+    cmd: "make install-config"
+    chdir: "/tmp/nagios-{{ nagios.version }}/"
+
+- name: install apache config files 
+  shell:
+    cmd: "make install-webconf"
+    chdir: "/tmp/nagios-{{ nagios.version }}/"
+

@@ -1,0 +1,32 @@
+- import_tasks: dependencies.yml
+  tags:
+    - nagios
+    - nagios-dependencies
+
+- import_tasks: install.yml
+  tags:
+    - nagios
+    - nagios-install
+  notify: restart apache2
+
+- import_tasks: apache.yml
+  tags:
+    - nagios
+    - nagios-apache
+  notify: restart apache2
+
+- import_tasks: admin.yml
+  tags:
+    - nagios
+    - nagios-admin
+
+- import_tasks: service.yml
+  tags:
+    - nagios
+    - nagios-service
+
+- import_tasks: plugins.yml
+  tags:
+    - nagios
+    - nagios-plugins
+

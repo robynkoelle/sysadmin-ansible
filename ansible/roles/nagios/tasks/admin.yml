@@ -1,0 +1,3 @@
+- name: create admin user
+  shell: "sudo htpasswd -cb /usr/local/nagios/etc/htpasswd.users nagiosadmin {{ nagios.admin_password }}"
+

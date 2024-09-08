@@ -37,6 +37,7 @@
     - mail
     - dovecot
     - apache2 # for nagios
+    - nagios
 
 - name: additional setup
   hosts: vmpsateam02

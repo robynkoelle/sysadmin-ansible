@@ -1,0 +1,35 @@
+- name: install dependencies for plugins
+  apt:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - autoconf
+    - gcc
+    - libc6
+    - libmcrypt-dev
+    - make
+    - libssl-dev
+    - wget
+    - bc
+    - gawk
+    - dc
+    - build-essential
+    - snmp
+    - libnet-snmp-perl
+    - gettext
+
+- name: download plugins
+  get_url:
+    url: "https://github.com/nagios-plugins/nagios-plugins/archive/release-{{ nagios.plugins_version }}.tar.gz"
+    dest: "/tmp/nagios-plugins.tar.gz"
+
+- name: uncompress plugins
+  shell:
+    cmd: "tar zxf nagios-plugins.tar.gz"
+    chdir: "/tmp"
+
+- name: compile and install plugins
+  shell:
+    cmd: "./tools/setup && ./configure && make && make install"
+    chdir: "/tmp/nagios-plugins-release-{{ nagios.plugins_version }}"
+
