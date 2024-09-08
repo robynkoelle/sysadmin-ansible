@@ -36,6 +36,7 @@
     - ldap-csv-users
     - mail
     - dovecot
+    - apache2 # for nagios
 
 - name: additional setup
   hosts: vmpsateam02

@@ -1,0 +1,5 @@
+- name: copy ports.conf
+  template:
+    src: etc/apache2/ports.conf
+    dest: "/etc/apache2/ports.conf"
+

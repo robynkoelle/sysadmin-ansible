@@ -1,0 +1,11 @@
+- import_tasks: dependencies.yml
+  tags:
+    - apache2
+    - apache2-dependencies
+
+- import_tasks: config.yml
+  tags:
+    - apache2
+    - apache2-config
+  notify: restart apache2
+

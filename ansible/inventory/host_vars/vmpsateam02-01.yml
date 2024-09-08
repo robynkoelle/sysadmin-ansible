@@ -127,3 +127,6 @@ mounts:
   - to: /home.bak
     from: /mnt/raid/vmpsateam02-01/home.bak
 
+apache2:
+  http_port: 8080
+  https_port: 8443

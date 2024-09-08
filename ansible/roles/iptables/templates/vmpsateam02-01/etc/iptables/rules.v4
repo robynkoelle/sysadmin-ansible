@@ -25,6 +25,10 @@ COMMIT
 -A INPUT -p tcp --dport 443 -j ACCEPT
 -A OUTPUT -p tcp --sport 443 -j ACCEPT
 
+# Allow incoming HTTP to apache2
+-A INPUT -p tcp --dport {{ apache2.http_port }} -j ACCEPT
+-A OUTPUT -p tcp --sport {{ apache2.http_port }} -j ACCEPT
+
 # Allow SSH
 -A INPUT -p tcp --dport 22 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
 -A OUTPUT -p tcp --sport 22 -m conntrack --ctstate ESTABLISHED -j ACCEPT
