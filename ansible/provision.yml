@@ -29,6 +29,7 @@
     - ip-forwarding
     - dns
     - dhcp
+    - docker
     - postgresql
     - raid
     - samba
@@ -46,7 +47,6 @@
     - logrotate
     - nginx
     - fcgiwrap
-    - docker
     - mounts
     - autofs
     - ldap-client
