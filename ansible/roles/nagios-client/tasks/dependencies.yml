@@ -1,0 +1,8 @@
+- name: install dependencies
+  apt:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - nagios-nrpe-server
+    - nagios-plugins
+

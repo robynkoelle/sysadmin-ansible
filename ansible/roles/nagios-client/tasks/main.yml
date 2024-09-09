@@ -1,0 +1,11 @@
+- import_tasks: dependencies.yml
+  tags:
+    - nagios-client
+    - nagios-client-dependencies
+
+- import_tasks: config.yml
+  tags:
+    - nagios-client
+    - nagios-client-config
+  notify: restart nagios-nrpe-server
+

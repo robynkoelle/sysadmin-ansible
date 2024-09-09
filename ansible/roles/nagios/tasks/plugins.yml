@@ -33,3 +33,18 @@
     cmd: "./tools/setup && ./configure && make && make install"
     chdir: "/tmp/nagios-plugins-release-{{ nagios.plugins_version }}"
 
+- name: download nrpe
+  get_url:
+    url: "https://github.com/NagiosEnterprises/nrpe/releases/download/nrpe-4.1.1/nrpe-4.1.1.tar.gz"
+    dest: "/tmp/nrpe.tar.gz"
+
+- name: uncompress nrpe
+  shell:
+    cmd: "tar zxf nrpe.tar.gz"
+    chdir: "/tmp"
+
+- name: compile and install nrpe 
+  shell:
+    cmd: "./configure && make all && make install-plugin && make install-daemon && make install-init"
+    chdir: "/tmp/nrpe-4.1.1" 
+

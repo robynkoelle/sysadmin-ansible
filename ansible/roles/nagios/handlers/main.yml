@@ -3,3 +3,8 @@
     name: apache2
     state: restarted
 
+- name: restart nagios
+  systemd_service:
+    name: nagios
+    state: restarted
+

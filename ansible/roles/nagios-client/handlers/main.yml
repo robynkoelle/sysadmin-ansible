@@ -1,0 +1,5 @@
+- name: restart nagios-nrpe-server
+  systemd_service:
+    name: nagios-nrpe-server
+    state: restarted
+

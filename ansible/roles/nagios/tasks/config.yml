@@ -1,0 +1,24 @@
+- name: copy hosts config
+  template:
+    src: "{{ host_name }}/usr/local/nagios/etc/hosts.cfg"
+    dest: "/usr/local/nagios/etc/hosts.cfg"
+
+- name: copy services config
+  template:
+    src: "{{ host_name }}/usr/local/nagios/etc/services.cfg"
+    dest: "/usr/local/nagios/etc/services.cfg"
+
+- name: add configs to nagios.cfg
+  lineinfile:
+    line: "cfg_file={{ item }}"
+    path: "/usr/local/nagios/etc/nagios.cfg"
+    insertafter: "^cfg_file="
+  loop:
+    - /usr/local/nagios/etc/hosts.cfg
+    - /usr/local/nagios/etc/services.cfg
+
+- name: copy commands config
+  template:
+    src: "{{ host_name }}/usr/local/nagios/etc/objects/commands.cfg"
+    dest: "/usr/local/nagios/etc/objects/commands.cfg"
+

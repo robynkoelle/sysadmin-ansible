@@ -66,3 +66,5 @@ apache2:
   http_port: 8080
   https_port: 8443
 
+nagios_client:
+  allowed_hosts: "127.0.0.1,192.168.2.1"

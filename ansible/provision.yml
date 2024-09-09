@@ -56,4 +56,5 @@
   remote_user: root
   roles:
     - nullmailer
+    - nagios-client
 
