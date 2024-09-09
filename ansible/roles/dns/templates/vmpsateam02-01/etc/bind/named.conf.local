@@ -7,6 +7,7 @@ zone "{{ bind9.forward_zone.domain }}" {
     # Slaves:
     allow-transfer {
         192.168.9.1;
+        192.168.1.2;
     };
 };
 
@@ -25,15 +26,27 @@ zone "psa-team09.cit.tum.de" {
     masters { 192.168.9.1; };
 };
 
-# Forwarders:
+# Reverse zone for team09
+zone "9.168.192.in-addr.arpa" {
+    type slave;
+    file "/var/cache/bind/db.9.168.192";
+    masters { 192.168.9.1; };
+};
 
 zone "psa-team01.cit.tum.de" {
-    type forward;
-    forward only;
-    forwarders {
-        192.168.1.2;
-    };
+    type slave;
+    file "/var/cache/bind/db.psa-team01.cit.tum.de";
+    masters { 192.168.1.2; };
 };
+
+# Reverse zone for team01
+zone "1.168.192.in-addr.arpa" {
+    type slave;
+    file "/var/cache/bind/db.1.168.192";
+    masters { 192.168.1.2; };
+};
+
+# Forwarders:
 
 zone "psa-team03.cit.tum.de" {
     type forward;

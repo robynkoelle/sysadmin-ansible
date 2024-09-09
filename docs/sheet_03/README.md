@@ -19,9 +19,10 @@ In [named.conf.local](../../ansible/roles/dns/templates/vmpsateam02-01/etc/bind/
 - Den Zonentransfer zu einem anderen Team: eine Zone vom Typ `master`, die unter `allow-transfer` die Adresse(n) eines anderen Teams für den Transfer der  [db.psa-team02.cit.tum.de](../../ansible/roles/dns/templates/vmpsateam02-01/etc/bind/db.psa-team02.cit.tum.de) zulässt.
 - Unsere Reverse-Zone, die [db.2.168.192](../../ansible/roles/dns/templates/vmpsateam02-01/etc/bind/db.2.168.192) referenziert.
 - Unsere Slaves für ein anderes Team: Zonen vom Typ `slave`, die einen `master` eines anderes Teams haben.
+- Reverse zone für ein anderes Team: analog
 - Unsere Forwarders: Zonen vom Typ `forward` für Anfragen an die Zonen der jeweils anderen Teams. 
 
-> ⚠️  TODO: zweites Team für Zonentransfer
+Wir machen einen gegenseitigen Zonentransfer mit jeweils Team01 und Team09.
 
 # DHCP
 
