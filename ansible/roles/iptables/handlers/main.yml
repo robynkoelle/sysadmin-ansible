@@ -1,7 +1,7 @@
 - name: check if docker exists
   stat:
     path: /etc/systemd/system/docker.service
-  register: docker_exists 
+  register: docker_service_exists 
   listen: restart docker
 
 - name: restart docker
