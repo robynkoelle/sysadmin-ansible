@@ -2,6 +2,9 @@
 
 ## Nagios
 
+Zu unserem Nagios: [http://131.159.74.56:60205/nagios/](http://131.159.74.56:60205/nagios/)
+Die Login-Credentials sind auf `192.168.2.1` unter `/root`.
+
 Wir nutzen Nagios als Dienstüberwachungsprogramm.
 Nagios verwendet standardmäßig den apache2-Webserver.
 Obwohl wir als primären Webserver nginx verwenden, installieren wir apache2 auf `vmpsateam02-01` mit apt.
