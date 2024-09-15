@@ -14,8 +14,6 @@ check_raid_status() {
     fi
 }
 
-# Other functions remain the same...
-
 
 # Function to check filesystem usage
 check_filesystem() {
