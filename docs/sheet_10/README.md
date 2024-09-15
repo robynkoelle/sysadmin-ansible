@@ -261,3 +261,23 @@ Hierfür verwenden wir wieder `check_ping`, aber statt dem localhost pingen wir
 - Die Adresse unseres Routers in den jeweiligen Verbindungsnetzen (nur auf `vmpsateam02-01`)
 - Die jeweils eigene IP-Adresse unserer VMs im Team-Netz
 - Die jeweils andere IP-Adresse unserer VMs im Team-Netz
+
+# DNS
+
+- Mit `check_procs` bzw. `check_local_procs` prüfen, dass Bind9 läuft (nur auf `vmpsateam02-01`)
+- Mit `check_dns` prüfen, dass `early-bird.psa-team02.cit.tum.de auf `192.168.2.1` resolvet
+
+Den `check_dns` Command fügen wir wie folgt der `commands.cfg` hinzu:
+```text
+define command {
+    command_name    check_dns
+    command_line    /usr/lib/nagios/plugins/check_dns -H $ARG1$ -a $ARG2$
+}
+```
+
+Für die Übersichtlichkeit lassen wir auch weitere Command-Definitionen in den folgenden Abschnitten aus.
+Die jeweiligen Config-Dateien in unserer `nagios`- bzw. `nagios-client`-Rolle dienen als Dokumentation.
+
+#  DHCP
+
+- Mit `check_dhcp` überprüfen wir die Verfügbarkeit unseres DHCP Servers im Netzwerk (über dessen IP)
