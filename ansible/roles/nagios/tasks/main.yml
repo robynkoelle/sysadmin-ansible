@@ -30,9 +30,13 @@
     - nagios
     - nagios-plugins
 
+- import_tasks: directories.yml
+  tags:
+    - nagios
+    - nagios-directories
+
 - import_tasks: config.yml
   tags:
     - nagios
     - nagios-config
   notify: restart nagios
-

@@ -15,4 +15,4 @@
     - libgd-dev
     - openssl
     - libssl-dev
-
+    - nagios-plugins
