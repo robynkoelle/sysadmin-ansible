@@ -44,6 +44,10 @@ allow-recursion {
 ```
 Damit ist es zwar immer noch mögich, dass unser Subnets Opfer der Attacke wird, aber zumindest keine anderen mehr.
 
+## Rootkit Detection
+
+Mit dem Package `rkhunter` können wir Rootkits auf unseren Servern erkennen. Dazu installieren wir rkhunter mit apt, updaten und initialisieren die Datenbank mit `rkhunter --update` und `rkhunter --propupd` und führen es mit `rkhunter --check` aus. Dabei werden einige Warnungen ausgegeben, die aber auf false positives zurückzuführen sind, da SSH Root Login erlaubt sein soll. Außerdem wurden Postgres Datein unter /dev als verdächtig markiert.
+
 ## Port Scanning
 Mit nmap können wir uns und andere Hosts im Netzwerk scannen. Dabei verwenden wir für unsere Server folgenden Befehl:
 ```bash
