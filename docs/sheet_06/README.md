@@ -1,5 +1,9 @@
 # Aufgabenblatt 06
 
+ℹ️ Unsere Dokumentation verweist häufig auf unser Ansible-Repository.
+Daher empfiehlt es sich, die Dokumentation in unserem Repository zu lesen:
+[https://github.com/robynkoelle/sysadmin-ansible](https://github.com/robynkoelle/sysadmin-ansible).
+
 Zu unserem Wiki.js: [http://131.159.74.56:60204](http://131.159.74.56:60204)
 Die Login-Credentials sind im PSA-Wiki unter `Team 02 - Aufgabenblatt 06`. 
 Die Admin-Credentials sind auf `vmpsateam02-01` unter `/root`.

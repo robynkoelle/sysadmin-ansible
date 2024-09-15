@@ -1,5 +1,9 @@
 # Aufgabenblatt 7: okumentation
 
+ℹ️ Unsere Dokumentation verweist häufig auf unser Ansible-Repository.
+Daher empfiehlt es sich, die Dokumentation in unserem Repository zu lesen:
+[https://github.com/robynkoelle/sysadmin-ansible](https://github.com/robynkoelle/sysadmin-ansible).
+
 ## Festplatten anlegen
 
 Team 01 stellt folgendes Skript zur Verfügung (danke), um die Festplatten und den SATA Controller über die Commandline anzulegen:

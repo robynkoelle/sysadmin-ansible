@@ -1,5 +1,9 @@
 # Aufgabenblatt 11
 
+ℹ️ Unsere Dokumentation verweist häufig auf unser Ansible-Repository.
+Daher empfiehlt es sich, die Dokumentation in unserem Repository zu lesen:
+[https://github.com/robynkoelle/sysadmin-ansible](https://github.com/robynkoelle/sysadmin-ansible).
+
 ## John the Ripper
 Zuerst überprüfen wir, ob sichere Passwörter für die User gesetzt wurden. Dabei verwenden wir das Tool `john` um die Hashes in LDAP zu cracken.
 Mit `slapcat` dumpen wir unser LDAP in eine Datei, danach filtern wir die BASE64 kodierten hashes heraus und dekodieren diese. Damit haben wir eine Liste von Hashes, welche so aussieht:

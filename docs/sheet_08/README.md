@@ -1,5 +1,9 @@
 # Aufgabenblatt 8
 
+ℹ️ Unsere Dokumentation verweist häufig auf unser Ansible-Repository.
+Daher empfiehlt es sich, die Dokumentation in unserem Repository zu lesen:
+[https://github.com/robynkoelle/sysadmin-ansible](https://github.com/robynkoelle/sysadmin-ansible).
+
 ## LDAP installieren
 Wir installieren `slapd` und `ldap-utils` mit apt:
 ```shell
