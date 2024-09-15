@@ -281,3 +281,8 @@ Die jeweiligen Config-Dateien in unserer `nagios`- bzw. `nagios-client`-Rolle di
 #  DHCP
 
 - Mit `check_dhcp` überprüfen wir die Verfügbarkeit unseres DHCP Servers im Netzwerk (über dessen IP)
+
+# Webserver
+
+- Mit `check_http` überprüfen wir die Verfügbarkeit unseres Webservers (HTTP)
+- Mit der `-p 443` und `-S` überprüfen wir HTTPS
