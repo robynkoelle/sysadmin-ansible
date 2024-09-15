@@ -160,3 +160,42 @@ Die Ausgabe der Versionsnummer von NRPE bestätigt die Funktion.
 
 ## Konfigurieren der Checks 
 
+Wir definieren die auszuführenden Checks für den Nagios-Server in `/usr/local/nagios/etc/objects/localhost.cfg`,
+und für `vmpsateam02-02` in `/usr/local/nagios/etc/services.cfg`.
+
+### Anzeigen des verfügbaren Speichers
+
+Bereits von Nagios voreingestellt in der `localhost.cfg`.
+Hierfür wird der ebenfalls vorkonfigurierte (in `/usr/local/nagios/etc/objects/commands.cfg`) Command `check_disk` verwendet. 
+
+Zusätzlich zur Voreinstellung, die die Größe der Root-Partition überwacht, überwachen wir explizit noch den Root unseres Fileservers `/mnt/raid`:
+
+```text
+define service {
+    use                 local-service
+    host_name           localhost
+    service_description Disk Space Fileserver
+    check_command       check_local_disk!20%!10%!/mnt/raid
+}
+```
+
+### Anzeigen der Länge der Mail-Queue
+Kommando definieren in `commands.cfg`:
+
+```text
+ define command {
+    command_name    check_mailq
+    command_line    /usr/lib/nagios/plugins/check_mailq -w 50 -c 100
+}  
+```
+
+Service definieren in `localhost.cfg` (Postfix läuft auf `vmpsateam02-01`):
+
+```text
+define service {
+use                 local-service
+host_name           localhost
+service_description Mail Queue Length
+check_command       check_mail_queue
+}
+```
