@@ -4,6 +4,8 @@
 Daher empfiehlt es sich, die Dokumentation in unserem Repository zu lesen:
 [https://github.com/robynkoelle/sysadmin-ansible](https://github.com/robynkoelle/sysadmin-ansible).
 
+⚠️ An die Praktikumsleitung: bitte die Besonderheiten unten beachten.
+
 ## Netzwerk
 
 ### Verbindung zwischen VMs
@@ -353,3 +355,34 @@ Es testet außerdem, ob das jeweilige Ziel via unserem Router erreicht wurde.
 Es überprüft wesentliche Firewall-Regeln (z.B. "Can surf internet" oder "Cannot surf internet without proxy").
 Außerdem gibt es die eigenen Adressen, Routen und die Firewall-Regeln aus:
 [test_PSA_02.sh](..%2F..%2Ftest%2Ftest_PSA_02.sh)
+
+# Besonderheiten
+
+Wir sind betroffen von folgendem Ubuntu-bind9 Bug: [https://bugs.launchpad.net/ubuntu/+source/bind9/+bug/1811554](https://bugs.launchpad.net/ubuntu/+source/bind9/+bug/1811554).
+Dieser führt zu Problemen bei einigen Aufgaben.
+Ein Effekt ist zum Beispiel, dass `dig proxy.cit.tum.de` (und alle anderen bei unserer bind9-Instanz hinterlegten Domains) zu einem Timeout führt:
+```shell
+root@vmpsateam02-01:~# dig +short proxy.cit.tum.de
+;; communications error to 127.0.0.53#53: timed out
+;; communications error to 127.0.0.53#53: timed out
+;; communications error to 127.0.0.53#53: timed out
+;; no servers could be reached
+```
+Wir bitten die Praktikumsleitung, folgenden Befehl auszuführen und ca. 20 Sekunden abzuwarten, sollten solche Probleme auftreten:
+```shell
+netplan apply
+```
+
+Oder alternativ:
+```shell
+systemctl restart systemd-resolved.service
+resolvectl query proxy.cit.tum.de
+```
+(und beim zweiten Kommando ca. 20 Sekunden abwarten). 
+
+Danach funktioniert alles wieder normal.
+Wir haben manuell (ohne Ansible) einen Cron-Job angelegt, der nach dem Boot `netplan apply` ausführt:
+```text
+@reboot sleep 30 && /usr/sbin/netplan apply
+```
+Sollte es dennoch zu DNS Problemen kommen, bitte die obigen Schritte ausführen.

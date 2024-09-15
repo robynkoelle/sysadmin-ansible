@@ -1,3 +1,5 @@
+#!/bin/python3
+
 import subprocess
 from ldap3 import Server, Connection, ANONYMOUS, ALL
 

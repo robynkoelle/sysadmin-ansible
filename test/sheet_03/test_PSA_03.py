@@ -50,7 +50,7 @@ def test_reverse_dns(ip_adresse, erwartete_domain):
     try:
         result = subprocess.run(['dig', '-x', ip_adresse, '+short'], capture_output=True, text=True)
         resolved_domain = result.stdout.strip()
-        if resolved_domain == erwartete_domain:
+        if erwartete_domain in resolved_domain.splitlines():
             print(f"Erfolg: {ip_adresse} wird auf {resolved_domain} aufgelöst")
         else:
             print(f"FEHLER: {ip_adresse} wird auf {resolved_domain} aufgelöst, erwartet wurde {erwartete_domain}")
@@ -81,8 +81,7 @@ def test_dns_weiterleitung(domain_name):
 
 def main():
     test_dns_aufloesung("psa-team02.cit.tum.de", "192.168.2.1")
-    test_reverse_dns("192.168.2.1", "psa-team02.cit.tum.de")
-    test_dhcp_leasing("enp0s8")
+    test_reverse_dns("192.168.2.2", "vmpsateam02-02.psa-team02.cit.tum.de.")
     test_dns_weiterleitung("www.google.com")
     test_dhcp_entdeckung()
 

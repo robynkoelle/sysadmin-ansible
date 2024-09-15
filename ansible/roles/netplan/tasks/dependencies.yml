@@ -1,0 +1,4 @@
+- name: install openvswitch-switch-dpdk
+  apt:
+    name: openvswitch-switch-dpdk
+    state: present

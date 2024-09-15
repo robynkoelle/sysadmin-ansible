@@ -15,7 +15,7 @@ else
 fi
 
 # Test if Wiki.js page is accessible
-response=$(curl -s -o /dev/null -w "%{http_code}" http://131.159.74.56:60204/)
+response=$(curl -s -o /dev/null -w "%{http_code}" http://131.159.74.56:60204)
 
 if [ "$response" -eq 200 ]; then
     echo "Wiki.js is up and running. The web page is accessible."

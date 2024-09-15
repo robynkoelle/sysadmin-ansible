@@ -1,3 +1,8 @@
+- import_tasks: dependencies.yml
+  tags:
+    - netplan
+    - netplan-dependencies
+
 - import_tasks: disable-cloudinit.yml
   tags:
     - netplan
