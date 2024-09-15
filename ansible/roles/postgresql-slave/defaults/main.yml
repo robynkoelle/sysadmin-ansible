@@ -1,0 +1,3 @@
+postgresql:
+  version: 16
+  backup_directory: "/var/backups/postgres"

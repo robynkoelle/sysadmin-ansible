@@ -1,0 +1,15 @@
+- name: stop postgres
+  systemd_service:
+    name: postgresql
+    state: stopped
+
+- name: move data directory
+  shell: "mv /var/lib/postgresql/{{ postgresql.version }}/main /var/lib/postgresql/{{ postgresql.version }}/main_old"
+
+- name: run backup utility
+  shell: "sudo -u postgres pg_basebackup -h {{ postgresql.master.ip }} -D /var/lib/postgresql/{{ postgresql.version }}/main -U {{ postgresql.replication_user.name }} -v -P --wal-method=stream -R"
+
+- name: start postgres
+  systemd_service:
+    name: postgresql
+    state: started

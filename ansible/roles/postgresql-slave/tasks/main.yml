@@ -1,0 +1,29 @@
+- import_tasks: dependencies.yml
+  tags:
+    - postgresql-slave
+    - postgresql-slave-dependencies
+
+- import_tasks: repository.yml
+  tags:
+    - postgresql-slave
+    - postgresql-slave-repository
+
+- import_tasks: install.yml
+  tags:
+    - postgresql-slave
+    - postgresql-slave-install
+
+- import_tasks: slave.yml
+  tags:
+    - postgresql-slave
+    - postgresql-slave-slave
+
+- import_tasks: config.yml
+  tags:
+    - postgresql-slave
+    - postgresql-slave-config
+
+- import_tasks: backups.yml
+  tags:
+    - postgresql-slave
+    - postgresql-slave-backups

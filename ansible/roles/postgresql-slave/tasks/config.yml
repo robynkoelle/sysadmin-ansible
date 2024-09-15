@@ -1,0 +1,4 @@
+- name: copy config
+  template:
+    src: "etc/postgresql/{{ postgresql.version }}/main/postgresql.conf"
+    dest: "/etc/postgresql/{{ postgresql.version }}/main/postgresql.conf"

@@ -57,6 +57,15 @@ bind9:
     reversed_address: 2.168.192
 
 postgresql:
+  replication_user:
+    name: "repuser"
+    password: !vault |
+      $ANSIBLE_VAULT;1.1;AES256
+      31363666343164643834663932333239363465333937386137323565333136633432626337316161
+      3533643130316433323463636165336163653264616231300a396139366561613230366239373035
+      61366636363936383331666130366266386562326135306230663266663133663866626333653861
+      3334653238633261610a383561643931366238643634366137376531616465343631613330646463
+      65376534653236376262633230393237376262336363386237613832303332366436
   listen_addresses: "127.0.0.1,192.168.2.1" # comma-separated
   databases:
     - name: early_bird
@@ -100,6 +109,21 @@ postgresql:
         - name: synapse
           source_address: 192.168.1.0/24
           privileges: ALL
+    - name: ro_user
+      password: 1234 # TODO
+      databases:
+        - name: early_bird
+          source_address: 127.0.0.1/32
+          privileges: SELECT
+        - name: team02
+          source_address: 127.0.0.1/32
+          privileges: SELECT
+        - name: wikijs
+          source_address: 127.0.0.1/32
+          privileges: SELECT
+        - name: synapse
+          source_address: 127.0.0.1/32
+          privileges: SELECT
 
 raid:
   devices: "/dev/sd[b-h]"

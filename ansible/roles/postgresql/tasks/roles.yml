@@ -10,6 +10,20 @@
     - databases
   become: yes
   become_user: postgres
+  when: item.0.name != "ro_user"
+
+- name: read-only user privileges
+  community.general.postgresql_privs:
+    db: "{{ item.1.name }}" # db to connect to.
+    privs: "{{ item.1.privileges }}"
+    obj: ALL_IN_SCHEMA
+    role: "{{ item.0.name }}" # user name.
+  with_subelements:
+    - "{{ postgresql.users }}"
+    - databases
+  become: yes
+  become_user: postgres
+  when: item.0.name == "ro_user"
 
 - name: copy pg_hba file
   template:

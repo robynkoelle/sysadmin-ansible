@@ -39,3 +39,7 @@
     - postgresql
     - postgresql-roles
 
+- import_tasks: replication.yml
+  tags:
+    - postgresql
+    - postgresql-replication

@@ -1,0 +1,20 @@
+- name: create backup dir
+  file:
+    path: "{{ postgresql.backup_directory }}"
+    state: directory
+
+- name: copy dump-script
+  template:
+    src: "usr/local/bin/postgres_dump.sh"
+    dest: "/usr/local/bin/postgres_dump.sh"
+    mode: "0700"
+    owner: postgres
+    group: postgres
+
+- name: Add cron job for postgres user to run backup daily at 2 AM
+  cron:
+    name: "PostgreSQL backup"
+    user: postgres
+    minute: "0"
+    hour: "2"
+    job: "/usr/local/bin/postgres_dump.sh > /dev/null 2>&1"

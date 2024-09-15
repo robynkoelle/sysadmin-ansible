@@ -1,0 +1,2 @@
+- name: create replication user
+  shell: "sudo -u postgres psql -c \"CREATE USER {{ postgresql.replication_user.name }} WITH REPLICATION ENCRYPTED PASSWORD '{{ postgresql.replication_user.password }}';\""

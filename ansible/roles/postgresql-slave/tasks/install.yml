@@ -1,0 +1,4 @@
+- name: install postgresql
+  apt:
+    name: "postgresql-{{ postgresql.version }}"
+    state: present
