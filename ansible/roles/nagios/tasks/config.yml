@@ -7,6 +7,9 @@
   template:
     src: "{{ host_name }}/usr/local/nagios/etc/objects/localhost.cfg"
     dest: "/usr/local/nagios/etc/objects/localhost.cfg"
+    mode: "0600"
+    owner: nagios
+    group: nagios
 
 - name: copy hosts config
   template:

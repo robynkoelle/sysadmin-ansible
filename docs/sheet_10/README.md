@@ -98,6 +98,7 @@ Somit ist das Webinterface vom Internet aus über [http://131.159.74.56:60205/na
 Analog zu nagios selbst, installieren wir uns `nagios-plugins`, indem wir die Source von `https://github.com/nagios-plugins/nagios-plugins/archive/release-{{ nagios.plugins_version }}.tar.gz` herunterladen, und kompilieren.
 Hierfür benötigen wir ebenfalls dependencies.
 Das alles ist unter `plugins.yml` in der Rolle dokumentiert.
+Für weitere Plugins, die hier nicht enthalten sind (wie z.B. `check_pgsql`), installieren wir noch `nagios-plugins` mit apt.
 
 Zusätzlich installieren wir uns (wieder analog) NRPE (`https://github.com/NagiosEnterprises/nrpe/releases/download/nrpe-4.1.1/nrpe-4.1.1.tar.gz`), um Checks auf anderen VMs über das Netzwerk ausführen zu können. 
 
@@ -167,17 +168,6 @@ und für `vmpsateam02-02` in `/usr/local/nagios/etc/services.cfg`.
 
 Bereits von Nagios voreingestellt in der `localhost.cfg`.
 Hierfür wird der ebenfalls vorkonfigurierte (in `/usr/local/nagios/etc/objects/commands.cfg`) Command `check_disk` verwendet. 
-
-Zusätzlich zur Voreinstellung, die die Größe der Root-Partition überwacht, überwachen wir explizit noch den Root unseres Fileservers `/mnt/raid`:
-
-```text
-define service {
-    use                 local-service
-    host_name           localhost
-    service_description Disk Space Fileserver
-    check_command       check_local_disk!20%!10%!/mnt/raid
-}
-```
 
 ### Anzeigen der Länge der Mail-Queue
 Kommando definieren in `commands.cfg`:
@@ -286,3 +276,40 @@ Die jeweiligen Config-Dateien in unserer `nagios`- bzw. `nagios-client`-Rolle di
 
 - Mit `check_http` überprüfen wir die Verfügbarkeit unseres Webservers (HTTP)
 - Mit der `-p 443` und `-S` überprüfen wir HTTPS
+
+# Datenbank
+
+- Mit `check_pgsql` überprüfen wir die Verfügbarkeit unserer WikiJS-Datenbank
+- Idealerweise würden wir hier auch explizit die Verfügbarkeit der Datenbank testen, die wir an Team 1 bereitstellen. Aus Security-Gründen verwalten wir aber nur das initiale Passwort für Team 1, nicht das aktuelle. Die generelle Funktionalität von Postgres wird aber durch den obigen Command bereits getestet. 
+
+Die benötigten Credentials schreiben wir in die `localhost.cfg`.
+Damit nur der nagios-Nutzer diese lesen kann, geben wir der Datei die Permissions 0600 (und owner/group: nagios).
+
+# Web-Applikation
+
+Unsere WikiJS Web-App läuft in einem Docker-Container auf Port 3000, den wir auf den Port 8081 unseres Systems mappen.
+Wir machen also einen `check_http` auf `8081`.
+
+# Fileserver
+
+Zusätzlich zur Voreinstellung, die die Größe der Root-Partition überwacht, überwachen wir explizit noch den Root unseres Fileservers `/mnt/raid`:
+
+```text
+define service {
+    use                 local-service
+    host_name           localhost
+    service_description Disk Space Fileserver
+    check_command       check_local_disk!20%!10%!/mnt/raid
+}
+```
+Man könnte natürlich noch zusätzliche Plugins installieren, die explizit Samba und NFS testen.
+Dies lassen wir hier aus, da es vom Prinzip her sehr ähnlich zu den obigen Postgres-Checks funktioniert.
+
+# LDAP
+
+- Wir nutzen `check_ldap`, um uns mit unserem LDAP-Directory zu verbinden
+
+# Mail
+
+- Anzeigen der Länge der Mail Queue (weiter oben dokumentiert)
+- Mit `check_tcp` prüfen, ob Postfix (Port 25) und Dovecot (Port 143) jeweils da sind
