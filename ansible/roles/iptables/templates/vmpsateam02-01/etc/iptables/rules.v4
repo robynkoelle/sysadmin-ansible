@@ -26,8 +26,8 @@ COMMIT
 -A OUTPUT -p tcp --sport 443 -j ACCEPT
 
 # Allow incoming HTTP to apache2
--A INPUT -p tcp --dport {{ apache2.http_port }} -j ACCEPT
--A OUTPUT -p tcp --sport {{ apache2.http_port }} -j ACCEPT
+-A INPUT -p tcp --dport {{ apache2.http_port }} -j ACCEPT
+-A OUTPUT -p tcp --sport {{ apache2.http_port }} -j ACCEPT
 
 # Allow SSH
 -A INPUT -p tcp --dport 22 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
@@ -90,7 +90,7 @@ COMMIT
 # Forward explicit allow
 {% for network in networks.teams %}
 {% if network != "192.168.2.0/24" %}
--A FORWARD -i enp0s8 -o enp0s8 -s 192.168.2.0/24 -d {{ network }} -j ACCEPT
+-A FORWARD -i enp0s8 -o enp0s8 -s 192.168.2.0/24 -d {{ network }} -j ACCEPT
 -A FORWARD -i enp0s8 -o enp0s8 -s {{ network }} -d 192.168.2.0/24 -j ACCEPT
 {% endif %}
 {% endfor %}

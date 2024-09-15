@@ -8,6 +8,6 @@
   systemd:
     name: docker
     state: restarted
-  when: docker_exists
+  when: docker_service_exists
   listen: restart docker
 
