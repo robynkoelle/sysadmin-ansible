@@ -199,3 +199,65 @@ service_description Mail Queue Length
 check_command       check_mail_queue
 }
 ```
+
+### Betriebssystem
+
+Ping und Load sind hier sinnvolle Checks.
+
+Lokale Maschine pingen (bereits vorkonfiguriert):
+```text
+define service {
+use                     local-service           
+host_name               localhost
+service_description     PING
+check_command           check_ping!100.0,20%!500.0,60%
+}
+```
+
+Lokalen load prüfen (bereits vorkonfiguriert): 
+```text
+define service {
+use                     local-service           
+host_name               localhost
+service_description     Current Load
+check_command           check_local_load!5.0,4.0,3.0!10.0,6.0,4.0
+}
+```
+
+Analog die Kommandos via NRPE ausführen:
+```text
+define service {
+    use                     generic-service
+    host_name               vmpsateam02-02
+    service_description     CPU Load
+    check_command           check_nrpe!check_load
+}
+define service {
+    use                     generic-service
+    host_name               vmpsateam02-02
+    service_description     Ping
+    check_command           check_nrpe!check_ping
+}
+```
+
+Damit `check_ping` via NRPE funktioniert, müssen wir in `/etc/nagios/nrpe.cfg` auf dem Remote Host den Command definieren:
+```text
+command[check_ping]=/usr/lib/nagios/plugins/check_ping -H 127.0.0.1 -w 100.0,20% -c 500.0,60% -p 5
+```
+Der `check_load`-Command war bereits vordefiniert.
+
+In den folgenden Punkten gehen wir analog vor.
+Damit die Dokumentation übersichtlich bleibt, verzichten wir von jetzt an darauf, den Boilerplate für Commands und Services zu wiederholen.
+
+Auf beiden VMs:
+- `check_swap`, um den genutzten Swap zu überwachen
+- `check_procs`, um die Anzahl der laufenden Prozesse zu überwachen
+- `check_users`, um die Anzahl der eingeloggten Nutzer zu überwachen
+- `check_local_disk` bzw. `check_disk_root`, um den freien Speicherplatz zu überwachen
+
+### Netzwerk
+
+Hierfür verwenden wir wieder `check_ping`, aber statt dem localhost pingen wir
+- Die Adresse unseres Routers in den jeweiligen Verbindungsnetzen (nur auf `vmpsateam02-01`)
+- Die jeweils eigene IP-Adresse unserer VMs im Team-Netz
+- Die jeweils andere IP-Adresse unserer VMs im Team-Netz

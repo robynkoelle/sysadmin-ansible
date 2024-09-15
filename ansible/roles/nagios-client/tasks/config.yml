@@ -1,6 +1,4 @@
-- name: allow hosts
-  lineinfile:
-    line: "allowed_hosts={{ nagios_client.allowed_hosts }}"
-    path: /etc/nagios/nrpe.cfg
-    regexp: "^allowed_hosts="
-
+- name: copy config
+  template:
+    src: "{{ host_name }}/etc/nagios/nrpe.cfg"
+    dest: "/etc/nagios/nrpe.cfg"
