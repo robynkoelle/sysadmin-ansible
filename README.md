@@ -2,9 +2,16 @@
  
 ## Dokumentation
 
-- [Aufgabenblatt 2](docs%2Fsheet_02%2FREADME.md)
-- [Aufgabenblatt 3](docs%2Fsheet_03%2FREADME.md)
-- [Aufgabenblatt 4](docs%2Fsheet_04%2FREADME.md)
+- [Aufgabenblatt 2](docs/sheet_02/README.md)
+- [Aufgabenblatt 3](docs/sheet_03/README.md)
+- [Aufgabenblatt 4](docs/sheet_04/README.md)
+- [Aufgabenblatt 5](docs/sheet_05/README.md)
+- [Aufgabenblatt 6](docs/sheet_06/README.md)
+- [Aufgabenblatt 7](docs/sheet_07/README.md)
+- [Aufgabenblatt 8](docs/sheet_08/README.md)
+- [Aufgabenblatt 9](docs/sheet_09/README.md)
+- [Aufgabenblatt 10](docs/sheet_10/README.md)
+- [Aufgabenblatt 11](docs/sheet_11/README.md)
 
 ## Konventionen
 
