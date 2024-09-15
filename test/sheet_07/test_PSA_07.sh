@@ -84,6 +84,45 @@ check_home_mount_status() {
     fi
 }
 
+
+function create_and_check_file() {
+    # Remote Server Details
+    REMOTE_USER="adrian.averwald"
+    REMOTE_HOST="192.168.2.2"
+    REMOTE_DIR="/home/$REMOTE_USER"
+
+    # Local Directory to check
+    LOCAL_DIR="/mnt/raid/home/$REMOTE_USER"
+
+    # Generate a random filename
+    RANDOM_FILENAME=$(date +%s%N | sha256sum | head -c 10).txt
+
+    # Full remote path to the file
+    REMOTE_FILE_PATH="$REMOTE_DIR/$RANDOM_FILENAME"
+
+    # Create the file on the remote server using SSH
+    ssh "root@$REMOTE_HOST" "touch $REMOTE_FILE_PATH"
+
+    if [ $? -eq 0 ]; then
+        echo "File '$REMOTE_FILE_PATH' created on remote server."
+
+        # Now check if the file with the same name exists locally
+        LOCAL_FILE_PATH="$LOCAL_DIR/$RANDOM_FILENAME"
+        if [ -f "$LOCAL_FILE_PATH" ]; then
+            echo "File '$LOCAL_FILE_PATH' exists locally."
+            echo "SUCCESS: Synced file with remote server. NFS is working."
+        else
+            echo "File '$LOCAL_FILE_PATH' does NOT exist locally."
+        fi
+    else
+        echo "Failed to create the file on the remote server."
+    fi
+}
+
+# Aufruf der Funktion
+create_and_check_file
+
+
 # Run all checks
 check_raid_status
 check_filesystem
