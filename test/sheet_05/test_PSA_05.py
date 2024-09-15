@@ -1,4 +1,25 @@
+#!/bin/python3
+
 import subprocess
+import psycopg2
+from psycopg2 import OperationalError
+
+def check_postgres_connection(host, dbname, user, password, port=5432):
+    print(f"Test connection on {host}, database {dbname} with user {user}")
+    try:
+        conn = psycopg2.connect(
+            host=host,
+            database=dbname,
+            user=user,
+            password=password,
+            port=port
+        )
+        print("Connection successful")
+    except OperationalError as e:
+        print(f"Connection failed: {e}")
+    finally:
+        if 'conn' in locals() and conn:
+            conn.close()
 
 def list_postgres_databases():
     cmd = 'sudo -u postgres psql -c "\l"'
@@ -67,3 +88,10 @@ def test_postgres_users_and_databases():
         print("synapse database does not exist.")
 
 test_postgres_users_and_databases()
+
+check_postgres_connection(
+    host="127.0.0.1",
+    dbname="team02",
+    user="ro_user",
+    password="1234"
+)
