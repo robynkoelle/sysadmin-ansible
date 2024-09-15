@@ -1,4 +1,4 @@
-# Aufgabenblatt 10: Dienstüberwachung
+# Aufgabenblatt 10
 
 ## Nagios
 

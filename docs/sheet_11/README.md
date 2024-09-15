@@ -1,4 +1,4 @@
-# Aufgabenblatt 11: Security
+# Aufgabenblatt 11
 
 ## John the Ripper
 Zuerst überprüfen wir, ob sichere Passwörter für die User gesetzt wurden. Dabei verwenden wir das Tool `john` um die Hashes in LDAP zu cracken.

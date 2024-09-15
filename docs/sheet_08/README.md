@@ -1,4 +1,4 @@
-# Aufgabenblatt 8: LDAP
+# Aufgabenblatt 8
 
 ## LDAP installieren
 Wir installieren `slapd` und `ldap-utils` mit apt:
