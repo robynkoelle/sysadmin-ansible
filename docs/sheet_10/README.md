@@ -252,7 +252,7 @@ Hierfür verwenden wir wieder `check_ping`, aber statt dem localhost pingen wir
 - Die jeweils eigene IP-Adresse unserer VMs im Team-Netz
 - Die jeweils andere IP-Adresse unserer VMs im Team-Netz
 
-# DNS
+### DNS
 
 - Mit `check_procs` bzw. `check_local_procs` prüfen, dass Bind9 läuft (nur auf `vmpsateam02-01`)
 - Mit `check_dns` prüfen, dass `early-bird.psa-team02.cit.tum.de auf `192.168.2.1` resolvet
@@ -268,16 +268,16 @@ define command {
 Für die Übersichtlichkeit lassen wir auch weitere Command-Definitionen in den folgenden Abschnitten aus.
 Die jeweiligen Config-Dateien in unserer `nagios`- bzw. `nagios-client`-Rolle dienen als Dokumentation.
 
-#  DHCP
+###  DHCP
 
 - Mit `check_dhcp` überprüfen wir die Verfügbarkeit unseres DHCP Servers im Netzwerk (über dessen IP)
 
-# Webserver
+### Webserver
 
 - Mit `check_http` überprüfen wir die Verfügbarkeit unseres Webservers (HTTP)
 - Mit der `-p 443` und `-S` überprüfen wir HTTPS
 
-# Datenbank
+### Datenbank
 
 - Mit `check_pgsql` überprüfen wir die Verfügbarkeit unserer WikiJS-Datenbank
 - Idealerweise würden wir hier auch explizit die Verfügbarkeit der Datenbank testen, die wir an Team 1 bereitstellen. Aus Security-Gründen verwalten wir aber nur das initiale Passwort für Team 1, nicht das aktuelle. Die generelle Funktionalität von Postgres wird aber durch den obigen Command bereits getestet. 
@@ -285,12 +285,12 @@ Die jeweiligen Config-Dateien in unserer `nagios`- bzw. `nagios-client`-Rolle di
 Die benötigten Credentials schreiben wir in die `localhost.cfg`.
 Damit nur der nagios-Nutzer diese lesen kann, geben wir der Datei die Permissions 0600 (und owner/group: nagios).
 
-# Web-Applikation
+### Web-Applikation
 
 Unsere WikiJS Web-App läuft in einem Docker-Container auf Port 3000, den wir auf den Port 8081 unseres Systems mappen.
 Wir machen also einen `check_http` auf `8081`.
 
-# Fileserver
+### Fileserver
 
 Zusätzlich zur Voreinstellung, die die Größe der Root-Partition überwacht, überwachen wir explizit noch den Root unseres Fileservers `/mnt/raid`:
 
@@ -305,11 +305,103 @@ define service {
 Man könnte natürlich noch zusätzliche Plugins installieren, die explizit Samba und NFS testen.
 Dies lassen wir hier aus, da es vom Prinzip her sehr ähnlich zu den obigen Postgres-Checks funktioniert.
 
-# LDAP
+### LDAP
 
 - Wir nutzen `check_ldap`, um uns mit unserem LDAP-Directory zu verbinden
 
-# Mail
+### Mail
 
 - Anzeigen der Länge der Mail Queue (weiter oben dokumentiert)
 - Mit `check_tcp` prüfen, ob Postfix (Port 25) und Dovecot (Port 143) jeweils da sind
+
+## Benachrichtigungen
+
+Nagios stellt standardmäßig folgende Commands bereit:
+
+```text
+define command {
+    command_name    notify-host-by-email
+    command_line    /usr/bin/printf "%b" "***** Nagios *****\n\nNotification Type: $NOTIFICATIONTYPE$\nHost: $HOSTNAME$\nState: $HOSTSTATE$\nAddress: $HOSTADDRESS$\nInfo: $HOSTOUTPUT$\n\nDate/Time: $LONGDATETIME$\n" | /usr/bin/mail -s "** $NOTIFICATIONTYPE$ Host Alert: $HOSTNAME$ is $HOSTSTATE$ **" $CONTACTEMAIL$
+}
+
+
+
+define command {
+    command_name    notify-service-by-email
+    command_line    /usr/bin/printf "%b" "***** Nagios *****\n\nNotification Type: $NOTIFICATIONTYPE$\n\nService: $SERVICEDESC$\nHost: $HOSTALIAS$\nAddress: $HOSTADDRESS$\nState: $SERVICESTATE$\n\nDate/Time: $LONGDATETIME$\n\nAdditional Info:\n\n$SERVICEOUTPUT$\n" | /usr/bin/mail -s "** $NOTIFICATIONTYPE$ Service Alert: $HOSTALIAS$/$SERVICEDESC$ is $SERVICESTATE$ **" $CONTACTEMAIL$
+}
+```
+
+Diese verwenden wir in unserer `contacts.cfg`:
+```text
+define contact {
+
+contact_name            nagiosadmin             ; Short name of user
+use                     generic-contact         ; Inherit default values from generic-contact template (defined above)
+alias                   Nagios Admin            ; Full name of user
+email                   robyn.koelle@psa-team02.cit.tum.de
+service_notification_commands notify-service-by-email
+host_notification_commands notify-host-by-email
+}
+```
+
+Auf genau dieselbe Weise kann man auch alternative Benachrichtigungswege nutzen, wie zum Beispiel Slack-Hooks.
+Im Rahmen des Praktikums ist eine simplere Lösung angebracht: wir schreiben einfach in eine Datei.
+Hierzu definiert man sich einen Command:
+
+```text
+define command {
+    command_name    notify-host-by-file
+    command_line    /usr/bin/printf "%b" "***** Nagios *****\n\nNotification Type: $NOTIFICATIONTYPE$\nHost: $HOSTNAME$\nState: $HOSTSTATE$\nAddress: $HOSTADDRESS$\nInfo: $HOSTOUTPUT$\n\nDate/Time: $LONGDATETIME$\n" > /var/lib/nagios/notifications/host-$LONGDATETIME$
+}
+
+define command {
+    command_name    notify-service-by-file
+    command_line    /usr/bin/printf "%b" "***** Nagios *****\n\nNotification Type: $NOTIFICATIONTYPE$\n\nService: $SERVICEDESC$\nHost: $HOSTALIAS$\nAddress: $HOSTADDRESS$\nState: $SERVICESTATE$\n\nDate/Time: $LONGDATETIME$\n\nAdditional Info:\n\n$SERVICEOUTPUT$\n" > /var/lib/nagios/notifications/service-$LONGDATETIME$
+}
+```
+
+Der Command gibt den gleichen Content aus, schreibt ihn aber einfach in `/var/lib/nagios/notifications/...`.
+Diesen Ordner haben wir angelegt, damit nagios darin Dateien schreiben kann.
+
+In `contacts.cfg` geben wir also an:
+```text
+...
+service_notification_commands notify-service-by-email,notify-service-by-file
+host_notification_commands notify-host-by-email,notify-host-by-file
+...
+```
+
+In den Services konfigurieren wir dann:
+```text
+notification_interval   60
+notification_options    w,u,c,r
+contact_groups          admins
+```
+
+Damit kriegt die contact group `admins` (zu der unser Contact gehört) `warning`, `unknown`, `critical`, und `recovery` Benachrichtigungen.
+
+Ein Blick ins Postfach (Maildir) des Admins verifiziert, dass wir von Nagios benachrichtigt werden:
+```text
+Subject: ** PROBLEM Service Alert: VM02/Check Webserver HTTPS is CRITICAL **
+To: <robyn.koelle@psa-team02.cit.tum.de>
+User-Agent: mail (GNU Mailutils 3.16)
+Date: Sun, 15 Sep 2024 12:12:22 +0000
+Message-Id: <20240915121222.5BF21A65B5@psa-team02.cit.tum.de>
+From: nagios@vmpsateam02-01
+
+***** Nagios *****
+
+Notification Type: PROBLEM
+
+Service: Check Webserver HTTPS
+Host: VM02
+Address: 192.168.2.2
+State: CRITICAL
+
+Date/Time: Sun Sep 15 12:12:22 UTC 2024
+
+Additional Info:
+
+connect to address 127.0.0.1 and port 443: Connection refused
+```

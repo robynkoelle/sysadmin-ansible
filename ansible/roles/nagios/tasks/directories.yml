@@ -1,0 +1,6 @@
+- name: create notifications directory
+  file:
+    path: "{{ nagios.notifications_directory }}"
+    state: directory
+    owner: nagios
+    group: nagios

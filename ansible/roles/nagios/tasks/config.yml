@@ -21,6 +21,11 @@
     src: "{{ host_name }}/usr/local/nagios/etc/services.cfg"
     dest: "/usr/local/nagios/etc/services.cfg"
 
+- name: copy contacts config
+  template:
+    src: "{{ host_name }}/usr/local/nagios/etc/objects/contacts.cfg"
+    dest: "/usr/local/nagios/etc/objects/contacts.cfg"
+
 - name: add configs to nagios.cfg
   lineinfile:
     line: "cfg_file={{ item }}"
@@ -29,4 +34,3 @@
   loop:
     - /usr/local/nagios/etc/hosts.cfg
     - /usr/local/nagios/etc/services.cfg
-

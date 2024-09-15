@@ -1,4 +1,4 @@
 nagios:
   version: 4.5.4
   plugins_version: 2.4.12
-
+  notifications_directory: "/var/lib/nagios/notifications"
